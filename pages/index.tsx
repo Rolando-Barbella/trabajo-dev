@@ -21,7 +21,7 @@ const Home: NextPage = ({ companies }) => {
     <div className={styles.container}>
       <div>
       <Head>
-        <title>National Companies</title>
+        <title>Companies hiring</title>
       </Head>
       <div className='container'>
         <h1>National Companies <Link href='/create-company'>(+)</Link></h1>
