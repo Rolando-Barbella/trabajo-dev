@@ -16,6 +16,7 @@ export async function getServerSideProps () {
     }
   }
 }
+//@ts-ignorets
 const Home: NextPage = ({ companies }) => {
   return (
     <div className={styles.container}>
@@ -26,12 +27,13 @@ const Home: NextPage = ({ companies }) => {
       <div className='container'>
         <h1>National Companies <Link href='/create-company'>(+)</Link></h1>
         <div className='img-grid'>
-            {companies?.map(company => {
+            {/* @ts-ignorets */}
+            {companies?.map((company) => {
             return (
               <div key={company.id} className='img-square'>
                 <h2>{company.name}</h2>
                 {/* use the AmplifyS3Image component to render the company's image using its S3 key */}
-                <AmplifyS3Image imgKey={company.image.key} height='200px' />
+                <AmplifyS3Image imgKey={company.image.key} />
               </div>
             )
           })}
