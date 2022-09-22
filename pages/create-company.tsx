@@ -39,7 +39,7 @@ function CreateCompany () {
       <label htmlFor='name'>Name</label>
       <input type='text' id='name' onChange={e => setName(e.target.value)} />
       <label htmlFor='image'>Image</label>
-      <input type='file' id='image' onChange={e => setImage(e.target.files[0])} />
+      <input type='file' id='image' onChange={e => setImage(!e.target.files? {name: ''} : e.target.files[0])} />
       <input type='submit' value='create' />
     </form>
   )
