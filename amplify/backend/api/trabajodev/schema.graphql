@@ -1,0 +1,22 @@
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type Company @model {
+  id: ID!
+  name: String!
+  image: S3Object
+  description: String
+  jobTitle: String
+  salary: String
+}
+
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: String!
+}
+
+
