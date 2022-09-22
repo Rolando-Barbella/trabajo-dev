@@ -38,7 +38,7 @@ function CreateCompany () {
    checkout({
       lineItems: [{
         price: "price_1LkrT4A2mGW4hJ0CEDy4QtZG",
-        quantiry: 1,
+        quantity: 1,
       }]
     })
   }
