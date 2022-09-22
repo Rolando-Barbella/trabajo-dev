@@ -4,6 +4,7 @@ import { withAuthenticator } from '@aws-amplify/ui-react'
 
 import { createCompany } from '../src/graphql/mutations'
 import config from '../src/aws-exports'
+import { checkout } from '../checkout'
 
 function CreateCompany () {
   const [name, setName] = useState('')
@@ -30,11 +31,20 @@ function CreateCompany () {
         }
       }
     })
-    console.log(newCompany)
+  }
+
+  const stipeCheckOut = (e: any) => {
+  e.preventDefault();
+   checkout({
+      lineItems: [{
+        price: "price_1LkrT4A2mGW4hJ0CEDy4QtZG",
+        quantiry: 1,
+      }]
+    })
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={stipeCheckOut}>
       <h2>Create a Company</h2>
       <label htmlFor='name'>Name</label>
       <input type='text' id='name' onChange={e => setName(e.target.value)} />

@@ -1,0 +1,20 @@
+import { loadStripe } from "@stripe/stripe-js";
+
+//@ts-ignorets
+export async function checkout({lineItems}) {
+   let stripPromise: any =  null;
+   
+    const getStripe = () => {
+      if (!stripPromise) {
+        stripPromise = loadStripe(process.env.NEXT_PUBLIC_API_KEY || '')
+      } 
+      return stripPromise;
+    }
+    const stripe = await getStripe();
+    await stripe.redirectToCheckout({
+      mode: 'payment',
+      lineItems,
+      succesUrl: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
+      cancelUrl: window.location.origin,
+    })
+}
