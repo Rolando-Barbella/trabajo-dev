@@ -11,10 +11,14 @@ export async function checkout({lineItems}) {
       return stripPromise;
     }
     const stripe = await getStripe();
-    await stripe.redirectToCheckout({
-      mode: 'payment',
-      lineItems,
-      successUrl: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
-      cancelUrl: window.location.origin,
-    })
+    try {
+      await stripe.redirectToCheckout({
+        mode: 'payment',
+        lineItems,
+        successUrl: `${window.location.origin}/create-company?session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${window.location.origin}/create-company`,
+      });
+    } catch(err) {
+      console.error('Something went wrong');
+    }
 }
