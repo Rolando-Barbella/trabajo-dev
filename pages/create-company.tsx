@@ -25,8 +25,7 @@ function CreateCompany({ initialJobName = "", initialImgName = { name: "" } } : 
   React.useEffect(() => {
     Cookie.set("name", name);
     Cookie.set("image", image.name);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [image.name, name]);
 
   console.log(cookies.name);
   console.log(cookies.image);
