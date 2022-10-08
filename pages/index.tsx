@@ -9,7 +9,6 @@ import styles from '../styles/Home.module.css'
 export async function getServerSideProps () {
   const SSR = withSSRContext()
   const { data } = await SSR.API.graphql({ query: listCompanys })
-  console.log(data);
   return {
     props: {
       companies: data?.listCompanys?.items || null,
