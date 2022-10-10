@@ -61,7 +61,11 @@ Fake card `4242 4242 4242 4242`
 Create accounts with : https://10minemail.com/en/
 ## Creating ENV
 
-To a new tesing env, follow [this](https://docs.amplify.aws/cli/teams/overview/) and [this](https://docs.amplify.aws/cli/migration/override/)
+To add a new tesing env, follow [this](https://docs.amplify.aws/cli/teams/overview/) and [this](https://docs.amplify.aws/cli/migration/override/)
+
+## Mock data
+
+To test the app with mock data, refer to [this](https://docs.amplify.aws/cli/usage/mock/#api-mocking-setup)
 
 
 
