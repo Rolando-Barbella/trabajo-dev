@@ -22,5 +22,23 @@
         "juniordevboard": {}
       }
     }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-trabajodev-prod-221658-authRole",
+      "UnauthRoleArn": "arn:aws:iam::644102631162:role/amplify-trabajodev-prod-221658-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::644102631162:role/amplify-trabajodev-prod-221658-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-trabajodev-prod-221658-deployment",
+      "UnauthRoleName": "amplify-trabajodev-prod-221658-unauthRole",
+      "StackName": "amplify-trabajodev-prod-221658",
+      "StackId": "arn:aws:cloudformation:us-east-1:644102631162:stack/amplify-trabajodev-prod-221658/e1bd57f0-48e0-11ed-8a50-0a178bb7d901",
+      "AmplifyAppId": "d16cn86zrbe5cq"
+    },
+    "categories": {
+      "auth": {
+        "trabajodevb1da41d5": {}
+      }
+    }
   }
 }
