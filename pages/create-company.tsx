@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { API, Storage } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
+import { CognitoUser } from 'amazon-cognito-identity-js';
 import { useRouter } from "next/router";
 import Cookie from "js-cookie";
 import cookie from "cookie";
@@ -13,12 +14,13 @@ import { checkout } from "../checkout";
 type createCompanyProps = {
   initialJobName: string;
   initialImgName: { name: string }
+  user: CognitoUser | any
 } 
 
-function CreateCompany({ initialJobName = "", initialImgName = { name: "" } } : createCompanyProps) {
+function CreateCompany({ initialJobName = "", initialImgName = { name: "" }, user } : createCompanyProps) {
   const Router = useRouter();
   const cookies = parseCookies("");
-
+  console.log(user.username)
   const [name, setName] = useState(initialJobName);
   const [image, setImage] = useState(initialImgName);
 
@@ -39,6 +41,7 @@ function CreateCompany({ initialJobName = "", initialImgName = { name: "" } } : 
       variables: {
         input: {
           name: cookies.name,
+          userId: user.username,
           image: {
             // use the image's region and bucket (from aws-exports) as well as the key from the uploaded image
             region: config.aws_user_files_s3_bucket_region,
@@ -48,7 +51,7 @@ function CreateCompany({ initialJobName = "", initialImgName = { name: "" } } : 
         },
       },
     });
-  }, [cookies.image, cookies.name]);
+  }, [cookies.image, cookies.name, user.username]);
 
   React.useEffect(() => {
     const resolveUrl = async () => {

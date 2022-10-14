@@ -15,6 +15,7 @@ export const createCompany = /* GraphQL */ `
         region
         key
       }
+      userId
       description
       jobTitle
       salary
