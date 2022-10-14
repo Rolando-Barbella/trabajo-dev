@@ -15,8 +15,8 @@ export const createCompany = /* GraphQL */ `
         region
         key
       }
-      userId
       description
+      userId
       jobTitle
       salary
       createdAt
@@ -38,6 +38,7 @@ export const updateCompany = /* GraphQL */ `
         key
       }
       description
+      userId
       jobTitle
       salary
       createdAt
@@ -59,6 +60,7 @@ export const deleteCompany = /* GraphQL */ `
         key
       }
       description
+      userId
       jobTitle
       salary
       createdAt

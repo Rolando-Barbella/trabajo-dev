@@ -9,6 +9,7 @@ type Company @model {
   name: String!
   image: S3Object
   description: String
+  userId: String
   jobTitle: String
   salary: String
 }

@@ -7,6 +7,7 @@ export type CreateCompanyInput = {
   name: string,
   image?: S3ObjectInput | null,
   description?: string | null,
+  userId: string | null,
   jobTitle?: string | null,
   salary?: string | null,
 };
@@ -20,6 +21,7 @@ export type S3ObjectInput = {
 export type ModelCompanyConditionInput = {
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  userId?: ModelStringInput | null,
   jobTitle?: ModelStringInput | null,
   salary?: ModelStringInput | null,
   and?: Array< ModelCompanyConditionInput | null > | null,
@@ -73,6 +75,7 @@ export type Company = {
   name: string,
   image?: S3Object | null,
   description?: string | null,
+  userId?: string | null,
   jobTitle?: string | null,
   salary?: string | null,
   createdAt: string,
@@ -91,6 +94,7 @@ export type UpdateCompanyInput = {
   name?: string | null,
   image?: S3ObjectInput | null,
   description?: string | null,
+  userId?: string | null,
   jobTitle?: string | null,
   salary?: string | null,
 };
@@ -136,6 +140,7 @@ export type ModelCompanyFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  userId?: ModelStringInput | null,
   jobTitle?: ModelStringInput | null,
   salary?: ModelStringInput | null,
   and?: Array< ModelCompanyFilterInput | null > | null,
@@ -161,7 +166,7 @@ export type ModelIDInput = {
 
 export type ModelCompanyConnection = {
   __typename: "ModelCompanyConnection",
-  items?:  Array<Company | null > | null,
+  items:  Array<Company | null >,
   nextToken?: string | null,
 };
 
@@ -176,7 +181,7 @@ export type ModelBlogFilterInput = {
 
 export type ModelBlogConnection = {
   __typename: "ModelBlogConnection",
-  items?:  Array<Blog | null > | null,
+  items:  Array<Blog | null >,
   nextToken?: string | null,
 };
 
@@ -197,6 +202,7 @@ export type CreateCompanyMutation = {
       key: string,
     } | null,
     description?: string | null,
+    userId?: string | null,
     jobTitle?: string | null,
     salary?: string | null,
     createdAt: string,
@@ -221,6 +227,7 @@ export type UpdateCompanyMutation = {
       key: string,
     } | null,
     description?: string | null,
+    userId?: string | null,
     jobTitle?: string | null,
     salary?: string | null,
     createdAt: string,
@@ -245,6 +252,7 @@ export type DeleteCompanyMutation = {
       key: string,
     } | null,
     description?: string | null,
+    userId?: string | null,
     jobTitle?: string | null,
     salary?: string | null,
     createdAt: string,
@@ -316,6 +324,7 @@ export type GetCompanyQuery = {
       key: string,
     } | null,
     description?: string | null,
+    userId?: string | null,
     jobTitle?: string | null,
     salary?: string | null,
     createdAt: string,
@@ -332,7 +341,7 @@ export type ListCompanysQueryVariables = {
 export type ListCompanysQuery = {
   listCompanys?:  {
     __typename: "ModelCompanyConnection",
-    items?:  Array< {
+    items:  Array< {
       __typename: "Company",
       id: string,
       name: string,
@@ -343,11 +352,12 @@ export type ListCompanysQuery = {
         key: string,
       } | null,
       description?: string | null,
+      userId?: string | null,
       jobTitle?: string | null,
       salary?: string | null,
       createdAt: string,
       updatedAt: string,
-    } | null > | null,
+    } | null >,
     nextToken?: string | null,
   } | null,
 };
@@ -376,14 +386,14 @@ export type ListBlogsQueryVariables = {
 export type ListBlogsQuery = {
   listBlogs?:  {
     __typename: "ModelBlogConnection",
-    items?:  Array< {
+    items:  Array< {
       __typename: "Blog",
       id: string,
       name: string,
       posts: string,
       createdAt: string,
       updatedAt: string,
-    } | null > | null,
+    } | null >,
     nextToken?: string | null,
   } | null,
 };
@@ -400,6 +410,7 @@ export type OnCreateCompanySubscription = {
       key: string,
     } | null,
     description?: string | null,
+    userId?: string | null,
     jobTitle?: string | null,
     salary?: string | null,
     createdAt: string,
@@ -419,6 +430,7 @@ export type OnUpdateCompanySubscription = {
       key: string,
     } | null,
     description?: string | null,
+    userId?: string | null,
     jobTitle?: string | null,
     salary?: string | null,
     createdAt: string,
@@ -438,6 +450,7 @@ export type OnDeleteCompanySubscription = {
       key: string,
     } | null,
     description?: string | null,
+    userId?: string | null,
     jobTitle?: string | null,
     salary?: string | null,
     createdAt: string,

@@ -12,6 +12,7 @@ export const getCompany = /* GraphQL */ `
         key
       }
       description
+      userId
       jobTitle
       salary
       createdAt
@@ -35,6 +36,7 @@ export const listCompanys = /* GraphQL */ `
           key
         }
         description
+        userId
         jobTitle
         salary
         createdAt

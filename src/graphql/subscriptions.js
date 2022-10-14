@@ -12,6 +12,7 @@ export const onCreateCompany = /* GraphQL */ `
         key
       }
       description
+      userId
       jobTitle
       salary
       createdAt
@@ -30,6 +31,7 @@ export const onUpdateCompany = /* GraphQL */ `
         key
       }
       description
+      userId
       jobTitle
       salary
       createdAt
@@ -48,6 +50,7 @@ export const onDeleteCompany = /* GraphQL */ `
         key
       }
       description
+      userId
       jobTitle
       salary
       createdAt
