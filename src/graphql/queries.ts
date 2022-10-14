@@ -16,6 +16,15 @@ export const getCompany = /* GraphQL */ `
       userId
       jobTitle
       salary
+      companiesByUser {
+        items {
+          id
+          userID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -40,6 +49,68 @@ export const listCompanys = /* GraphQL */ `
         userId
         jobTitle
         salary
+        companiesByUser {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getCompaniesByUser = /* GraphQL */ `
+  query GetCompaniesByUser($id: ID!) {
+    getCompaniesByUser(id: $id) {
+      id
+      userID
+      company {
+        id
+        name
+        image {
+          bucket
+          region
+          key
+        }
+        description
+        userId
+        jobTitle
+        salary
+        companiesByUser {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCompaniesByUsers = /* GraphQL */ `
+  query ListCompaniesByUsers(
+    $filter: ModelCompaniesByUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCompaniesByUsers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        userID
+        company {
+          id
+          name
+          description
+          userId
+          jobTitle
+          salary
+          createdAt
+          updatedAt
+        }
         createdAt
         updatedAt
       }

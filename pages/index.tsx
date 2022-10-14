@@ -19,7 +19,7 @@ export async function getServerSideProps() {
   };
 }
 //@ts-ignorets
-const Home: NextPage = ({ companies, href }) => {
+const Home: NextPage = ({ companies }) => {
   const Router =  useRouter()
   let [currentUser, setCurrentUser] = React.useState("")
   

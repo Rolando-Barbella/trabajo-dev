@@ -9,9 +9,16 @@ type Company @model {
   name: String!
   image: S3Object
   description: String
-  userId: String
+  userId: ID!
   jobTitle: String
   salary: String
+  companiesByUser: [CompaniesByUser] @connection(keyName: "byUserId", fields:["userId"])
+}
+
+type CompaniesByUser @model @key(name: "byUserId", fields: ["userID"]) {
+  id: ID!
+  userID: ID!
+  company: Company @connection(fields: ["userID"])
 }
 
 type Blog @model {
