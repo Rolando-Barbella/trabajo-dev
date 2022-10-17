@@ -12,7 +12,6 @@ type Company @model {
   userId: ID!
   jobTitle: String
   salary: String
-  companiesByUser: [CompaniesByUser] @connection(keyName: "byUserId", fields:["userId"])
 }
 
 
