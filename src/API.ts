@@ -156,39 +156,6 @@ export type DeleteCompaniesByUserInput = {
   id: string,
 };
 
-export type CreateBlogInput = {
-  id?: string | null,
-  name: string,
-  posts: string,
-};
-
-export type ModelBlogConditionInput = {
-  name?: ModelStringInput | null,
-  posts?: ModelStringInput | null,
-  and?: Array< ModelBlogConditionInput | null > | null,
-  or?: Array< ModelBlogConditionInput | null > | null,
-  not?: ModelBlogConditionInput | null,
-};
-
-export type Blog = {
-  __typename: "Blog",
-  id: string,
-  name: string,
-  posts: string,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type UpdateBlogInput = {
-  id: string,
-  name?: string | null,
-  posts?: string | null,
-};
-
-export type DeleteBlogInput = {
-  id: string,
-};
-
 export type ModelCompanyFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -213,21 +180,6 @@ export type ModelCompaniesByUserFilterInput = {
   and?: Array< ModelCompaniesByUserFilterInput | null > | null,
   or?: Array< ModelCompaniesByUserFilterInput | null > | null,
   not?: ModelCompaniesByUserFilterInput | null,
-};
-
-export type ModelBlogFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  posts?: ModelStringInput | null,
-  and?: Array< ModelBlogFilterInput | null > | null,
-  or?: Array< ModelBlogFilterInput | null > | null,
-  not?: ModelBlogFilterInput | null,
-};
-
-export type ModelBlogConnection = {
-  __typename: "ModelBlogConnection",
-  items:  Array<Blog | null >,
-  nextToken?: string | null,
 };
 
 export type CreateCompanyMutationVariables = {
@@ -446,54 +398,6 @@ export type DeleteCompaniesByUserMutation = {
   } | null,
 };
 
-export type CreateBlogMutationVariables = {
-  input: CreateBlogInput,
-  condition?: ModelBlogConditionInput | null,
-};
-
-export type CreateBlogMutation = {
-  createBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateBlogMutationVariables = {
-  input: UpdateBlogInput,
-  condition?: ModelBlogConditionInput | null,
-};
-
-export type UpdateBlogMutation = {
-  updateBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteBlogMutationVariables = {
-  input: DeleteBlogInput,
-  condition?: ModelBlogConditionInput | null,
-};
-
-export type DeleteBlogMutation = {
-  deleteBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
 export type GetCompanyQueryVariables = {
   id: string,
 };
@@ -622,42 +526,6 @@ export type ListCompaniesByUsersQuery = {
         createdAt: string,
         updatedAt: string,
       } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetBlogQueryVariables = {
-  id: string,
-};
-
-export type GetBlogQuery = {
-  getBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListBlogsQueryVariables = {
-  filter?: ModelBlogFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListBlogsQuery = {
-  listBlogs?:  {
-    __typename: "ModelBlogConnection",
-    items:  Array< {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -846,39 +714,6 @@ export type OnDeleteCompaniesByUserSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnCreateBlogSubscription = {
-  onCreateBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateBlogSubscription = {
-  onUpdateBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteBlogSubscription = {
-  onDeleteBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts: string,
     createdAt: string,
     updatedAt: string,
   } | null,
