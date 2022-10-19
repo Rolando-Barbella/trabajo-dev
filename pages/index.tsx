@@ -50,8 +50,8 @@ const Home: NextPage = ({ companies }) => {
           {
             Boolean(currentUser) && (
               <>
-                <a href="/profile">Profile</a>
-                <a href="/profile" onClick={signOut}>Sig Out</a>
+                <Link href="/profile">Profile</Link>
+                <Link href="/profile" onClick={signOut}>Sig Out</Link>
               </>
             )
           }
