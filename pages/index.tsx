@@ -56,7 +56,7 @@ const Home: NextPage = ({ companies }) => {
             )
           }
           <h1>
-            National Companies <Link href="/create-company">(+)</Link>
+            Junior dev jobs
           </h1>
           <div className="img-grid">
             {/* @ts-ignorets */}
