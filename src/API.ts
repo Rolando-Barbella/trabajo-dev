@@ -94,7 +94,6 @@ export type Company = {
   userId: string,
   jobTitle?: string | null,
   salary?: string | null,
-  companiesByUser?: ModelCompaniesByUserConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -104,21 +103,6 @@ export type S3Object = {
   bucket: string,
   region: string,
   key: string,
-};
-
-export type ModelCompaniesByUserConnection = {
-  __typename: "ModelCompaniesByUserConnection",
-  items:  Array<CompaniesByUser | null >,
-  nextToken?: string | null,
-};
-
-export type CompaniesByUser = {
-  __typename: "CompaniesByUser",
-  id: string,
-  userID: string,
-  company?: Company | null,
-  createdAt: string,
-  updatedAt: string,
 };
 
 export type UpdateCompanyInput = {
@@ -132,27 +116,6 @@ export type UpdateCompanyInput = {
 };
 
 export type DeleteCompanyInput = {
-  id: string,
-};
-
-export type CreateCompaniesByUserInput = {
-  id?: string | null,
-  userID: string,
-};
-
-export type ModelCompaniesByUserConditionInput = {
-  userID?: ModelIDInput | null,
-  and?: Array< ModelCompaniesByUserConditionInput | null > | null,
-  or?: Array< ModelCompaniesByUserConditionInput | null > | null,
-  not?: ModelCompaniesByUserConditionInput | null,
-};
-
-export type UpdateCompaniesByUserInput = {
-  id: string,
-  userID?: string | null,
-};
-
-export type DeleteCompaniesByUserInput = {
   id: string,
 };
 
@@ -172,14 +135,6 @@ export type ModelCompanyConnection = {
   __typename: "ModelCompanyConnection",
   items:  Array<Company | null >,
   nextToken?: string | null,
-};
-
-export type ModelCompaniesByUserFilterInput = {
-  id?: ModelIDInput | null,
-  userID?: ModelIDInput | null,
-  and?: Array< ModelCompaniesByUserFilterInput | null > | null,
-  or?: Array< ModelCompaniesByUserFilterInput | null > | null,
-  not?: ModelCompaniesByUserFilterInput | null,
 };
 
 export type CreateCompanyMutationVariables = {
@@ -202,17 +157,6 @@ export type CreateCompanyMutation = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
-    companiesByUser?:  {
-      __typename: "ModelCompaniesByUserConnection",
-      items:  Array< {
-        __typename: "CompaniesByUser",
-        id: string,
-        userID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -238,17 +182,6 @@ export type UpdateCompanyMutation = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
-    companiesByUser?:  {
-      __typename: "ModelCompaniesByUserConnection",
-      items:  Array< {
-        __typename: "CompaniesByUser",
-        id: string,
-        userID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -274,125 +207,6 @@ export type DeleteCompanyMutation = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
-    companiesByUser?:  {
-      __typename: "ModelCompaniesByUserConnection",
-      items:  Array< {
-        __typename: "CompaniesByUser",
-        id: string,
-        userID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreateCompaniesByUserMutationVariables = {
-  input: CreateCompaniesByUserInput,
-  condition?: ModelCompaniesByUserConditionInput | null,
-};
-
-export type CreateCompaniesByUserMutation = {
-  createCompaniesByUser?:  {
-    __typename: "CompaniesByUser",
-    id: string,
-    userID: string,
-    company?:  {
-      __typename: "Company",
-      id: string,
-      name: string,
-      image?:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      description?: string | null,
-      userId: string,
-      jobTitle?: string | null,
-      salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateCompaniesByUserMutationVariables = {
-  input: UpdateCompaniesByUserInput,
-  condition?: ModelCompaniesByUserConditionInput | null,
-};
-
-export type UpdateCompaniesByUserMutation = {
-  updateCompaniesByUser?:  {
-    __typename: "CompaniesByUser",
-    id: string,
-    userID: string,
-    company?:  {
-      __typename: "Company",
-      id: string,
-      name: string,
-      image?:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      description?: string | null,
-      userId: string,
-      jobTitle?: string | null,
-      salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteCompaniesByUserMutationVariables = {
-  input: DeleteCompaniesByUserInput,
-  condition?: ModelCompaniesByUserConditionInput | null,
-};
-
-export type DeleteCompaniesByUserMutation = {
-  deleteCompaniesByUser?:  {
-    __typename: "CompaniesByUser",
-    id: string,
-    userID: string,
-    company?:  {
-      __typename: "Company",
-      id: string,
-      name: string,
-      image?:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      description?: string | null,
-      userId: string,
-      jobTitle?: string | null,
-      salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -417,17 +231,6 @@ export type GetCompanyQuery = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
-    companiesByUser?:  {
-      __typename: "ModelCompaniesByUserConnection",
-      items:  Array< {
-        __typename: "CompaniesByUser",
-        id: string,
-        userID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -456,76 +259,6 @@ export type ListCompanysQuery = {
       userId: string,
       jobTitle?: string | null,
       salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetCompaniesByUserQueryVariables = {
-  id: string,
-};
-
-export type GetCompaniesByUserQuery = {
-  getCompaniesByUser?:  {
-    __typename: "CompaniesByUser",
-    id: string,
-    userID: string,
-    company?:  {
-      __typename: "Company",
-      id: string,
-      name: string,
-      image?:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      description?: string | null,
-      userId: string,
-      jobTitle?: string | null,
-      salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListCompaniesByUsersQueryVariables = {
-  filter?: ModelCompaniesByUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListCompaniesByUsersQuery = {
-  listCompaniesByUsers?:  {
-    __typename: "ModelCompaniesByUserConnection",
-    items:  Array< {
-      __typename: "CompaniesByUser",
-      id: string,
-      userID: string,
-      company?:  {
-        __typename: "Company",
-        id: string,
-        name: string,
-        description?: string | null,
-        userId: string,
-        jobTitle?: string | null,
-        salary?: string | null,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -548,17 +281,6 @@ export type OnCreateCompanySubscription = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
-    companiesByUser?:  {
-      __typename: "ModelCompaniesByUserConnection",
-      items:  Array< {
-        __typename: "CompaniesByUser",
-        id: string,
-        userID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -579,17 +301,6 @@ export type OnUpdateCompanySubscription = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
-    companiesByUser?:  {
-      __typename: "ModelCompaniesByUserConnection",
-      items:  Array< {
-        __typename: "CompaniesByUser",
-        id: string,
-        userID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -610,110 +321,6 @@ export type OnDeleteCompanySubscription = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
-    companiesByUser?:  {
-      __typename: "ModelCompaniesByUserConnection",
-      items:  Array< {
-        __typename: "CompaniesByUser",
-        id: string,
-        userID: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnCreateCompaniesByUserSubscription = {
-  onCreateCompaniesByUser?:  {
-    __typename: "CompaniesByUser",
-    id: string,
-    userID: string,
-    company?:  {
-      __typename: "Company",
-      id: string,
-      name: string,
-      image?:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      description?: string | null,
-      userId: string,
-      jobTitle?: string | null,
-      salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateCompaniesByUserSubscription = {
-  onUpdateCompaniesByUser?:  {
-    __typename: "CompaniesByUser",
-    id: string,
-    userID: string,
-    company?:  {
-      __typename: "Company",
-      id: string,
-      name: string,
-      image?:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      description?: string | null,
-      userId: string,
-      jobTitle?: string | null,
-      salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteCompaniesByUserSubscription = {
-  onDeleteCompaniesByUser?:  {
-    __typename: "CompaniesByUser",
-    id: string,
-    userID: string,
-    company?:  {
-      __typename: "Company",
-      id: string,
-      name: string,
-      image?:  {
-        __typename: "S3Object",
-        bucket: string,
-        region: string,
-        key: string,
-      } | null,
-      description?: string | null,
-      userId: string,
-      jobTitle?: string | null,
-      salary?: string | null,
-      companiesByUser?:  {
-        __typename: "ModelCompaniesByUserConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,

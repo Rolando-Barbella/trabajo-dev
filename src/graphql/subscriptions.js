@@ -15,15 +15,6 @@ export const onCreateCompany = /* GraphQL */ `
       userId
       jobTitle
       salary
-      companiesByUser {
-        items {
-          id
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -43,15 +34,6 @@ export const onUpdateCompany = /* GraphQL */ `
       userId
       jobTitle
       salary
-      companiesByUser {
-        items {
-          id
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -71,15 +53,6 @@ export const onDeleteCompany = /* GraphQL */ `
       userId
       jobTitle
       salary
-      companiesByUser {
-        items {
-          id
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -102,9 +75,6 @@ export const onCreateCompaniesByUser = /* GraphQL */ `
         userId
         jobTitle
         salary
-        companiesByUser {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -130,9 +100,6 @@ export const onUpdateCompaniesByUser = /* GraphQL */ `
         userId
         jobTitle
         salary
-        companiesByUser {
-          nextToken
-        }
         createdAt
         updatedAt
       }
@@ -158,9 +125,6 @@ export const onDeleteCompaniesByUser = /* GraphQL */ `
         userId
         jobTitle
         salary
-        companiesByUser {
-          nextToken
-        }
         createdAt
         updatedAt
       }

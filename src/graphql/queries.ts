@@ -16,15 +16,6 @@ export const getCompany = /* GraphQL */ `
       userId
       jobTitle
       salary
-      companiesByUser {
-        items {
-          id
-          userID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -49,9 +40,6 @@ export const listCompanys = /* GraphQL */ `
         userId
         jobTitle
         salary
-        companiesByUser {
-          nextToken
-        }
         createdAt
         updatedAt
       }
