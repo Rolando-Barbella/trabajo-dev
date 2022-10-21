@@ -20,6 +20,7 @@ export async function getServerSideProps() {
 }
 //@ts-ignorets
 const Home: NextPage = ({ companies }) => {
+  console.log(process.env.NODE_ENV);
   const Router =  useRouter()
   let [currentUser, setCurrentUser] = React.useState("")
   
@@ -56,7 +57,13 @@ const Home: NextPage = ({ companies }) => {
             )
           }
           <h1>
-            National Companies <Link href="/create-company">(+)</Link>
+            {
+              process.env.NODE_ENV === 'development' ? (
+                <>
+                  National Companies <Link href="/create-company">(+)</Link>
+                </>
+              ) : ( <>Junior dev Jobs</>)
+            }
           </h1>
           <div className="img-grid">
             {/* @ts-ignorets */}
