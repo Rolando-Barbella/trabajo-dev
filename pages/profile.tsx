@@ -6,7 +6,6 @@ import { CognitoUser } from "amazon-cognito-identity-js";
 import { listCompanys } from "../src/graphql/queries";
 
 import styles from "../styles/Home.module.css";
-import { stringify } from "querystring";
 
 const Profile = ({ user }: CognitoUser | any) => {
   let [userCompanies, setUserCompanies] = React.useState({ listCompanys: {items: [{id: '', name: ''}]} });
