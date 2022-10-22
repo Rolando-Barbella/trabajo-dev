@@ -58,7 +58,7 @@ const Home: NextPage = ({ companies }) => {
           )}
           {process.env.NODE_ENV === "development" ? (
             <>
-              <h1>
+              <h1 className="text-3xl font-bold">
                 National Companies <Link href="/create-company">(+)</Link>
               </h1>
               <div className="img-grid">
@@ -75,7 +75,9 @@ const Home: NextPage = ({ companies }) => {
               </div>
             </>
           ) : (
-            <><h1>Junior dev Jobs</h1></>
+            <>
+              <h1>Junior dev Jobs</h1>
+            </>
           )}
         </div>
       </div>
