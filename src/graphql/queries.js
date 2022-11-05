@@ -46,84 +46,58 @@ export const listCompanys = /* GraphQL */ `
     }
   }
 `;
-export const getCompaniesByUser = /* GraphQL */ `
-  query GetCompaniesByUser($id: ID!) {
-    getCompaniesByUser(id: $id) {
+export const getJob = /* GraphQL */ `
+  query GetJob($id: ID!) {
+    getJob(id: $id) {
       id
-      userID
-      company {
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
+      }
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listJobs = /* GraphQL */ `
+  query ListJobs(
+    $filter: ModelJobFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listJobs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
         id
-        name
-        image {
+        companyName
+        title
+        logo {
           bucket
           region
           key
         }
         description
         userId
-        jobTitle
         salary
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listCompaniesByUsers = /* GraphQL */ `
-  query ListCompaniesByUsers(
-    $filter: ModelCompaniesByUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listCompaniesByUsers(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        userID
-        company {
-          id
-          name
-          description
-          userId
-          jobTitle
-          salary
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getBlog = /* GraphQL */ `
-  query GetBlog($id: ID!) {
-    getBlog(id: $id) {
-      id
-      name
-      posts
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listBlogs = /* GraphQL */ `
-  query ListBlogs(
-    $filter: ModelBlogFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listBlogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        posts
+        hiringSteps
+        hiringStepDescription
+        typeOfCodingChallenge
+        typeOfWork
+        timeZone
+        role
+        skills
         createdAt
         updatedAt
       }

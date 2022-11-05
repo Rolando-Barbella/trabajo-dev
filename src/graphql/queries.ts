@@ -47,3 +47,62 @@ export const listCompanys = /* GraphQL */ `
     }
   }
 `;
+export const getJob = /* GraphQL */ `
+  query GetJob($id: ID!) {
+    getJob(id: $id) {
+      id
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
+      }
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listJobs = /* GraphQL */ `
+  query ListJobs(
+    $filter: ModelJobFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listJobs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        companyName
+        title
+        logo {
+          bucket
+          region
+          key
+        }
+        description
+        userId
+        salary
+        hiringSteps
+        hiringStepDescription
+        typeOfCodingChallenge
+        typeOfWork
+        timeZone
+        role
+        skills
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

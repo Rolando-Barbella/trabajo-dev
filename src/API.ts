@@ -119,6 +119,94 @@ export type DeleteCompanyInput = {
   id: string,
 };
 
+export type CreateJobInput = {
+  id?: string | null,
+  companyName: string,
+  title: string,
+  logo?: S3ObjectInput | null,
+  description: string,
+  userId: string,
+  salary: string,
+  hiringSteps: number,
+  hiringStepDescription?: string | null,
+  typeOfCodingChallenge?: string | null,
+  typeOfWork: string,
+  timeZone: string,
+  role: string,
+  skills: Array< string | null >,
+};
+
+export type ModelJobConditionInput = {
+  companyName?: ModelStringInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+  salary?: ModelStringInput | null,
+  hiringSteps?: ModelIntInput | null,
+  hiringStepDescription?: ModelStringInput | null,
+  typeOfCodingChallenge?: ModelStringInput | null,
+  typeOfWork?: ModelStringInput | null,
+  timeZone?: ModelStringInput | null,
+  role?: ModelStringInput | null,
+  skills?: ModelStringInput | null,
+  and?: Array< ModelJobConditionInput | null > | null,
+  or?: Array< ModelJobConditionInput | null > | null,
+  not?: ModelJobConditionInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Job = {
+  __typename: "Job",
+  id: string,
+  companyName: string,
+  title: string,
+  logo?: S3Object | null,
+  description: string,
+  userId: string,
+  salary: string,
+  hiringSteps: number,
+  hiringStepDescription?: string | null,
+  typeOfCodingChallenge?: string | null,
+  typeOfWork: string,
+  timeZone: string,
+  role: string,
+  skills: Array< string | null >,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateJobInput = {
+  id: string,
+  companyName?: string | null,
+  title?: string | null,
+  logo?: S3ObjectInput | null,
+  description?: string | null,
+  userId?: string | null,
+  salary?: string | null,
+  hiringSteps?: number | null,
+  hiringStepDescription?: string | null,
+  typeOfCodingChallenge?: string | null,
+  typeOfWork?: string | null,
+  timeZone?: string | null,
+  role?: string | null,
+  skills?: Array< string | null > | null,
+};
+
+export type DeleteJobInput = {
+  id: string,
+};
+
 export type ModelCompanyFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -134,6 +222,31 @@ export type ModelCompanyFilterInput = {
 export type ModelCompanyConnection = {
   __typename: "ModelCompanyConnection",
   items:  Array<Company | null >,
+  nextToken?: string | null,
+};
+
+export type ModelJobFilterInput = {
+  id?: ModelIDInput | null,
+  companyName?: ModelStringInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  userId?: ModelIDInput | null,
+  salary?: ModelStringInput | null,
+  hiringSteps?: ModelIntInput | null,
+  hiringStepDescription?: ModelStringInput | null,
+  typeOfCodingChallenge?: ModelStringInput | null,
+  typeOfWork?: ModelStringInput | null,
+  timeZone?: ModelStringInput | null,
+  role?: ModelStringInput | null,
+  skills?: ModelStringInput | null,
+  and?: Array< ModelJobFilterInput | null > | null,
+  or?: Array< ModelJobFilterInput | null > | null,
+  not?: ModelJobFilterInput | null,
+};
+
+export type ModelJobConnection = {
+  __typename: "ModelJobConnection",
+  items:  Array<Job | null >,
   nextToken?: string | null,
 };
 
@@ -212,6 +325,102 @@ export type DeleteCompanyMutation = {
   } | null,
 };
 
+export type CreateJobMutationVariables = {
+  input: CreateJobInput,
+  condition?: ModelJobConditionInput | null,
+};
+
+export type CreateJobMutation = {
+  createJob?:  {
+    __typename: "Job",
+    id: string,
+    companyName: string,
+    title: string,
+    logo?:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    description: string,
+    userId: string,
+    salary: string,
+    hiringSteps: number,
+    hiringStepDescription?: string | null,
+    typeOfCodingChallenge?: string | null,
+    typeOfWork: string,
+    timeZone: string,
+    role: string,
+    skills: Array< string | null >,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateJobMutationVariables = {
+  input: UpdateJobInput,
+  condition?: ModelJobConditionInput | null,
+};
+
+export type UpdateJobMutation = {
+  updateJob?:  {
+    __typename: "Job",
+    id: string,
+    companyName: string,
+    title: string,
+    logo?:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    description: string,
+    userId: string,
+    salary: string,
+    hiringSteps: number,
+    hiringStepDescription?: string | null,
+    typeOfCodingChallenge?: string | null,
+    typeOfWork: string,
+    timeZone: string,
+    role: string,
+    skills: Array< string | null >,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteJobMutationVariables = {
+  input: DeleteJobInput,
+  condition?: ModelJobConditionInput | null,
+};
+
+export type DeleteJobMutation = {
+  deleteJob?:  {
+    __typename: "Job",
+    id: string,
+    companyName: string,
+    title: string,
+    logo?:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    description: string,
+    userId: string,
+    salary: string,
+    hiringSteps: number,
+    hiringStepDescription?: string | null,
+    typeOfCodingChallenge?: string | null,
+    typeOfWork: string,
+    timeZone: string,
+    role: string,
+    skills: Array< string | null >,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetCompanyQueryVariables = {
   id: string,
 };
@@ -259,6 +468,74 @@ export type ListCompanysQuery = {
       userId: string,
       jobTitle?: string | null,
       salary?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetJobQueryVariables = {
+  id: string,
+};
+
+export type GetJobQuery = {
+  getJob?:  {
+    __typename: "Job",
+    id: string,
+    companyName: string,
+    title: string,
+    logo?:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    description: string,
+    userId: string,
+    salary: string,
+    hiringSteps: number,
+    hiringStepDescription?: string | null,
+    typeOfCodingChallenge?: string | null,
+    typeOfWork: string,
+    timeZone: string,
+    role: string,
+    skills: Array< string | null >,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListJobsQueryVariables = {
+  filter?: ModelJobFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListJobsQuery = {
+  listJobs?:  {
+    __typename: "ModelJobConnection",
+    items:  Array< {
+      __typename: "Job",
+      id: string,
+      companyName: string,
+      title: string,
+      logo?:  {
+        __typename: "S3Object",
+        bucket: string,
+        region: string,
+        key: string,
+      } | null,
+      description: string,
+      userId: string,
+      salary: string,
+      hiringSteps: number,
+      hiringStepDescription?: string | null,
+      typeOfCodingChallenge?: string | null,
+      typeOfWork: string,
+      timeZone: string,
+      role: string,
+      skills: Array< string | null >,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -321,6 +598,87 @@ export type OnDeleteCompanySubscription = {
     userId: string,
     jobTitle?: string | null,
     salary?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateJobSubscription = {
+  onCreateJob?:  {
+    __typename: "Job",
+    id: string,
+    companyName: string,
+    title: string,
+    logo?:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    description: string,
+    userId: string,
+    salary: string,
+    hiringSteps: number,
+    hiringStepDescription?: string | null,
+    typeOfCodingChallenge?: string | null,
+    typeOfWork: string,
+    timeZone: string,
+    role: string,
+    skills: Array< string | null >,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateJobSubscription = {
+  onUpdateJob?:  {
+    __typename: "Job",
+    id: string,
+    companyName: string,
+    title: string,
+    logo?:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    description: string,
+    userId: string,
+    salary: string,
+    hiringSteps: number,
+    hiringStepDescription?: string | null,
+    typeOfCodingChallenge?: string | null,
+    typeOfWork: string,
+    timeZone: string,
+    role: string,
+    skills: Array< string | null >,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteJobSubscription = {
+  onDeleteJob?:  {
+    __typename: "Job",
+    id: string,
+    companyName: string,
+    title: string,
+    logo?:  {
+      __typename: "S3Object",
+      bucket: string,
+      region: string,
+      key: string,
+    } | null,
+    description: string,
+    userId: string,
+    salary: string,
+    hiringSteps: number,
+    hiringStepDescription?: string | null,
+    typeOfCodingChallenge?: string | null,
+    typeOfWork: string,
+    timeZone: string,
+    role: string,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,

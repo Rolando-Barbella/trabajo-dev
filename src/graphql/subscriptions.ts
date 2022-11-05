@@ -59,3 +59,81 @@ export const onDeleteCompany = /* GraphQL */ `
     }
   }
 `;
+export const onCreateJob = /* GraphQL */ `
+  subscription OnCreateJob {
+    onCreateJob {
+      id
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
+      }
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateJob = /* GraphQL */ `
+  subscription OnUpdateJob {
+    onUpdateJob {
+      id
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
+      }
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteJob = /* GraphQL */ `
+  subscription OnDeleteJob {
+    onDeleteJob {
+      id
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
+      }
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
+      createdAt
+      updatedAt
+    }
+  }
+`;

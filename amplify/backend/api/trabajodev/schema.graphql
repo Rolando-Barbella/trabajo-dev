@@ -1,3 +1,4 @@
+
 type S3Object {
   bucket: String!
   region: String!
@@ -13,5 +14,24 @@ type Company @model {
   jobTitle: String
   salary: String
 }
+
+type Job @model {
+  id: ID!
+  companyName: String!
+  title: String!
+  logo: S3Object
+  description: String!
+  userId: ID!
+  salary: String!
+  hiringSteps: Int!
+  hiringStepDescription: String
+  typeOfCodingChallenge: String
+  typeOfWork: String!
+  timeZone: String!
+  role: String!
+  skills: [String]!
+}
+
+
 
 

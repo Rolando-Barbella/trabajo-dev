@@ -58,109 +58,79 @@ export const onDeleteCompany = /* GraphQL */ `
     }
   }
 `;
-export const onCreateCompaniesByUser = /* GraphQL */ `
-  subscription OnCreateCompaniesByUser {
-    onCreateCompaniesByUser {
+export const onCreateJob = /* GraphQL */ `
+  subscription OnCreateJob {
+    onCreateJob {
       id
-      userID
-      company {
-        id
-        name
-        image {
-          bucket
-          region
-          key
-        }
-        description
-        userId
-        jobTitle
-        salary
-        createdAt
-        updatedAt
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
       }
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
       createdAt
       updatedAt
     }
   }
 `;
-export const onUpdateCompaniesByUser = /* GraphQL */ `
-  subscription OnUpdateCompaniesByUser {
-    onUpdateCompaniesByUser {
+export const onUpdateJob = /* GraphQL */ `
+  subscription OnUpdateJob {
+    onUpdateJob {
       id
-      userID
-      company {
-        id
-        name
-        image {
-          bucket
-          region
-          key
-        }
-        description
-        userId
-        jobTitle
-        salary
-        createdAt
-        updatedAt
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
       }
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
       createdAt
       updatedAt
     }
   }
 `;
-export const onDeleteCompaniesByUser = /* GraphQL */ `
-  subscription OnDeleteCompaniesByUser {
-    onDeleteCompaniesByUser {
+export const onDeleteJob = /* GraphQL */ `
+  subscription OnDeleteJob {
+    onDeleteJob {
       id
-      userID
-      company {
-        id
-        name
-        image {
-          bucket
-          region
-          key
-        }
-        description
-        userId
-        jobTitle
-        salary
-        createdAt
-        updatedAt
+      companyName
+      title
+      logo {
+        bucket
+        region
+        key
       }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateBlog = /* GraphQL */ `
-  subscription OnCreateBlog {
-    onCreateBlog {
-      id
-      name
-      posts
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateBlog = /* GraphQL */ `
-  subscription OnUpdateBlog {
-    onUpdateBlog {
-      id
-      name
-      posts
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteBlog = /* GraphQL */ `
-  subscription OnDeleteBlog {
-    onDeleteBlog {
-      id
-      name
-      posts
+      description
+      userId
+      salary
+      hiringSteps
+      hiringStepDescription
+      typeOfCodingChallenge
+      typeOfWork
+      timeZone
+      role
+      skills
       createdAt
       updatedAt
     }
