@@ -48,39 +48,6 @@ const Home: NextPage = ({ companies }) => {
           <title>Companies hiring</title>
         </Head>
         <div className="container">
-<<<<<<< HEAD
-          {Boolean(currentUser) && (
-            <>
-              <Link href="/profile">Profile</Link>
-              <Link href="/profile" onClick={signOut}>
-                Sig Out
-              </Link>
-            </>
-          )}
-          {process.env.NODE_ENV === "development" ? (
-            <>
-              <h1 className="text-3xl font-bold">
-                National Companies <Link href="/create-company">(+)</Link>
-              </h1>
-              <div className="img-grid">
-                {/* @ts-ignorets */}
-                {companies?.map((company) => {
-                  return (
-                    <div key={company.id} className="img-square">
-                      <h2>{company.name}</h2>
-                      {/* use the AmplifyS3Image component to render the company's image using its S3 key */}
-                      <AmplifyS3Image imgKey={company.image.key} />
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          ) : (
-            <>
-              <h1>Junior dev Jobs</h1>
-            </>
-          )}
-=======
           {
             Boolean(currentUser) && (
               <>
@@ -92,9 +59,9 @@ const Home: NextPage = ({ companies }) => {
           <h1>
             {
               process.env.NODE_ENV === 'development' ? (
-                <div className="flex flex-wrap -mx-3 mt-10">
+                <>
                   National Companies <Link href="/create-company">(+)</Link>
-                </div>
+                </>
               ) : ( <>Junior dev Jobs</>)
             }
           </h1>
@@ -110,7 +77,6 @@ const Home: NextPage = ({ companies }) => {
               );
             })}
           </div>
->>>>>>> 0e84e65 (Replce company for job query)
         </div>
       </div>
     </div>
