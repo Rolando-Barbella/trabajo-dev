@@ -1,55 +1,72 @@
-import React from "react";
-import { useState } from "react";
-import { API, Storage } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { CognitoUser } from 'amazon-cognito-identity-js';
-import { useRouter } from "next/router";
-import Cookie from "js-cookie";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import { Button, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
+import Grid from "@mui/material/Grid";
+import { CognitoUser } from "amazon-cognito-identity-js";
+import { API, Storage } from "aws-amplify";
 import cookie from "cookie";
+import Cookie from "js-cookie";
+import { useRouter } from "next/router";
+import React from "react";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
-import { createJob } from "../src/graphql/mutations";
-import config from "../src/aws-exports";
+import TextField from "../src/components/TextField";
 import { checkout } from "../checkout";
 import { CreateJobInput } from "../src/API";
+import config from "../src/aws-exports";
+import { createJob } from "../src/graphql/mutations";
+import SimpleSelect from './../src/components/SimpleSelect';
+
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  select: {
+    border: 'solid 1px #e5e7eb',
+    padding: 4,
+    borderRadius: 2,
+    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: 'red',
+    },
+  },
+}));
 
 type createCompanyProps = {
-  initialJobName: string;
-  initialImgName: { name: string }
-  user: CognitoUser | any
-  initialJob: CreateJobInput
-} 
+  user: CognitoUser | any;
+  initialJob: Omit<CreateJobInput, "userId">;
+};
 
 let blankJob = {
-  companyName: '',
-  title: '',
+  companyName: "",
+  title: "",
   logo: null,
-  description: '',
-  userId: '',
-  salary: '',
-  hiringSteps: 0,
-  hiringStepDescription: '',
-  typeOfCodingChallenge: '',
-  typeOfWork: '',
-  timeZone: '',
-  role: '',
+  description: "",
+  salary: "",
+  hiringSteps: 2,
+  hiringStepDescription: "",
+  typeOfCodingChallenge: "",
+  typeOfWork: "",
+  timeZone: "",
+  role: "",
   skills: [],
-}
+};
 
-function CreateCompany({ initialJob = blankJob, initialImgName = { name: "" }, user } : createCompanyProps) {
+function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
+  const styles = useStyles();
   const Router = useRouter();
   const cookies = parseCookies("");
 
-  const [job, setJob] = useState<CreateJobInput>(initialJob);
-  const [image, setImage] = useState(initialImgName);
+  const [job, setJob] = React.useState<Omit<CreateJobInput, "userId">>(initialJob);
+  const [data, setData] = React.useState(null);
 
-  React.useEffect(() => {
-    Cookie.set("job", JSON.stringify(job));
-  }, [image.name, job]);
-  
-  const handleSubmit = React.useCallback(async () => {
+  const handleSubmitJob = React.useCallback(async () => {
     // upload the image to S3
-    const uploadedImage = await Storage.put(cookies.image, { name: cookies.image });
-    const formateJob = JSON.parse((cookies.job))
+    const formateJob = JSON.parse(cookies.job);
+    const uploadedImage = await Storage.put(formateJob.logo, { name: formateJob.logo });
     // submit the GraphQL query
     await API.graphql({
       query: createJob,
@@ -66,7 +83,7 @@ function CreateCompany({ initialJob = blankJob, initialImgName = { name: "" }, u
         },
       },
     });
-  }, [cookies.image, cookies.job, user.username]);
+  }, [cookies.job, user.username]);
 
   React.useEffect(() => {
     const resolveUrl = async () => {
@@ -75,11 +92,11 @@ function CreateCompany({ initialJob = blankJob, initialImgName = { name: "" }, u
       if (!clientSecret) {
         return;
       }
-      await handleSubmit();
+      await handleSubmitJob();
     };
     resolveUrl();
     Router.push("/create-company", "/create-company", { shallow: false });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const stipeCheckOut = (e: any) => {
@@ -94,25 +111,128 @@ function CreateCompany({ initialJob = blankJob, initialImgName = { name: "" }, u
     });
   };
 
+  const validationSchema = yup.object({
+    title: yup.string().required("Job title is required"),
+    companyName: yup.string().required("Company name is required"),
+    logo: yup
+      .mixed()
+      .test({
+        message: "Please provide a supported file type",
+        test: (file, context) => {
+          const isValid = ["png", "jpg"].includes(file && file.split(".").pop());
+          if (!isValid) return context?.createError();
+          return isValid;
+        },
+      })
+      .test({
+        message: `File too big, can't exceed ${20000}`,
+        test: (file) => {
+          const isValid = file?.size < 20000;
+          return isValid;
+        },
+      }),
+    description: yup.string().required("Job title is required").min(100, "minimun 100 characters"),
+    hiringSteps: yup.array()
+  });
+
+  const formik = useFormik<yup.InferType<typeof validationSchema>>({
+    initialValues: blankJob,
+    onSubmit: stipeCheckOut,
+    validationSchema,
+  });
+
+  React.useEffect(() => {
+    Cookie.set("job", JSON.stringify(formik.values));
+  }, [formik.values]);
+  console.log(formik.errors.logo);
   return (
-    <form onSubmit={stipeCheckOut}>
-      <h2>Create a Job</h2>
-      <label htmlFor="name">Company Name</label>
-      <input type="text" id="name" value={job.title} onChange={(e) => setJob({...job, companyName:e.target.value})} />
-      <label htmlFor="image">Logo</label>
-      <input type="file" id="image" onChange={(e) => setImage(!e.target.files ? { name: "" } : e.target.files[0])} />
-      <div className="relative">
-        <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-          <option>New Mexico</option>
-          <option>Missouri</option>
-          <option>Texas</option>
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-        </div>
-      </div>
-      <input type="submit" value="create" />
-    </form>
+    <Container maxWidth="md">
+      <h1>Add a Job</h1>
+      <form onSubmit={formik.handleSubmit}>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Grid item xs={6}>
+                <label htmlFor="image">Company Name</label>
+                <TextField
+                  id="companyName"
+                  name="companyName"
+                  value={formik.values.companyName}
+                  placeholder="Company Name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.companyName && Boolean(formik.errors.companyName)}
+                  helperText={formik.touched.companyName && formik.errors.companyName}
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={4}>
+                <label htmlFor="image">Company Logo</label>
+                <input type="file" id="logo" onChange={formik.handleChange} />
+                {Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={6}>
+                <label htmlFor="image">Job Title</label>
+                <TextField
+                  id="title"
+                  name="title"
+                  value={formik.values.title}
+                  placeholder="Job Title"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.title && Boolean(formik.errors.title)}
+                  helperText={formik.touched.title && formik.errors.title}
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={8}>
+                <label htmlFor="image">Job Description</label>
+                <TextField
+                  id="description"
+                  name="description"
+                  value={formik.values.description}
+                  placeholder="Job description"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.description && Boolean(formik.errors.description)}
+                  helperText={formik.touched.description && formik.errors.description}
+                  variant="outlined"
+                  multiline
+                  minRows={10}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid item xs={6}>
+              <InputLabel id="demo-simple-select-label">Number of hiring steps</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                defaultValue={2}
+                value={formik.values.hiringSteps}
+                label="Steps"
+                className={styles.select}
+                onChange={(e) => formik.setFieldValue('hiringSteps', e.target.value)}
+                disableUnderline
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+              </Select>
+            </Grid>
+          </Grid>
+          <Button type="submit">submit</Button>
+        </Box>
+      </form>
+    </Container>
   );
 }
 
@@ -124,7 +244,6 @@ CreateCompany.getInitialProps = ({ req }: any) => {
   const cookies = parseCookies(req);
 
   return {
-    initialImgName: cookies.initialImgName,
     initialJob: cookies.initialJob,
   };
 };
