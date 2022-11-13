@@ -1,3 +1,4 @@
+@tailwind components;
 .container {
   padding: 0 2rem;
 }
@@ -125,5 +126,11 @@
   }
   .logo img {
     filter: invert(1);
+  }
+}
+
+@layer components {
+  .labelclass {
+    @apply block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2;
   }
 }
