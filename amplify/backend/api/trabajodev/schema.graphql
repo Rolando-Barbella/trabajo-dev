@@ -19,7 +19,7 @@ type Job @model {
   id: ID!
   companyName: String!
   title: String!
-  logo: S3Object
+  logo: S3Object!
   description: String!
   userId: ID!
   salary: String!
@@ -29,7 +29,7 @@ type Job @model {
   typeOfWork: String!
   timeZone: String!
   role: String!
-  skills: [String]!
+  skills: [String]
 }
 
 
