@@ -1,7 +1,7 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { Button, InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
+import { Button, InputLabel } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { API, Storage } from "aws-amplify";
@@ -17,23 +17,8 @@ import { checkout } from "../checkout";
 import { CreateJobInput } from "../src/API";
 import config from "../src/aws-exports";
 import { createJob } from "../src/graphql/mutations";
-import SimpleSelect from './../src/components/SimpleSelect';
-
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  select: {
-    border: 'solid 1px #e5e7eb',
-    padding: 4,
-    borderRadius: 2,
-    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'red',
-    },
-  },
-}));
+import SimpleSelect from "../src/components/SimpleSelect/SimpleSelect";
+import TagInput from "../src/components/TagInput/TagInput";
 
 type createCompanyProps = {
   user: CognitoUser | any;
@@ -56,7 +41,6 @@ let blankJob = {
 };
 
 function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
-  const styles = useStyles();
   const Router = useRouter();
   const cookies = parseCookies("");
 
@@ -132,10 +116,15 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
         },
       }),
     description: yup.string().required("Job title is required").min(100, "minimun 100 characters"),
-    hiringSteps: yup.array()
+    hiringSteps: yup.number(),
+    hiringStepDescription: yup.string(),
+    typeOfCodingChallenge: yup.string(),
+    typeOfWork: yup.string(),
+    timeZone: yup.string(),
+    skills: yup.array()
   });
 
-  const formik = useFormik<yup.InferType<typeof validationSchema>>({
+  let formik = useFormik<yup.InferType<typeof validationSchema>>({
     initialValues: blankJob,
     onSubmit: stipeCheckOut,
     validationSchema,
@@ -145,6 +134,12 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
     Cookie.set("job", JSON.stringify(formik.values));
   }, [formik.values]);
   console.log(formik.errors.logo);
+
+  let typeOfdeveloper = ['Take away test', 'Algorithm puzzle', 'Live coding challange'];
+  let typeOfWork = ['Remote', 'Hybrid', 'Office base']
+  let timeZone = ['Europe', 'LATAM', 'UK', 'South Asia', 'East Asia', 'Africa', 'USA - Central Standard Time', 'USA - Pacific Standard Time', 'USA - Hawaii-Aleutian Standard Time']
+  let role = ['Front end dev', 'Back end dev', 'Full stack dev', 'Cloud Enginer', 'QA', 'Mobile dev', 'Dev Ops']
+  let skills = [{id: '', text: ''}]
   return (
     <Container maxWidth="md">
       <h1>Add a Job</h1>
@@ -197,7 +192,7 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
                   id="description"
                   name="description"
                   value={formik.values.description}
-                  placeholder="Job description"
+                  placeholder="Expalin what is the job about"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.description && Boolean(formik.errors.description)}
@@ -208,28 +203,87 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
                 />
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid item xs={6}>
-              <InputLabel id="demo-simple-select-label">Number of hiring steps</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                defaultValue={2}
-                value={formik.values.hiringSteps}
-                label="Steps"
-                className={styles.select}
-                onChange={(e) => formik.setFieldValue('hiringSteps', e.target.value)}
-                disableUnderline
-              >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
-              </Select>
+
+            <Grid item xs={12}>
+              <Grid item xs={6}>
+                <SimpleSelect
+                  defaultValue={2}
+                  label="Number of hiring steps"
+                  options={[1, 2, 3, 4]}
+                  onChange={(e) => formik.setFieldValue("hiringSteps", e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={8}>
+                <label htmlFor="image">Hiring steps description</label>
+                <TextField
+                  id="hiringStepDescription"
+                  name="hiringStepDescription"
+                  value={formik.values.hiringStepDescription}
+                  placeholder="Please explain the hiring process step by step"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.hiringStepDescription && Boolean(formik.errors.hiringStepDescription)}
+                  helperText={formik.touched.hiringStepDescription && formik.errors.hiringStepDescription}
+                  variant="outlined"
+                  multiline
+                  minRows={5}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={10}>
+                <SimpleSelect
+                  defaultValue={'Take away test'}
+                  label="What type of conding challange should the candidate expect"
+                  extraStyles={{minWidth: '20%'}}
+                  options={typeOfdeveloper}
+                  onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={10}>
+                <SimpleSelect
+                  defaultValue={'Remote'}
+                  label="Type of work"
+                  extraStyles={{minWidth: '20%'}}
+                  options={typeOfWork}
+                  onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={10}>
+                <SimpleSelect
+                  defaultValue='LATAM'
+                  label="Time zone"
+                  extraStyles={{minWidth: '20%'}}
+                  options={timeZone}
+                  onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={10}>
+                <SimpleSelect
+                  defaultValue='Front end dev'
+                  label="Type of role"
+                  extraStyles={{minWidth: '20%'}}
+                  options={role}
+                  onChange={(e) => formik.setFieldValue("role", e.target.value)}
+                />
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid item xs={10}>
+                {/* @ts-ignore} */}
+                <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
+              </Grid>
             </Grid>
           </Grid>
-          <Button type="submit">submit</Button>
+          <Button type="submit">Submit</Button>
         </Box>
       </form>
     </Container>
