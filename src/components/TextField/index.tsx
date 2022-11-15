@@ -13,6 +13,7 @@ export default function TextField({ helperText, className, style, error, ...rest
   return (
     <div className={className} style={style}>
       <BaseTextField
+        type="text"
         fullWidth
         error={error}
         {...rest}

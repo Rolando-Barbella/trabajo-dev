@@ -7,6 +7,7 @@ type SimpleSelectProps = {
   options: Array<any>,
   onChange: (e: React.ChangeEvent<Record<string, unknown>>) => void
   extraStyles?: Record<string, unknown>
+  required?: boolean
 }
 
 const useStyles = makeStyles(() => ({
@@ -17,12 +18,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function SimpleSelect({value, label, options, onChange, defaultValue, extraStyles} : SimpleSelectProps) {
+function SimpleSelect({value, label, options, onChange, defaultValue, extraStyles, required} : SimpleSelectProps) {
   const styles = useStyles();
 
   return (
     <>
-      <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+      <InputLabel id="demo-simple-select-label">{required && '*'}{label}</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"

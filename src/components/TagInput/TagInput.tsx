@@ -48,7 +48,6 @@ function TagInput({tags, setTags} :TagInput ) {
     // re-render
     setTags(newTags);
   };
-  console.log(tags)
   return ( 
     <>
       <div>
