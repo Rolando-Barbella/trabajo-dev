@@ -1,4 +1,5 @@
-import { InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
+import { makeStyles, MenuItem, Select } from "@material-ui/core";
+import Label from "../Label/Label";
 
 type SimpleSelectProps = {
   value?: string | number | undefined,
@@ -8,6 +9,7 @@ type SimpleSelectProps = {
   onChange: (e: React.ChangeEvent<Record<string, unknown>>) => void
   extraStyles?: Record<string, unknown>
   required?: boolean
+  error?: string | boolean | undefined,
 }
 
 const useStyles = makeStyles(() => ({
@@ -16,21 +18,26 @@ const useStyles = makeStyles(() => ({
     padding: 4,
     borderRadius: 2,
   },
+  selectError: {
+    border: 'solid 1px red',
+    padding: 4,
+    borderRadius: 2,
+  },
 }));
 
-function SimpleSelect({value, label, options, onChange, defaultValue, extraStyles, required} : SimpleSelectProps) {
+function SimpleSelect({ value, label, options, onChange, defaultValue, extraStyles, required, error }: SimpleSelectProps) {
   const styles = useStyles();
 
   return (
     <>
-      <InputLabel id="demo-simple-select-label">{required && '*'}{label}</InputLabel>
+      <Label text={label} required={required}/>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         defaultValue={defaultValue}
         value={value}
         label={label}
-        className={styles.select}
+        className={error ? styles.selectError : styles.select}
         style={extraStyles}
         onChange={onChange}
         disableUnderline

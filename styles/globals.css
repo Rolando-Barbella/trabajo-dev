@@ -36,3 +36,56 @@ amplify-s3-image {
   margin: 0 auto;
   text-align: center;
 }
+
+.ReactTags__tagInput {
+  border-radius: 2px;
+  display: inline-block;
+  border: 'solid 1px #e5e7eb';
+}
+
+/* Tag Input style */
+
+.ReactTags__tags {
+  position: relative;
+}
+
+/* Styles for the input */
+.ReactTags__tagInput {
+  border-radius: 2px;
+  display: inline-block;
+}
+.ReactTags__tagInput input.ReactTags__tagInputField,
+.ReactTags__tagInput input.ReactTags__tagInputField:focus {
+  height: 40px;
+  border: solid 1px #e5e7eb;
+  border-radius: 4;
+  min-width: 200px;
+  font-size: 16px;
+  padding: 0 2.5em 0 0.5em;
+}
+
+.ReactTags__editInput {
+  border-radius: 1px;
+}
+
+.ReactTags__editTagInput {
+  display: inline-flex;
+}
+
+/* Styles for selected tags */
+.ReactTags__selected span.ReactTags__tag {
+  border: 1px solid #ddd;
+  background: #bbc0c3;
+  font-size: 14px;
+  display: inline-block;
+  padding: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.ReactTags__suggestions li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 400;
+}
