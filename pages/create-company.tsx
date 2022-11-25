@@ -1,37 +1,32 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
+import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { Button, InputLabel } from "@material-ui/core";
 import Grid from "@mui/material/Grid";
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { API, Storage } from "aws-amplify";
 import cookie from "cookie";
+import { useFormik } from "formik";
 import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
-import { useFormik } from "formik";
 
-import TextField from "../src/components/TextField";
 import { checkout } from "../checkout";
-import { CreateJobInput } from "../src/API";
 import config from "../src/aws-exports";
-import { createJob } from "../src/graphql/mutations";
+import Label from "../src/components/Label/Label";
 import SimpleSelect from "../src/components/SimpleSelect/SimpleSelect";
 import TagInput from "../src/components/TagInput/TagInput";
-
-type createCompanyProps = {
-  user: CognitoUser | any;
-  initialJob: Omit<CreateJobInput, "userId">;
-};
+import TextField from "../src/components/TextField";
+import { createJob, updateJob } from "../src/graphql/mutations";
 
 let blankJob = {
   companyName: "",
   title: "",
-  logo: null,
+  logo: "",
   description: "",
   salary: "",
-  hiringSteps: 2,
+  hiringSteps: 0,
   hiringStepDescription: "",
   typeOfCodingChallenge: "",
   typeOfWork: "",
@@ -40,51 +35,12 @@ let blankJob = {
   skills: [],
 };
 
-function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
-  const Router = useRouter();
-  const cookies = parseCookies("");
+function CreateCompany({ user }: CognitoUser | any) {
+  let Router = useRouter();
+  let cookies = parseCookies("");
+  let [disableSubmit, setDiableSubmit] = React.useState(false)
 
-  const [job, setJob] = React.useState<Omit<CreateJobInput, "userId">>(initialJob);
-  const [data, setData] = React.useState(null);
-
-  const handleSubmitJob = React.useCallback(async () => {
-    // upload the image to S3
-    const formateJob = JSON.parse(cookies.job);
-    const uploadedImage = await Storage.put(formateJob.logo, { name: formateJob.logo });
-    // submit the GraphQL query
-    await API.graphql({
-      query: createJob,
-      variables: {
-        input: {
-          ...formateJob,
-          userId: user.username,
-          logo: {
-            // use the image's region and bucket (from aws-exports) as well as the key from the uploaded image
-            region: config.aws_user_files_s3_bucket_region,
-            bucket: config.aws_user_files_s3_bucket,
-            key: uploadedImage.key,
-          },
-        },
-      },
-    });
-  }, [cookies.job, user.username]);
-
-  React.useEffect(() => {
-    const resolveUrl = async () => {
-      let url = new URLSearchParams(window.location.search);
-      let clientSecret = url.get("session_id");
-      if (!clientSecret) {
-        return;
-      }
-      await handleSubmitJob();
-    };
-    resolveUrl();
-    Router.push("/create-company", "/create-company", { shallow: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const stipeCheckOut = (e: any) => {
-    e.preventDefault();
+  let stipeCheckOut = () => {
     checkout({
       lineItems: [
         {
@@ -95,51 +51,110 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
     });
   };
 
-  const validationSchema = yup.object({
-    title: yup.string().required("Job title is required"),
-    companyName: yup.string().required("Company name is required"),
+  let handleSubmitJob = React.useCallback(async (job: Record<string, any>) => {
+    // upload the image to S3
+    let uploadedImage = await Storage.put(job.logo.value, { name: job.logo.value });
+    // submit the GraphQL query
+    const addJob = await API.graphql({
+      query: createJob,
+      variables: {
+        input: {
+          ...job,
+          userId: user.username,
+          skills: job.skills?.map((skill: { id: string, text: string }) => skill.text) || [],
+          logo: {
+            // use the image's region and bucket (from aws-exports) as well as the key from the uploaded image
+            region: config.aws_user_files_s3_bucket_region,
+            bucket: config.aws_user_files_s3_bucket,
+            key: uploadedImage.key,
+          },
+        },
+      },
+    });
+    await addJob
+    //@ts-ignore  
+    const { data } = addJob
+    await Cookie.set("jobId", data.createJob.id);
+    setDiableSubmit(true)
+    stipeCheckOut()
+  }, [user.username]);
+
+  React.useEffect(() => {
+    let resolveUrl = async () => {
+      let url = new URLSearchParams(window.location.search);
+      let clientSecret = url.get("session_id");
+      if (!clientSecret) {
+        return;
+      }
+      // let formateJob = JSON.parse(cookies.job);
+      await API.graphql({
+        query: updateJob,
+        variables: {
+          input: {
+            id: cookies.jobId,
+            title: 'This title change one more time'
+          }
+        }
+      })
+    };
+    resolveUrl();
+    Router.push("/create-company", "/create-company", { shallow: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  let validationSchema = yup.object({
+    title: yup.string().required("Job title is required").min(5, "Job title too short"),
+    companyName: yup.string().required("Company name is required").min(1, "Company name too short"),
     logo: yup
       .mixed()
       .test({
         message: "Please provide a supported file type",
         test: (file, context) => {
-          const isValid = ["png", "jpg"].includes(file && file.split(".").pop());
+          let isValid = ["png", "jpg", "jpeg"].includes(file && file.value.split(".").pop());
           if (!isValid) return context?.createError();
           return isValid;
         },
       })
       .test({
-        message: `File too big, can't exceed ${20000}`,
+        message: `File too big, can't exceed ${2000} px`,
         test: (file) => {
-          const isValid = file?.size < 20000;
+          let isValid = file?.size < 2000;
           return isValid;
         },
       }),
     description: yup.string().required("Job title is required").min(100, "minimun 100 characters"),
-    hiringSteps: yup.number(),
+    hiringSteps: yup.number().moreThan(0).required("Please add the number of phases the recruiment process takes"),
     hiringStepDescription: yup.string(),
     typeOfCodingChallenge: yup.string(),
-    typeOfWork: yup.string(),
-    timeZone: yup.string(),
-    skills: yup.array()
+    typeOfWork: yup.string().required("Please add type of work"),
+    timeZone: yup.string().required("Please add which timezone is need it for this role"),
+    skills: yup.array(),
   });
 
   let formik = useFormik<yup.InferType<typeof validationSchema>>({
     initialValues: blankJob,
-    onSubmit: stipeCheckOut,
+    onSubmit: (job) => handleSubmitJob(job),
     validationSchema,
+    isInitialValid: () => validationSchema.isValidSync(blankJob)
   });
 
-  React.useEffect(() => {
-    Cookie.set("job", JSON.stringify(formik.values));
-  }, [formik.values]);
-  console.log(formik.errors.logo);
-
-  let typeOfdeveloper = ['Take away test', 'Algorithm puzzle', 'Live coding challange'];
-  let typeOfWork = ['Remote', 'Hybrid', 'Office base']
-  let timeZone = ['Europe', 'LATAM', 'UK', 'South Asia', 'East Asia', 'Africa', 'USA - Central Standard Time', 'USA - Pacific Standard Time', 'USA - Hawaii-Aleutian Standard Time']
-  let role = ['Front end dev', 'Back end dev', 'Full stack dev', 'Cloud Enginer', 'QA', 'Mobile dev', 'Dev Ops']
-  let skills = [{id: '', text: ''}]
+  let typeOfdeveloper = ["Select", "Take away test", "Algorithm puzzle", "Live coding challange"];
+  let typeOfWork = ["Select", "Remote", "Hybrid", "Office base"];
+  let timeZone = [
+    "Select",
+    "Europe",
+    "LATAM",
+    "UK",
+    "South Asia",
+    "East Asia",
+    "Africa",
+    "USA - Central Standard Time",
+    "USA - Pacific Standard Time",
+    "USA - Hawaii-Aleutian Standard Time",
+  ];
+  let role = ["Select", "Front end dev", "Back end dev", "Full stack dev", "Cloud Enginer", "QA", "Mobile dev", "Dev Ops"];
+  // console.log(formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.isSubmitting)
+  console.log(formik.errors.hiringSteps)
   return (
     <Container maxWidth="md">
       <h1>Add a Job</h1>
@@ -148,7 +163,7 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Grid item xs={6}>
-                <label htmlFor="image">Company Name</label>
+                <Label text="Company Name" required/>
                 <TextField
                   id="companyName"
                   name="companyName"
@@ -164,19 +179,19 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
             </Grid>
             <Grid item xs={12}>
               <Grid item xs={4}>
-                <label htmlFor="image">Company Logo</label>
-                <input type="file" id="logo" onChange={formik.handleChange} />
-                {Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
+                <Label text="Company logo" required />
+                <TextField type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} error={formik.touched.logo && Boolean(formik.errors.logo)} />
+                {/* {Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>} */}
               </Grid>
             </Grid>
             <Grid item xs={12}>
               <Grid item xs={6}>
-                <label htmlFor="image">Job Title</label>
                 <TextField
+                  label="Job title"
                   id="title"
                   name="title"
                   value={formik.values.title}
-                  placeholder="Job Title"
+                  placeholder="Job title"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.title && Boolean(formik.errors.title)}
@@ -187,12 +202,12 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
             </Grid>
             <Grid item xs={12}>
               <Grid item xs={8}>
-                <label htmlFor="image">Job Description</label>
+                <Label text="Job description" required />
                 <TextField
                   id="description"
                   name="description"
                   value={formik.values.description}
-                  placeholder="Expalin what is the job about"
+                  placeholder="Please expalin what is the job about"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.description && Boolean(formik.errors.description)}
@@ -207,17 +222,20 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
             <Grid item xs={12}>
               <Grid item xs={6}>
                 <SimpleSelect
-                  defaultValue={2}
+                  required
+                  defaultValue={formik.values.hiringSteps}
                   label="Number of hiring steps"
-                  options={[1, 2, 3, 4]}
+                  error={formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps}
+                  options={[0, 1, 2, 3, 4]}
                   onChange={(e) => formik.setFieldValue("hiringSteps", e.target.value)}
                 />
               </Grid>
             </Grid>
             <Grid item xs={12}>
               <Grid item xs={8}>
-                <label htmlFor="image">Hiring steps description</label>
+                <Label text="Hiring steps description"/>
                 <TextField
+                  label="Please explain the hiring process step by step"
                   id="hiringStepDescription"
                   name="hiringStepDescription"
                   value={formik.values.hiringStepDescription}
@@ -235,55 +253,61 @@ function CreateCompany({ initialJob = blankJob, user }: createCompanyProps) {
             <Grid item xs={12}>
               <Grid item xs={10}>
                 <SimpleSelect
-                  defaultValue={'Take away test'}
-                  label="What type of conding challange should the candidate expect"
-                  extraStyles={{minWidth: '20%'}}
+                  defaultValue="Select"
+                  label="What type of conding challange should the candidate expect?"
+                  extraStyles={{ minWidth: "20%" }}
                   options={typeOfdeveloper}
                   onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
                 />
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={10}>
+            <Grid container item xs={12}>
+              <Grid item xs={3}>
                 <SimpleSelect
-                  defaultValue={'Remote'}
+                  defaultValue="Select"
+                  required
                   label="Type of work"
-                  extraStyles={{minWidth: '20%'}}
+                  extraStyles={{ minWidth: "20%" }}
                   options={typeOfWork}
+                  error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
                   onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
                 />
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={10}>
+              <Grid item xs={3}>
                 <SimpleSelect
-                  defaultValue='LATAM'
+                  defaultValue="Select"
+                  required
                   label="Time zone"
-                  extraStyles={{minWidth: '20%'}}
+                  extraStyles={{ minWidth: "20%" }}
                   options={timeZone}
+                  error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
                   onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
                 />
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={10}>
+              <Grid item xs={5}>
                 <SimpleSelect
-                  defaultValue='Front end dev'
+                  required
+                  defaultValue="Select"
                   label="Type of role"
-                  extraStyles={{minWidth: '20%'}}
+                  extraStyles={{ minWidth: "20%" }}
                   options={role}
+                  error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
                   onChange={(e) => formik.setFieldValue("role", e.target.value)}
                 />
               </Grid>
             </Grid>
             <Grid item xs={12}>
               <Grid item xs={10}>
+                <Label text="Main skills for the role"/>
                 {/* @ts-ignore} */}
                 <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
               </Grid>
             </Grid>
           </Grid>
-          <Button type="submit">Submit</Button>
+          <br />
+          <Button disabled={disableSubmit} type="submit" style={{ background: 'salmon' }}>
+            Submit
+          </Button>
         </Box>
       </form>
     </Container>
@@ -294,12 +318,5 @@ function parseCookies(req: any) {
   return cookie.parse(req ? req.headers.cookie || "" : document.cookie);
 }
 
-CreateCompany.getInitialProps = ({ req }: any) => {
-  const cookies = parseCookies(req);
-
-  return {
-    initialJob: cookies.initialJob,
-  };
-};
 //@ts-ignorets
 export default withAuthenticator(CreateCompany);

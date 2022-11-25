@@ -36,3 +36,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Amplify 
 
 To pull the dev env run `amplify pull --appId d16cn86zrbe5cq --envName dev`
+
+## Tag input library
+
+- Repo [here](https://github.com/react-tags/react-tags#autofocus)
+- CSS example [link](https://github.com/react-tags/react-tags/blob/master/example/main.js)
