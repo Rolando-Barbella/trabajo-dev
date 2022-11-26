@@ -15,8 +15,8 @@ export async function checkout({lineItems}) {
       await stripe.redirectToCheckout({
         mode: 'payment',
         lineItems,
-        successUrl: `${window.location.origin}/create-company?session_id={CHECKOUT_SESSION_ID}`,
-        cancelUrl: `${window.location.origin}/create-company`,
+        successUrl: `${window.location.origin}/create-job?session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${window.location.origin}/create-job`,
       });
     } catch(err) {
       console.error('Something went wrong');

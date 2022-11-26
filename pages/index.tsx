@@ -20,7 +20,6 @@ export async function getServerSideProps() {
 }
 //@ts-ignorets
 const Home: NextPage = ({ companies }) => {
-  console.log(process.env.NODE_ENV);
   const Router = useRouter();
   let [currentUser, setCurrentUser] = React.useState("");
 
@@ -60,7 +59,7 @@ const Home: NextPage = ({ companies }) => {
             {
               process.env.NODE_ENV === 'development' ? (
                 <>
-                  National Companies <Link href="/create-company">(+)</Link>
+                  National Companies <Link href="/create-job">(+)</Link>
                 </>
               ) : ( <>Junior dev Jobs</>)
             }

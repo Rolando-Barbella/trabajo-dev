@@ -10,16 +10,18 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
-import {CustomButton as Button} from '../src/components/CustomButton/CustomButton';
+import { CustomButton as Button } from '../../src/components/CustomButton/CustomButton';
 
-import { checkout } from "../checkout";
-import config from "../src/aws-exports";
-import Label from "../src/components/Label/Label";
-import SimpleSelect from "../src/components/SimpleSelect/SimpleSelect";
-import TagInput from "../src/components/TagInput/TagInput";
-import TextField from "../src/components/TextField";
-import { createJob, updateJob } from "../src/graphql/mutations";
+import { checkout } from "../../checkout";
+import config from "../../src/aws-exports";
+import Label from "../../src/components/Label/Label";
+import SimpleSelect from "../../src/components/SimpleSelect/SimpleSelect";
+import TagInput from "../../src/components/TagInput/TagInput";
+import TextField from "../../src/components/TextField";
+import { createJob, updateJob } from "../../src/graphql/mutations";
+import {useStyles} from './styles';
 import { padding } from "@mui/system";
+
 
 let blankJob = {
   companyName: "",
@@ -36,10 +38,11 @@ let blankJob = {
   skills: [],
 };
 
-function CreateCompany({ user }: CognitoUser | any) {
+function CreateJob({ user }: CognitoUser | any) {
   let Router = useRouter();
   let cookies = parseCookies("");
-  let [disableSubmit, setDiableSubmit] = React.useState(false)
+  let [disableSubmit, setDiableSubmit] = React.useState(false);
+  const styles = useStyles();
 
   let stipeCheckOut = () => {
     checkout({
@@ -99,7 +102,7 @@ function CreateCompany({ user }: CognitoUser | any) {
       })
     };
     resolveUrl();
-    Router.push("/create-company", "/create-company", { shallow: false });
+    Router.push("/create-job", "/create-job", { shallow: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -154,16 +157,15 @@ function CreateCompany({ user }: CognitoUser | any) {
     "USA - Hawaii-Aleutian Standard Time",
   ];
   let role = ["Select", "Front end dev", "Back end dev", "Full stack dev", "Cloud Enginer", "QA", "Mobile dev", "Dev Ops"];
-  console.log(formik.errors.hiringSteps)
   return (
-    <Container maxWidth="md" style={{paddingTop: 10, paddingBottom: 20}}>
-      <h1 style={{fontSize: '2.5rem', lineHeight: 1.0909090909090908, fontWeight: '100'}}>Add a job</h1>
-      <form onSubmit={formik.handleSubmit} style={{paddingTop: 20}}>
+    <Container maxWidth="md" sx={{pt: 3,pb: 5}}>
+      <h1 className={styles.h1}>Add a job</h1>
+      <form onSubmit={formik.handleSubmit} className={styles.form}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Grid item xs={6}>
-                <Label text="Company name" required/>
+                <Label text="Company name" required />
                 <TextField
                   id="companyName"
                   name="companyName"
@@ -182,9 +184,10 @@ function CreateCompany({ user }: CognitoUser | any) {
                 <Label text="Company logo" required />
                 <div className="input_container">
                   <input type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} />
-                  {/* <TextField type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} error={formik.touched.logo && Boolean(formik.errors.logo)} /> */}
                 </div>
-                {formik.touched.logo && Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
+                <span>
+                  {formik.touched.logo && Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
+                </span>
               </Grid>
             </Grid>
             <Grid item xs={12}>
@@ -236,7 +239,7 @@ function CreateCompany({ user }: CognitoUser | any) {
             </Grid>
             <Grid item xs={12}>
               <Grid item xs={8}>
-                <Label text="Hiring steps description"/>
+                <Label text="Hiring steps description" />
                 <TextField
                   label="Please explain the hiring process step by step"
                   id="hiringStepDescription"
@@ -301,7 +304,7 @@ function CreateCompany({ user }: CognitoUser | any) {
             </Grid>
             <Grid item xs={12}>
               <Grid item xs={8}>
-                <Label text="Main skills for the role"/>
+                <Label text="Main skills for the role" />
                 {/* @ts-ignore} */}
                 <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
               </Grid>
@@ -320,4 +323,4 @@ function parseCookies(req: any) {
 }
 
 //@ts-ignorets
-export default withAuthenticator(CreateCompany);
+export default withAuthenticator(CreateJob);
