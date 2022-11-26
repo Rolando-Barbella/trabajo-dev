@@ -1,5 +1,4 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { Button } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -11,6 +10,7 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
+import {CustomButton as Button} from '../src/components/CustomButton/CustomButton';
 
 import { checkout } from "../checkout";
 import config from "../src/aws-exports";
@@ -19,6 +19,7 @@ import SimpleSelect from "../src/components/SimpleSelect/SimpleSelect";
 import TagInput from "../src/components/TagInput/TagInput";
 import TextField from "../src/components/TextField";
 import { createJob, updateJob } from "../src/graphql/mutations";
+import { padding } from "@mui/system";
 
 let blankJob = {
   companyName: "",
@@ -153,17 +154,16 @@ function CreateCompany({ user }: CognitoUser | any) {
     "USA - Hawaii-Aleutian Standard Time",
   ];
   let role = ["Select", "Front end dev", "Back end dev", "Full stack dev", "Cloud Enginer", "QA", "Mobile dev", "Dev Ops"];
-  // console.log(formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.isSubmitting)
   console.log(formik.errors.hiringSteps)
   return (
-    <Container maxWidth="md">
-      <h1>Add a Job</h1>
-      <form onSubmit={formik.handleSubmit}>
+    <Container maxWidth="md" style={{paddingTop: 10, paddingBottom: 20}}>
+      <h1 style={{fontSize: '2.5rem', lineHeight: 1.0909090909090908, fontWeight: '100'}}>Add a job</h1>
+      <form onSubmit={formik.handleSubmit} style={{paddingTop: 20}}>
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <Grid item xs={6}>
-                <Label text="Company Name" required/>
+                <Label text="Company name" required/>
                 <TextField
                   id="companyName"
                   name="companyName"
@@ -178,10 +178,13 @@ function CreateCompany({ user }: CognitoUser | any) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Grid item xs={4}>
+              <Grid item xs={5}>
                 <Label text="Company logo" required />
-                <TextField type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} error={formik.touched.logo && Boolean(formik.errors.logo)} />
-                {/* {Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>} */}
+                <div className="input_container">
+                  <input type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} />
+                  {/* <TextField type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} error={formik.touched.logo && Boolean(formik.errors.logo)} /> */}
+                </div>
+                {formik.touched.logo && Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
               </Grid>
             </Grid>
             <Grid item xs={12}>
@@ -267,7 +270,7 @@ function CreateCompany({ user }: CognitoUser | any) {
                   defaultValue="Select"
                   required
                   label="Type of work"
-                  extraStyles={{ minWidth: "20%" }}
+                  extraStyles={{ minWidth: "70%" }}
                   options={typeOfWork}
                   error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
                   onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
@@ -278,18 +281,18 @@ function CreateCompany({ user }: CognitoUser | any) {
                   defaultValue="Select"
                   required
                   label="Time zone"
-                  extraStyles={{ minWidth: "20%" }}
+                  extraStyles={{ minWidth: "70%" }}
                   options={timeZone}
                   error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
                   onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
                 />
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={3}>
                 <SimpleSelect
                   required
                   defaultValue="Select"
                   label="Type of role"
-                  extraStyles={{ minWidth: "20%" }}
+                  extraStyles={{ minWidth: "70%" }}
                   options={role}
                   error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
                   onChange={(e) => formik.setFieldValue("role", e.target.value)}
@@ -297,7 +300,7 @@ function CreateCompany({ user }: CognitoUser | any) {
               </Grid>
             </Grid>
             <Grid item xs={12}>
-              <Grid item xs={10}>
+              <Grid item xs={8}>
                 <Label text="Main skills for the role"/>
                 {/* @ts-ignore} */}
                 <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
@@ -305,9 +308,7 @@ function CreateCompany({ user }: CognitoUser | any) {
             </Grid>
           </Grid>
           <br />
-          <Button disabled={disableSubmit} type="submit" style={{ background: 'salmon' }}>
-            Submit
-          </Button>
+          <Button disabled={disableSubmit} text="Submit" />
         </Box>
       </form>
     </Container>
