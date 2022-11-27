@@ -10,18 +10,18 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
-import { CustomButton as Button } from '../../src/components/CustomButton/CustomButton';
+import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
 
+import { AlertColor } from "@mui/material";
 import { checkout } from "../../checkout";
 import config from "../../src/aws-exports";
 import Label from "../../src/components/Label/Label";
 import SimpleSelect from "../../src/components/SimpleSelect/SimpleSelect";
+import SimpleSnackbar from "../../src/components/SimpleSnackBar/SimpleSnackBar";
 import TagInput from "../../src/components/TagInput/TagInput";
 import TextField from "../../src/components/TextField";
 import { createJob, updateJob } from "../../src/graphql/mutations";
-import {useStyles} from './styles';
-import { padding } from "@mui/system";
-
+import { useStyles } from "./styles";
 
 let blankJob = {
   companyName: "",
@@ -38,10 +38,21 @@ let blankJob = {
   skills: [],
 };
 
+export type SnackbarProps = {
+  open: boolean;
+  message: string;
+  severity: AlertColor | undefined;
+};
+
 function CreateJob({ user }: CognitoUser | any) {
   let Router = useRouter();
   let cookies = parseCookies("");
   let [disableSubmit, setDiableSubmit] = React.useState(false);
+  const [snackBar, setSnackBar] = React.useState<SnackbarProps>({
+    open: false,
+    message: "",
+    severity: "info" || undefined,
+  });
   const styles = useStyles();
 
   let stipeCheckOut = () => {
@@ -55,33 +66,36 @@ function CreateJob({ user }: CognitoUser | any) {
     });
   };
 
-  let handleSubmitJob = React.useCallback(async (job: Record<string, any>) => {
-    // upload the image to S3
-    let uploadedImage = await Storage.put(job.logo.value, { name: job.logo.value });
-    // submit the GraphQL query
-    const addJob = await API.graphql({
-      query: createJob,
-      variables: {
-        input: {
-          ...job,
-          userId: user.username,
-          skills: job.skills?.map((skill: { id: string, text: string }) => skill.text) || [],
-          logo: {
-            // use the image's region and bucket (from aws-exports) as well as the key from the uploaded image
-            region: config.aws_user_files_s3_bucket_region,
-            bucket: config.aws_user_files_s3_bucket,
-            key: uploadedImage.key,
+  let handleSubmitJob = React.useCallback(
+    async (job: Record<string, any>) => {
+      // upload the image to S3
+      let uploadedImage = await Storage.put(job.logo.value, { name: job.logo.value });
+      // submit the GraphQL query
+      const addJob = await API.graphql({
+        query: createJob,
+        variables: {
+          input: {
+            ...job,
+            userId: user.username,
+            skills: job.skills?.map((skill: { id: string; text: string }) => skill.text) || [],
+            logo: {
+              // use the image's region and bucket (from aws-exports) as well as the key from the uploaded image
+              region: config.aws_user_files_s3_bucket_region,
+              bucket: config.aws_user_files_s3_bucket,
+              key: uploadedImage.key,
+            },
           },
         },
-      },
-    });
-    await addJob
-    //@ts-ignore  
-    const { data } = addJob
-    await Cookie.set("jobId", data.createJob.id);
-    setDiableSubmit(true)
-    stipeCheckOut()
-  }, [user.username]);
+      });
+      await addJob;
+      //@ts-ignore
+      const { data } = addJob;
+      await Cookie.set("jobId", data.createJob.id);
+      setDiableSubmit(true);
+      stipeCheckOut();
+    },
+    [user.username]
+  );
 
   React.useEffect(() => {
     let resolveUrl = async () => {
@@ -91,15 +105,24 @@ function CreateJob({ user }: CognitoUser | any) {
         return;
       }
       // let formateJob = JSON.parse(cookies.job);
-      await API.graphql({
+      const newJob = await API.graphql({
         query: updateJob,
         variables: {
           input: {
             id: cookies.jobId,
-            title: 'This title change one more time'
-          }
-        }
-      })
+            title: "This title change one more time",
+          },
+        },
+      });
+      newJob;
+      
+      //@ts-ignore
+      const { _, error } = newJob;
+      console.log(error);
+      if (error) {
+        return setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
+      }
+      setSnackBar({ open: true, message: "Job succesfully added", severity: "success" });
     };
     resolveUrl();
     Router.push("/create-job", "/create-job", { shallow: false });
@@ -139,7 +162,7 @@ function CreateJob({ user }: CognitoUser | any) {
     initialValues: blankJob,
     onSubmit: (job) => handleSubmitJob(job),
     validationSchema,
-    isInitialValid: () => validationSchema.isValidSync(blankJob)
+    isInitialValid: () => validationSchema.isValidSync(blankJob),
   });
 
   let typeOfdeveloper = ["Select", "Take away test", "Algorithm puzzle", "Live coding challange"];
@@ -156,165 +179,183 @@ function CreateJob({ user }: CognitoUser | any) {
     "USA - Pacific Standard Time",
     "USA - Hawaii-Aleutian Standard Time",
   ];
-  let role = ["Select", "Front end dev", "Back end dev", "Full stack dev", "Cloud Enginer", "QA", "Mobile dev", "Dev Ops"];
+  let role = [
+    "Select",
+    "Front end dev",
+    "Back end dev",
+    "Full stack dev",
+    "Cloud Enginer",
+    "QA",
+    "Mobile dev",
+    "Dev Ops",
+  ];
   return (
-    <Container maxWidth="md" sx={{pt: 3,pb: 5}}>
-      <h1 className={styles.h1}>Add a job</h1>
-      <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Grid item xs={6}>
-                <Label text="Company name" required />
-                <TextField
-                  id="companyName"
-                  name="companyName"
-                  value={formik.values.companyName}
-                  placeholder="Company Name"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.companyName && Boolean(formik.errors.companyName)}
-                  helperText={formik.touched.companyName && formik.errors.companyName}
-                  variant="outlined"
-                />
+    <>
+      <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
+        <SimpleSnackbar
+          snackbar={snackBar}
+          message={snackBar.message}
+          severity={snackBar.severity}
+          setOpen={() => setSnackBar(snackBar)}
+        />
+        <h1 className={styles.h1}>Add a job</h1>
+        <form onSubmit={formik.handleSubmit} className={styles.form}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Grid item xs={6}>
+                  <Label text="Company name" required />
+                  <TextField
+                    id="companyName"
+                    name="companyName"
+                    value={formik.values.companyName}
+                    placeholder="Company Name"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.companyName && Boolean(formik.errors.companyName)}
+                    helperText={formik.touched.companyName && formik.errors.companyName}
+                    variant="outlined"
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={5}>
-                <Label text="Company logo" required />
-                <div className="input_container">
-                  <input type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} />
-                </div>
-                <span>
-                  {formik.touched.logo && Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
-                </span>
+              <Grid item xs={12}>
+                <Grid item xs={5}>
+                  <Label text="Company logo" required />
+                  <div className="input_container">
+                    <input type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} />
+                  </div>
+                  <span className={styles.logoError}>
+                    {formik.touched.logo && Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
+                  </span>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={6}>
-                <TextField
-                  label="Job title"
-                  id="title"
-                  name="title"
-                  value={formik.values.title}
-                  placeholder="Job title"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.title && Boolean(formik.errors.title)}
-                  helperText={formik.touched.title && formik.errors.title}
-                  variant="outlined"
-                />
+              <Grid item xs={12}>
+                <Grid item xs={6}>
+                  <Label text="Job title" required />
+                  <TextField
+                    id="title"
+                    name="title"
+                    value={formik.values.title}
+                    placeholder="Job title"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.title && Boolean(formik.errors.title)}
+                    helperText={formik.touched.title && formik.errors.title}
+                    variant="outlined"
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={8}>
-                <Label text="Job description" required />
-                <TextField
-                  id="description"
-                  name="description"
-                  value={formik.values.description}
-                  placeholder="Please expalin what is the job about"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.description && Boolean(formik.errors.description)}
-                  helperText={formik.touched.description && formik.errors.description}
-                  variant="outlined"
-                  multiline
-                  minRows={10}
-                />
+              <Grid item xs={12}>
+                <Grid item xs={8}>
+                  <Label text="Job description" required />
+                  <TextField
+                    id="description"
+                    name="description"
+                    value={formik.values.description}
+                    placeholder="Please expalin what is the job about"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.description && Boolean(formik.errors.description)}
+                    helperText={formik.touched.description && formik.errors.description}
+                    variant="outlined"
+                    multiline
+                    minRows={10}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
 
-            <Grid item xs={12}>
-              <Grid item xs={6}>
-                <SimpleSelect
-                  required
-                  defaultValue={formik.values.hiringSteps}
-                  label="Number of hiring steps"
-                  error={formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps}
-                  options={[0, 1, 2, 3, 4]}
-                  onChange={(e) => formik.setFieldValue("hiringSteps", e.target.value)}
-                />
+              <Grid item xs={12}>
+                <Grid item xs={6}>
+                  <SimpleSelect
+                    required
+                    defaultValue={formik.values.hiringSteps}
+                    label="Number of hiring steps"
+                    error={
+                      formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps
+                    }
+                    options={[0, 1, 2, 3, 4]}
+                    onChange={(e) => formik.setFieldValue("hiringSteps", e.target.value)}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid item xs={8}>
+                  <Label text="Hiring steps description" />
+                  <TextField
+                    id="hiringStepDescription"
+                    name="hiringStepDescription"
+                    value={formik.values.hiringStepDescription}
+                    placeholder="Please explain the hiring process step by step"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.hiringStepDescription && Boolean(formik.errors.hiringStepDescription)}
+                    helperText={formik.touched.hiringStepDescription && formik.errors.hiringStepDescription}
+                    variant="outlined"
+                    multiline
+                    minRows={5}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid item xs={10}>
+                  <SimpleSelect
+                    defaultValue="Select"
+                    label="What type of conding challange should the candidate expect?"
+                    extraStyles={{ minWidth: "20%" }}
+                    options={typeOfdeveloper}
+                    onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container item xs={12}>
+                <Grid item xs={3}>
+                  <SimpleSelect
+                    defaultValue="Select"
+                    required
+                    label="Type of work"
+                    extraStyles={{ minWidth: "70%" }}
+                    options={typeOfWork}
+                    error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
+                    onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <SimpleSelect
+                    defaultValue="Select"
+                    required
+                    label="Time zone"
+                    extraStyles={{ minWidth: "70%" }}
+                    options={timeZone}
+                    error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
+                    onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <SimpleSelect
+                    required
+                    defaultValue="Select"
+                    label="Type of role"
+                    extraStyles={{ minWidth: "70%" }}
+                    options={role}
+                    error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
+                    onChange={(e) => formik.setFieldValue("role", e.target.value)}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid item xs={8}>
+                  <Label text="Main skills for the role" />
+                  {/* @ts-ignore} */}
+                  <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
+                </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={8}>
-                <Label text="Hiring steps description" />
-                <TextField
-                  label="Please explain the hiring process step by step"
-                  id="hiringStepDescription"
-                  name="hiringStepDescription"
-                  value={formik.values.hiringStepDescription}
-                  placeholder="Please explain the hiring process step by step"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.hiringStepDescription && Boolean(formik.errors.hiringStepDescription)}
-                  helperText={formik.touched.hiringStepDescription && formik.errors.hiringStepDescription}
-                  variant="outlined"
-                  multiline
-                  minRows={5}
-                />
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={10}>
-                <SimpleSelect
-                  defaultValue="Select"
-                  label="What type of conding challange should the candidate expect?"
-                  extraStyles={{ minWidth: "20%" }}
-                  options={typeOfdeveloper}
-                  onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
-                />
-              </Grid>
-            </Grid>
-            <Grid container item xs={12}>
-              <Grid item xs={3}>
-                <SimpleSelect
-                  defaultValue="Select"
-                  required
-                  label="Type of work"
-                  extraStyles={{ minWidth: "70%" }}
-                  options={typeOfWork}
-                  error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
-                  onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <SimpleSelect
-                  defaultValue="Select"
-                  required
-                  label="Time zone"
-                  extraStyles={{ minWidth: "70%" }}
-                  options={timeZone}
-                  error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
-                  onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <SimpleSelect
-                  required
-                  defaultValue="Select"
-                  label="Type of role"
-                  extraStyles={{ minWidth: "70%" }}
-                  options={role}
-                  error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
-                  onChange={(e) => formik.setFieldValue("role", e.target.value)}
-                />
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={8}>
-                <Label text="Main skills for the role" />
-                {/* @ts-ignore} */}
-                <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
-              </Grid>
-            </Grid>
-          </Grid>
-          <br />
-          <Button disabled={disableSubmit} text="Submit" />
-        </Box>
-      </form>
-    </Container>
+            <br />
+            <Button disabled={disableSubmit} text="Submit" />
+          </Box>
+        </form>
+      </Container>
+    </>
   );
 }
 

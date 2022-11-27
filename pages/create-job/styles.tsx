@@ -8,5 +8,8 @@ export const useStyles = makeStyles(() => ({
   },
   form: {
     paddingTop: 20,
+  },
+  logoError:{
+    paddingTop: 5,
   }
 }));
