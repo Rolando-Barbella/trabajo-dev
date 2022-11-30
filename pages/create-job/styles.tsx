@@ -11,5 +11,11 @@ export const useStyles = makeStyles(() => ({
   },
   logoError:{
     paddingTop: 10,
+  },
+  signUpFooter: {
+    textAlign: 'center', 
+    color: '#3a3a3a', 
+    fontSize: 14, 
+    paddingBottom: 5
   }
 }));

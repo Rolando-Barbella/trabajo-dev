@@ -138,7 +138,7 @@ input[type=file]::file-selector-button:hover {
 }
 
 .amplify-tabs-item:active {
-    color:  #3a3a3a !important;
+  color:  #3a3a3a !important;
 }
 
 .amplify-tabs-item {

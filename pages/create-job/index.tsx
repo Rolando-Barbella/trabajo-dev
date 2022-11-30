@@ -368,6 +368,16 @@ function parseCookies(req: any) {
 //@ts-ignorets
 export default withAuthenticator(CreateJob, {
   components: {
+    SignUp: {
+      Footer() {
+        const styles = useStyles();
+        return (
+          <div className={styles.signUpFooter}>
+            <p>We do share any of your data</p>
+          </div>
+        )
+      }
+    }
   },
   formFields: {
     signIn: {

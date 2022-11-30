@@ -35,11 +35,13 @@ const Home: NextPage = ({ companies }) => {
     getUser();
   }, []);
 
-  let signOut = (e: any) => {
+  let signOut = async (e: any) => {
     e.preventDefault();
-    Auth.signOut();
+    await Auth.signOut();
+    Router.push("/", "/", { shallow: false });
     Router.reload();
   };
+  console.log(currentUser)
   return (
     <div className={styles.container}>
       <div>
