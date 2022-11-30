@@ -20,9 +20,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 export default function SimpleSnackbar({ setOpen, snackbar, message, severity }: SimpleSnackbarProps) {
-  console.log(snackbar)
+  // console.log(snackbar)
   const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    setOpen({...snackbar, open: !snackbar.open});
+    console.log(snackbar)
+    setOpen({...snackbar, open: false});
   };
   return (
     <>

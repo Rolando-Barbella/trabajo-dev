@@ -29,6 +29,7 @@ type Job @model {
   typeOfWork: String!
   timeZone: String!
   role: String!
+  hasbeenPaid: Boolean!
   skills: [String]
 }
 

@@ -10,6 +10,6 @@ export const useStyles = makeStyles(() => ({
     paddingTop: 20,
   },
   logoError:{
-    paddingTop: 5,
+    paddingTop: 10,
   }
 }));

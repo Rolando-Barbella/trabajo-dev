@@ -1,4 +1,4 @@
-import { withAuthenticator } from "@aws-amplify/ui-react";
+import { useTheme, withAuthenticator } from "@aws-amplify/ui-react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
+
 
 import { AlertColor } from "@mui/material";
 import { checkout } from "../../checkout";
@@ -51,7 +52,7 @@ function CreateJob({ user }: CognitoUser | any) {
   const [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
     message: "",
-    severity: "info" || undefined,
+    severity: "info",
   });
   const styles = useStyles();
 
@@ -76,6 +77,7 @@ function CreateJob({ user }: CognitoUser | any) {
         variables: {
           input: {
             ...job,
+            hasbeenPaid: false,
             userId: user.username,
             skills: job.skills?.map((skill: { id: string; text: string }) => skill.text) || [],
             logo: {
@@ -110,12 +112,12 @@ function CreateJob({ user }: CognitoUser | any) {
         variables: {
           input: {
             id: cookies.jobId,
-            title: "This title change one more time",
+            hasbeenPaid: true,
           },
         },
       });
       newJob;
-      
+
       //@ts-ignore
       const { _, error } = newJob;
       console.log(error);
@@ -162,7 +164,7 @@ function CreateJob({ user }: CognitoUser | any) {
     initialValues: blankJob,
     onSubmit: (job) => handleSubmitJob(job),
     validationSchema,
-    isInitialValid: () => validationSchema.isValidSync(blankJob),
+    validateOnMount: validationSchema.isValidSync(blankJob),
   });
 
   let typeOfdeveloper = ["Select", "Take away test", "Algorithm puzzle", "Live coding challange"];
@@ -196,7 +198,7 @@ function CreateJob({ user }: CognitoUser | any) {
           snackbar={snackBar}
           message={snackBar.message}
           severity={snackBar.severity}
-          setOpen={() => setSnackBar(snackBar)}
+          setOpen={setSnackBar}
         />
         <h1 className={styles.h1}>Add a job</h1>
         <form onSubmit={formik.handleSubmit} className={styles.form}>
@@ -364,4 +366,14 @@ function parseCookies(req: any) {
 }
 
 //@ts-ignorets
-export default withAuthenticator(CreateJob);
+export default withAuthenticator(CreateJob, {
+  components: {
+  },
+  formFields: {
+    signIn: {
+      username: {
+        placeholder: 'Enter your email',
+      },
+    },
+  }
+});

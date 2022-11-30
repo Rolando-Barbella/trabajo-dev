@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "@aws-amplify/ui-react/styles.css";
 
 html,
 body {
@@ -111,4 +112,77 @@ input[type=file]::file-selector-button:hover {
   border: 0px;
   border-right: 1px solid #e5e5e5;
   cursor: pointer;
+}
+.amplify-button--primary {
+  background-color: #ff461f !important;
+  height: 60;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.amplify-button--primary:hover {
+  background-color: #ff6a4b !important;
+  color: white !important;
+}
+
+.amplify-button--primary:active {
+  color: white !important;
+}
+
+.amplify-button--link {
+  color: hsl(220, 50%, 50%) !important;
+}
+
+.amplify-button--link:hover {
+  background: none !important;
+  color: var(--amplify-colors-blue-80) !important;
+}
+
+.amplify-tabs-item:active {
+    color:  #3a3a3a !important;
+}
+
+.amplify-tabs-item {
+  color: #212121 !important;
+  font-weight: normal;
+}
+
+.amplify-input:focus {
+  border-color: var(--amplify-colors-blue-60);
+  box-shadow: none;
+}
+.amplify-input {
+  border-radius: 2px;
+}
+:root {
+  --amplify-colors-brand-primary-10: #e5e7eb;
+  --amplify-colors-brand-primary-20: #e5e7eb;
+  --amplify-colors-brand-primary-40: #e5e7eb;
+  --amplify-colors-brand-primary-60: #e5e7eb;
+  --amplify-colors-brand-primary-80: var(--amplify-colors-transparent);
+  --amplify-components-tabs-item-active-color: salmon
+  --amplify-colors-brand-secondary-10: var(--amplify-colors-neutral-10);
+  --amplify-colors-brand-secondary-20: var(--amplify-colors-neutral-20);
+  --amplify-colors-brand-secondary-40: var(--amplify-colors-neutral-40);
+  --amplify-colors-brand-secondary-60: var(--amplify-colors-neutral-60);
+  --amplify-colors-brand-secondary-80: var(--amplify-colors-neutral-80);
+  --amplify-colors-brand-secondary-90: var(--amplify-colors-neutral-90);
+  --amplify-colors-brand-secondary-100: var(--amplify-colors-neutral-100);
+  --amplify-colors-radii-small: 0;
+  --amplify-colors-radii-medium: 0px;
+  --amplify-colors-radii-large: 0px;
+  --amplify-colors-border-primary: var(--amplify-colors-neutral-40);
+  --amplify-colors-border-secondary: var(--amplify-colors-neutral-20);
+  --amplify-colors-border-tertiary: var(--amplify-colors-neutral-10);
+  --amplify-colors-background-secondary: var(--amplify-colors-brand-primary-10);
+  --amplify-components-tabs-item-border-color: var(--amplify-colors-neutral-60);
+
+  --amplify-radii-small: 0;
+  --amplify-radii-medium: 0;
+  --amplify-radii-large: 0;
+  --amplify-space-small: 1rem;
+  --amplify-space-medium: 1.5rem;
+  --amplify-space-large: 2rem;
+  --amplify-border-widths-small: 1px;
+  --amplify-border-widths-medium: 2px;
+  --amplify-border-widths-large: 8px;
 }

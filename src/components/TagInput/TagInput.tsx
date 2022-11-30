@@ -7,7 +7,7 @@ const SKILLS = [
   "React Native",
   "Angular Js",
   "Python",
-  "Php",
+  "PHP",
   "Laravel",
   "UI/UX",
   ".NET",
