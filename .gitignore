@@ -57,3 +57,4 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
+amplify/mock-api-resources

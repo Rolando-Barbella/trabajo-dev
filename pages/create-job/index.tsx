@@ -1,4 +1,4 @@
-import { useTheme, withAuthenticator } from "@aws-amplify/ui-react";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";

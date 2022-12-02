@@ -41,3 +41,14 @@ To pull the dev env run `amplify pull --appId d16cn86zrbe5cq --envName dev`
 
 - Repo [here](https://github.com/react-tags/react-tags#autofocus)
 - CSS example [link](https://github.com/react-tags/react-tags/blob/master/example/main.js)
+
+## Trouble shooting
+
+Errors related to amplify mock, could possoble be solve by deleting all mock files, then runnning `amplify mock` again
+
+## Amplify UI library
+
+Main [page](https://ui.docs.amplify.aws/react/getting-started/installation)
+Login form [here](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization)
+
+
