@@ -46,6 +46,8 @@ To pull the dev env run `amplify pull --appId d16cn86zrbe5cq --envName dev`
 
 Errors related to amplify mock, could possoble be solve by deleting all mock files, then runnning `amplify mock` again
 
+If the backend still pointing at the fake enviroment, running `amplify pull` could help solve the problem
+
 ## Amplify UI library
 
 Main [page](https://ui.docs.amplify.aws/react/getting-started/installation)

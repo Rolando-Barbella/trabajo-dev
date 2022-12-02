@@ -10,8 +10,7 @@
   "storage": {
     "trabajoProjct": {
       "service": "S3",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
+      "providerPlugin": "awscloudformation"
     }
   },
   "api": {
