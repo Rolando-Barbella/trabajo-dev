@@ -66,7 +66,6 @@ export const getJob = /* GraphQL */ `
       typeOfWork
       timeZone
       role
-      hasbeenPaid
       skills
       createdAt
       updatedAt
@@ -98,7 +97,6 @@ export const listJobs = /* GraphQL */ `
         typeOfWork
         timeZone
         role
-        hasbeenPaid
         skills
         createdAt
         updatedAt
