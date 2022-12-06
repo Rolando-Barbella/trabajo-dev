@@ -190,7 +190,6 @@ function CreateJob({ user }: CognitoUser | any) {
     "Mobile dev",
     "Dev Ops",
   ];
-  console.log(formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork)
   return (
     <>
       <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
