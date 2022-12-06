@@ -1,112 +1,32 @@
-import { Theme } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import React from 'react';
-import { useStyles } from './styles';
-
-const BootstrapSelect = withStyles((theme) => ({
-  select: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-
-    '&:hover': {
-      background: theme.palette.grey[50],
-    },
-  },
-  icon: {
-    color: '#B8B8B8',
-    marginRight: theme.spacing(3),
-  },
-}))(Select);
-
-interface SelectProps {
-  optionId?: number;
-  setOption: (option: number) => void;
+type SelectProps = {
+  value?: string | number | undefined;
+  defaultValue?: string | number | undefined;
   options: Array<any>;
-  inputLabel?: string;
-  loading?: boolean;
-
-  /**
-   * Determines whether the label is displayed inline with the
-   * select options. If false, label is displayed above the select.
-   * We have a slight variation in the select elements defined in the
-   * mockups, so this helps to cater for both variants.
-   */
-  inlineLabel?: boolean;
-
-  /**
-   * Allows you to set styles on the BaseInput, which takes precedent
-   * over any internal styles. This is useful where you want to set
-   * specific width for the select based on screen size or content.
-   */
-  inputClass?: string;
-  placeholder?: string;
-  disableSelect?: boolean;
-}
-
-const usePlaceholderStyles = makeStyles<Theme, { disabled: boolean }>((theme) => ({
-  placeholder: {
-    color: ({ disabled }) => (disabled ? theme.palette.text.disabled : theme.palette.text.primary),
-  },
-}));
-
-const Placeholder = ({ children, disabled }: { children: string; disabled: boolean }) => {
-  const classes = usePlaceholderStyles({ disabled });
-  return <div className={classes.placeholder}>{children}</div>;
+  onChange: (e: { target: { value: string } }) => void;
+  extraStyles?: Record<string, unknown>;
+  required?: boolean;
+  error?: string | boolean | undefined;
 };
 
-export default function CustomizedSelects({
-  options,
-  inputLabel = '',
-  // Prevents mui error that says this component
-  // is chainging from uncontrolled to controlled
-  optionId = -1,
-  setOption,
-  inlineLabel = false,
-  inputClass = '',
-  placeholder = '',
-  disableSelect = false,
-}: SelectProps): JSX.Element {
+export default function Select({ options, onChange, error }: SelectProps): JSX.Element {
   const disabled = !options.length;
-  const classes = useStyles({ disabled });
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setOption(event.target.value as number);
-  };
   return (
-    <FormControl className={classes.container}>
-      <BootstrapSelect
-        disabled={disableSelect || disabled}
-        value={optionId}
-        onChange={handleChange}
-        MenuProps={{
-          style: {
-            maxHeight: 300,
-          },
-        }}
-        renderValue={() => <Placeholder disabled={disabled}>{placeholder}</Placeholder>}
-        input={
-          <InputBase
-            classes={{
-              formControl: classes.inputBaseFormControl,
-              input: `${inputClass ?? inputClass} ${classes.inputBaseInput} `,
-            }}
-          />
-        }
+    <>
+      <select
+        id="countries"
+        disabled={disabled}
+        onChange={onChange}
+        style={{ border: `1px solid ${error ? 'red': '#e5e7eb'}`}}
+        className={`bg-gray-50 transition ease-in-out border border-gray-300  text-gray-900 text-sm rounded-sm  focus:ring-blue-500   focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-350 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500`}
       >
-        {options.map(({ value, label }) => (
-          <MenuItem
-            key={value}
-            value={value}
-            classes={{ root: classes.menuItemRoot, selected: classes.muiItemSelected }}
-          >
-            {inlineLabel && `${inputLabel}:`} {label}
-          </MenuItem>
-        ))}
-      </BootstrapSelect>
-    </FormControl>
+        {options.map((option, i) => {
+          return (
+            <option key={option}>
+              {option}
+            </option>
+          );
+        })}
+      </select>
+    </>
   );
 }

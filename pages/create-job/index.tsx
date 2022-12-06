@@ -17,12 +17,11 @@ import { AlertColor } from "@mui/material";
 import { checkout } from "../../checkout";
 import config from "../../src/aws-exports";
 import Label from "../../src/components/Label/Label";
-import SimpleSelect from "../../src/components/SimpleSelect/SimpleSelect";
+import Select from "../../src/components/Select/Select";
 import SimpleSnackbar from "../../src/components/SimpleSnackBar/SimpleSnackBar";
 import TagInput from "../../src/components/TagInput/TagInput";
 import TextField from "../../src/components/TextField";
 import { createJob, updateJob } from "../../src/graphql/mutations";
-import { useStyles } from "./styles";
 
 let blankJob = {
   companyName: "",
@@ -54,7 +53,6 @@ function CreateJob({ user }: CognitoUser | any) {
     message: "",
     severity: "info",
   });
-  const styles = useStyles();
 
   let stipeCheckOut = () => {
     checkout({
@@ -157,6 +155,7 @@ function CreateJob({ user }: CognitoUser | any) {
     typeOfCodingChallenge: yup.string(),
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
+    role: yup.string().required("Please add type of role"),
     skills: yup.array(),
   });
 
@@ -167,7 +166,7 @@ function CreateJob({ user }: CognitoUser | any) {
     validateOnMount: validationSchema.isValidSync(blankJob),
   });
 
-  let typeOfdeveloper = ["Select", "Take away test", "Algorithm puzzle", "Live coding challange"];
+  let typeOfCodingChallenge = ["Select", "Take away test", "Algorithm puzzle", "Live coding challange"];
   let typeOfWork = ["Select", "Remote", "Hybrid", "Office base"];
   let timeZone = [
     "Select",
@@ -191,6 +190,7 @@ function CreateJob({ user }: CognitoUser | any) {
     "Mobile dev",
     "Dev Ops",
   ];
+  console.log(formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork)
   return (
     <>
       <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
@@ -200,8 +200,8 @@ function CreateJob({ user }: CognitoUser | any) {
           severity={snackBar.severity}
           setOpen={setSnackBar}
         />
-        <h1 className={styles.h1}>Add a job</h1>
-        <form onSubmit={formik.handleSubmit} className={styles.form}>
+        <h1 className="font-medium text-4xl">Add a job</h1>
+        <form onSubmit={formik.handleSubmit} className="pt-6">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -226,7 +226,7 @@ function CreateJob({ user }: CognitoUser | any) {
                   <div className="input_container">
                     <input type="file" id="logo" onChange={(e) => formik.setFieldValue("logo", e.target)} />
                   </div>
-                  <span className={styles.logoError}>
+                  <span className="pt-6">
                     {formik.touched.logo && Boolean(formik.errors.logo) && <p>{formik.errors.logo?.toString()}</p>}
                   </span>
                 </Grid>
@@ -267,16 +267,12 @@ function CreateJob({ user }: CognitoUser | any) {
               </Grid>
 
               <Grid item xs={12}>
-                <Grid item xs={6}>
-                  <SimpleSelect
-                    required
-                    defaultValue={formik.values.hiringSteps}
-                    label="Number of hiring steps"
-                    error={
-                      formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps
-                    }
+                <Label text="Number of hiring steps" required />
+                <Grid item xs={0.8}>
+                  <Select 
                     options={[0, 1, 2, 3, 4]}
                     onChange={(e) => formik.setFieldValue("hiringSteps", e.target.value)}
+                    error={formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps}
                   />
                 </Grid>
               </Grid>
@@ -299,48 +295,37 @@ function CreateJob({ user }: CognitoUser | any) {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <Grid item xs={10}>
-                  <SimpleSelect
-                    defaultValue="Select"
-                    label="What type of conding challange should the candidate expect?"
-                    extraStyles={{ minWidth: "20%" }}
-                    options={typeOfdeveloper}
-                    onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
+                <Label text="What type of conding challange should the candidate expect?" />
+                <Grid item xs={2.5}>
+                  <Select 
+                    options={typeOfCodingChallenge} 
+                    onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)} 
                   />
                 </Grid>
               </Grid>
-              <Grid container item xs={12}>
+              <Grid container item xs={12} spacing={3}>
                 <Grid item xs={3}>
-                  <SimpleSelect
-                    defaultValue="Select"
-                    required
-                    label="Type of work"
-                    extraStyles={{ minWidth: "70%" }}
+                  <Label text="Type of work" required />
+                  <Select 
                     options={typeOfWork}
-                    error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
                     onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <SimpleSelect
-                    defaultValue="Select"
-                    required
-                    label="Time zone"
-                    extraStyles={{ minWidth: "70%" }}
-                    options={timeZone}
-                    error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
-                    onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={3}>
-                  <SimpleSelect
-                    required
-                    defaultValue="Select"
-                    label="Type of role"
-                    extraStyles={{ minWidth: "70%" }}
-                    options={role}
                     error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Label text="Time zone" required />
+                  <Select 
+                    options={timeZone}
+                    onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
+                    error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Label text="Type of role" required />
+                  <Select 
+                    options={role}
                     onChange={(e) => formik.setFieldValue("role", e.target.value)}
+                    error={formik.errors.role && formik.errors.role.length > 0 && formik.touched.role}
                   />
                 </Grid>
               </Grid>
@@ -370,10 +355,9 @@ export default withAuthenticator(CreateJob, {
   components: {
     SignUp: {
       Footer() {
-        const styles = useStyles();
         return (
-          <div className={styles.signUpFooter}>
-            <p>We do share any of your data</p>
+          <div className="pb-3 font-normal leading-normal mt-0 mb-4 text-gray-600 text-center">
+            <p>*We do not share any of your data</p>
           </div>
         )
       }

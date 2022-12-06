@@ -1,6 +1,6 @@
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
-
+import Button from "@mui/material/Button";
+import styles from './CustomButton.module.css'
+import './CustomButton.module.css'
 
 type CustomButtonProps = {
   disabled?: boolean;
@@ -8,23 +8,9 @@ type CustomButtonProps = {
   type?: "button" | "reset" | "submit" | undefined,
 }
 
-const useStyles = makeStyles(() => ({
-  container: {
-    background: "#ff461f",
-    width: 100,
-    height: 50,
-    color: '#fff',
-   '&:hover': {
-     background: "#ff6a4b",
-    }
-  },
-}))
-
 export function CustomButton({disabled, text, type = "submit"}: CustomButtonProps) {
-  const styles = useStyles();
-
   return (
-    <Button disabled={disabled} type={type} className={styles.container}>
+    <Button disabled={disabled} type={type} className={styles.container} classes={{root: 'green'}}>
       {text}
     </Button>
   );

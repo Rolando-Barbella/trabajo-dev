@@ -1,7 +1,7 @@
 import React from 'react';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import BaseTextField, { TextFieldProps } from '@material-ui/core/TextField';
-import TypographyBase, { TypographyProps as PropsBase } from '@material-ui/core/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
+import BaseTextField, { TextFieldProps } from '@mui/material/TextField';
+import TypographyBase from '@mui/material/Typography';
 import Warning from '@mui/icons-material/Warning';
 
 export interface ZellarTextFieldProps {

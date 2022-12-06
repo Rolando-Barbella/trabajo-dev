@@ -1,4 +1,4 @@
-import { InputLabel } from "@material-ui/core";
+import InputLabel from "@mui/material/InputLabel";
 
 function Label({text, required} : {text: string, required?: boolean}) {
   return (

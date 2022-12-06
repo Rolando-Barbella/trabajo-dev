@@ -1,4 +1,3 @@
-import { snackbarClasses } from '@mui/material';
 import MuiAlert, { AlertColor, AlertProps } from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import * as React from 'react';

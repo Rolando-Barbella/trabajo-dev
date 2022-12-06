@@ -113,6 +113,9 @@ input[type=file]::file-selector-button:hover {
   border-right: 1px solid #e5e5e5;
   cursor: pointer;
 }
+
+/* Amplify log-in form */
+
 .amplify-button--primary {
   background-color: #ff461f !important;
   height: 60;
