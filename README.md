@@ -56,4 +56,9 @@ Everytime you update the schema, changes should be push to services by runing `a
 
 Fake card `4242 4242 4242 4242`
 
+## Creating ENV
+
+To a new tesing env, follow [this](https://docs.amplify.aws/cli/teams/overview/) and [this](https://docs.amplify.aws/cli/migration/override/)
+
+
 
