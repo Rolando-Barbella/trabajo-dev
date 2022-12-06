@@ -53,4 +53,8 @@ If the backend still pointing at the fake enviroment, running `amplify pull` cou
 Main [page](https://ui.docs.amplify.aws/react/getting-started/installation)
 Login form [here](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization)
 
+## Schema
+
+Everytime you update the schema, changes should be push to services by running `amplify push`
+
 

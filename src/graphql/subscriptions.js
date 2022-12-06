@@ -78,6 +78,7 @@ export const onCreateJob = /* GraphQL */ `
       typeOfWork
       timeZone
       role
+      hasbeenPaid
       skills
       createdAt
       updatedAt
@@ -104,6 +105,7 @@ export const onUpdateJob = /* GraphQL */ `
       typeOfWork
       timeZone
       role
+      hasbeenPaid
       skills
       createdAt
       updatedAt
@@ -130,6 +132,7 @@ export const onDeleteJob = /* GraphQL */ `
       typeOfWork
       timeZone
       role
+      hasbeenPaid
       skills
       createdAt
       updatedAt
