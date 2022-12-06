@@ -41,30 +41,32 @@ const Home: NextPage = ({ companies }) => {
     Router.push("/", "/", { shallow: false });
     Router.reload();
   };
-  console.log(currentUser)
   return (
     <div className={styles.container}>
       <div>
         <Head>
-          <title>Companies hiring</title>
+          <title>Software development jobs for junior</title>
         </Head>
         <div className="container">
-          {
-            Boolean(currentUser) && (
-              <>
-                <Link href="/profile">Profile</Link>
-                <Link href="/profile" onClick={signOut}>Sig Out</Link>
-              </>
-            )
-          }
+          {Boolean(currentUser) && (
+            <>
+              <Link href="/profile">Profile</Link>
+              <Link href="/profile" onClick={signOut}>
+                Sig Out
+              </Link>
+            </>
+          )}
           <h1>
-            {
-              process.env.NODE_ENV === 'development' ? (
-                <>
-                  National Companies <Link href="/create-job">(+)</Link>
-                </>
-              ) : ( <>Junior dev Jobs</>)
-            }
+            {process.env.NODE_ENV === "development" ? (
+              <>
+                National Companies <Link href="/create-job">(+)</Link>
+              </>
+            ) : (
+              <div>
+                <h1 className="font-medium text-4xl">Dev jobs just for junior</h1>
+                <p>Site in progress, stay tuned</p>
+              </div>
+            )}
           </h1>
           <div className="img-grid">
             {/* @ts-ignorets */}
