@@ -68,4 +68,3 @@ To add a new tesing env, follow [this](https://docs.amplify.aws/cli/teams/overvi
 To test the app with mock data, refer to [this](https://docs.amplify.aws/cli/usage/mock/#api-mocking-setup)
 
 
-
