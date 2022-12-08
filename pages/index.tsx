@@ -63,8 +63,10 @@ const Home: NextPage = ({ companies }) => {
               </>
             ) : (
               <div>
-                <h1 className="font-medium text-4xl p-10">Dev jobs just for juniors</h1>
+                <h1 className="font-medium text-4xl pt-10 pb-5">Dev jobs just for juniors</h1>
                 <p>Site in progress, stay tuned</p>
+                <p className="pb-3 to-blue-400">If you would like to know more about what is coming, please drop up us a message</p>
+                <span className=" to-blue-400 text-blue-500">juniordevelopersjobs@gmail.com</span>
               </div>
             )}
           </h1>
