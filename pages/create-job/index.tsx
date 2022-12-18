@@ -12,7 +12,6 @@ import React from "react";
 import * as yup from "yup";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
 
-
 import { AlertColor } from "@mui/material";
 import { checkout } from "../../checkout";
 import config from "../../src/aws-exports";
@@ -268,10 +267,12 @@ function CreateJob({ user }: CognitoUser | any) {
               <Grid item xs={12}>
                 <Label text="Number of hiring steps" required />
                 <Grid item xs={0.8}>
-                  <Select 
+                  <Select
                     options={[0, 1, 2, 3, 4]}
                     onChange={(e) => formik.setFieldValue("hiringSteps", e.target.value)}
-                    error={formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps}
+                    error={
+                      formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps
+                    }
                   />
                 </Grid>
               </Grid>
@@ -293,19 +294,17 @@ function CreateJob({ user }: CognitoUser | any) {
                   />
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Label text="What type of conding challange should the candidate expect?" />
-                <Grid item xs={2.5}>
-                  <Select 
-                    options={typeOfCodingChallenge} 
-                    onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)} 
+              <Grid container item xs={12} spacing={3}>
+                <Grid item xs={12}>
+                  <Label text="What type of conding challange should the candidate expect?" />
+                  <Select
+                    options={typeOfCodingChallenge}
+                    onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
                   />
                 </Grid>
-              </Grid>
-              <Grid container item xs={12} spacing={3}>
                 <Grid item xs={3}>
                   <Label text="Type of work" required />
-                  <Select 
+                  <Select
                     options={typeOfWork}
                     onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
                     error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
@@ -313,7 +312,7 @@ function CreateJob({ user }: CognitoUser | any) {
                 </Grid>
                 <Grid item xs={3}>
                   <Label text="Time zone" required />
-                  <Select 
+                  <Select
                     options={timeZone}
                     onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
                     error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
@@ -321,7 +320,7 @@ function CreateJob({ user }: CognitoUser | any) {
                 </Grid>
                 <Grid item xs={3}>
                   <Label text="Type of role" required />
-                  <Select 
+                  <Select
                     options={role}
                     onChange={(e) => formik.setFieldValue("role", e.target.value)}
                     error={formik.errors.role && formik.errors.role.length > 0 && formik.touched.role}
@@ -358,15 +357,15 @@ export default withAuthenticator(CreateJob, {
           <div className="pb-3 font-normal leading-normal mt-0 mb-4 text-gray-600 text-center">
             <p>*We do not share any of your data</p>
           </div>
-        )
-      }
-    }
+        );
+      },
+    },
   },
   formFields: {
     signIn: {
       username: {
-        placeholder: 'Enter your email',
+        placeholder: "Enter your email",
       },
     },
-  }
+  },
 });
