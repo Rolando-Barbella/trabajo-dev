@@ -66,7 +66,7 @@ function CreateJob({ user }: CognitoUser | any) {
 
   let handleSubmitJob = React.useCallback(
     async (job: Record<string, any>) => {
-      // upload the image to S3
+      // upload the image to 3
       let uploadedImage = await Storage.put(job.logo.value, { name: job.logo.value });
       // submit the GraphQL query
       const addJob = await API.graphql({
@@ -75,6 +75,7 @@ function CreateJob({ user }: CognitoUser | any) {
           input: {
             ...job,
             hasbeenPaid: false,
+            // hiringSteps: job.hiringSteps,
             userId: user.username,
             skills: job.skills?.map((skill: { id: string; text: string }) => skill.text) || [],
             logo: {
@@ -88,7 +89,11 @@ function CreateJob({ user }: CognitoUser | any) {
       });
       await addJob;
       //@ts-ignore
-      const { data } = addJob;
+      const { data, error } = addJob;
+      if (error) {
+        console.error(error)
+        return;
+      }
       await Cookie.set("jobId", data.createJob.id);
       setDiableSubmit(true);
       stipeCheckOut();
@@ -269,7 +274,7 @@ function CreateJob({ user }: CognitoUser | any) {
                 <Grid item xs={0.8}>
                   <Select
                     options={[0, 1, 2, 3, 4]}
-                    onChange={(e) => formik.setFieldValue("hiringSteps", e.target.value)}
+                    onChange={(e) => formik.setFieldValue("hiringSteps", Number(e.target.value))}
                     error={
                       formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps
                     }
