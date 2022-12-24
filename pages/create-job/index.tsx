@@ -67,7 +67,7 @@ function CreateJob({ user }: CognitoUser | any) {
   let handleSubmitJob = React.useCallback(
     async (job: Record<string, any>) => {
       // upload the image to 3
-      let uploadedImage = await Storage.put(job.logo.value, { name: job.logo.value });
+      let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0].name);
       // submit the GraphQL query
       const addJob = await API.graphql({
         query: createJob,

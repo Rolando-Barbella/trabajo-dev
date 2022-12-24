@@ -9,7 +9,7 @@ import { Job } from "../../API";
 
 export default function JobCard({ logo, title }: Job) {
   return (
-    <Grid item xs={6}>
+    <Grid item xs={4}>
       <Card sx={{ display: "flex" }}>
         <CardMedia
           component="img"

@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { Storage } from "aws-amplify";
 import { AmplifyS3Image } from "@aws-amplify/ui-react/legacy";
 import { withSSRContext } from "aws-amplify";
 import { Auth } from "aws-amplify";
@@ -82,10 +83,9 @@ const Home: NextPage = ({ jobs }) => {
         <div className="img-grid">
           {/* @ts-ignorets */}
           {jobs?.map((job) => {
-            console.log(job)
             return (
               <div className="pt-7" key={job.id}>
-                <JobCard title={job.title} logo={job.logo}/>
+                <JobCard title={job.title} logo={job.logo} />
               </div>
             );
           })}
