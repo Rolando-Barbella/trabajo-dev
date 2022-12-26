@@ -1,15 +1,14 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { Storage } from "aws-amplify";
-import { AmplifyS3Image } from "@aws-amplify/ui-react/legacy";
+import Grid from "@mui/material/Grid";
 import { withSSRContext } from "aws-amplify";
 import { Auth } from "aws-amplify";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { listJobs } from "../src/graphql/queries";
-import styles from "../styles/Home.module.css";
 import JobCard from "../src/components/JobCard/JobCard";
+import { Job } from "../src/API";
 
 export async function getServerSideProps() {
   const SSR = withSSRContext();
@@ -81,12 +80,15 @@ const Home: NextPage = ({ jobs }) => {
           )}
         </h1>
         <div className="img-grid">
-          {/* @ts-ignorets */}
-          {jobs?.map((job) => {
+          {
+            !jobs?.map.length && <>No jobs</>
+          }
+          {jobs?.map((job: Job) => {
             return (
-              <div className="pt-7" key={job.id}>
-                <JobCard title={job.title} logo={job.logo} />
-              </div>
+              <Grid item xs={4} key={job.id} className="pt-7">
+                {/* @ts-ignore */}
+                <JobCard title={job.title} logo={job.logo} description={job.description} />
+              </Grid>
             );
           })}
         </div>

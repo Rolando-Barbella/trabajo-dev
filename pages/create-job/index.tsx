@@ -154,6 +154,7 @@ function CreateJob({ user }: CognitoUser | any) {
         },
       }),
     description: yup.string().required("Job title is required").min(100, "minimun 100 characters"),
+    salary: yup.string().required(),
     hiringSteps: yup.number().moreThan(0).required("Please add the number of phases the recruiment process takes"),
     hiringStepDescription: yup.string(),
     typeOfCodingChallenge: yup.string(),
@@ -194,6 +195,11 @@ function CreateJob({ user }: CognitoUser | any) {
     "Mobile dev",
     "Dev Ops",
   ];
+  let salary = [
+    "0 - 25K",
+    "25K - 40K",
+    "40K+"
+  ]
   return (
     <>
       <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
@@ -265,6 +271,19 @@ function CreateJob({ user }: CognitoUser | any) {
                     variant="outlined"
                     multiline
                     minRows={10}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Label text="Salary" required />
+                <Grid item xs={1.5}>
+                  <Select
+                    options={salary}
+                    onChange={(e) => formik.setFieldValue("salary", e.target.value)}
+                    error={
+                      formik.errors.salary && formik.errors.salary.length > 0 && formik.touched.salary
+                    }
                   />
                 </Grid>
               </Grid>
