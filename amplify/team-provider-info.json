@@ -9,8 +9,7 @@
       "UnauthRoleName": "amplify-trabajodev-dev-161317-unauthRole",
       "StackName": "amplify-trabajodev-dev-161317",
       "StackId": "arn:aws:cloudformation:us-east-1:644102631162:stack/amplify-trabajodev-dev-161317/19baa4e0-35d2-11ed-a5c6-122de11786bd",
-      "AmplifyAppId": "d16cn86zrbe5cq",
-      "AuthTriggerTemplateURL": ""
+      "AmplifyAppId": "d16cn86zrbe5cq"
     },
     "categories": {
       "auth": {
@@ -18,9 +17,6 @@
       },
       "storage": {
         "trabajoProjct": {}
-      },
-      "api": {
-        "trabajodev": {}
       }
     }
   }
