@@ -1,0 +1,14 @@
+{
+  "resourceName": "trabajoProjct",
+  "bucketName": "trabajodev496168c779bf42f3a73fd0dc20bdd153",
+  "policyUUID": "c2139015",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}
