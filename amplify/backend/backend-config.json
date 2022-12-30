@@ -7,13 +7,7 @@
       "customAuth": false
     }
   },
-  "storage": {
-    "trabajoProjct": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": []
-    }
-  },
+  "storage": {},
   "api": {
     "trabajodev": {
       "service": "AppSync",
