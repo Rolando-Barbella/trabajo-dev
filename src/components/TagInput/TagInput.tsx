@@ -3,6 +3,8 @@ import { WithContext as ReactTags } from "react-tag-input";
 import React from "react";
 
 const SKILLS = [
+  "AWS",
+  "AWS amplify",
   "React Js",
   "React Native",
   "Angular Js",
@@ -16,6 +18,7 @@ const SKILLS = [
   "Solidity",
   "Javscript",
   "J-Query",
+  "Google cloud",
   "Ruby",
   "ROR",
   "Ruby on rails",

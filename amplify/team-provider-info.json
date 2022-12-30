@@ -17,6 +17,9 @@
       },
       "storage": {
         "trabajoProjct": {}
+      },
+      "api": {
+        "trabajodev": {}
       }
     }
   }

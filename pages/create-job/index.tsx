@@ -196,6 +196,7 @@ function CreateJob({ user }: CognitoUser | any) {
     "Dev Ops",
   ];
   let salary = [
+    "Select",
     "0 - 25K",
     "25K - 40K",
     "40K+"

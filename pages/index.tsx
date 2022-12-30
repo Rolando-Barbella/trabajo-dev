@@ -81,13 +81,12 @@ const Home: NextPage = ({ jobs }) => {
         </h1>
         <div className="img-grid">
           {
-            !jobs?.map.length && <>No jobs</>
+            !jobs?.length && <>No jobs</>
           }
           {jobs?.map((job: Job) => {
             return (
               <Grid item xs={4} key={job.id} className="pt-7">
-                {/* @ts-ignore */}
-                <JobCard title={job.title} logo={job.logo} description={job.description} />
+                <JobCard title={job.title} logo={job.logo} description={job.description} skills={job.skills} salary={job.salary} />
               </Grid>
             );
           })}
