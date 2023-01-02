@@ -68,7 +68,6 @@ function CreateJob({ user }: CognitoUser | any) {
     async (job: Record<string, any>) => {
       // upload the image to 3
       let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]);
-      debugger
       // submit the GraphQL query
       const addJob = await API.graphql({
         query: createJob,
@@ -176,15 +175,16 @@ function CreateJob({ user }: CognitoUser | any) {
   let typeOfWork = ["Select", "Remote", "Hybrid", "Office base"];
   let timeZone = [
     "Select",
+    "Anywhere",
     "Europe",
     "LATAM",
     "UK",
     "South Asia",
     "East Asia",
     "Africa",
-    "USA - Central Standard Time",
-    "USA - Pacific Standard Time",
-    "USA - Hawaii-Aleutian Standard Time",
+    "USA - Central",
+    "USA - Pacific",
+    "USA - Hawaii",
   ];
   let role = [
     "Select",

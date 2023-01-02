@@ -86,7 +86,7 @@ const Home: NextPage = ({ jobs }) => {
           {jobs?.map((job: Job) => {
             return (
               <Grid item xs={4} key={job.id} className="pt-7">
-                <JobCard title={job.title} logo={job.logo} description={job.description} skills={job.skills} salary={job.salary} />
+                <JobCard title={job.title} timeZone={job.timeZone} logo={job.logo} description={job.description} skills={job.skills} salary={job.salary} companyName={job.companyName} />
               </Grid>
             );
           })}

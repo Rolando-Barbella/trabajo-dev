@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app'
 import { Poppins } from '@next/font/google'
 import ErrorBoundary from '../src/components/error'
 
-const inter = Poppins({ subsets: ['latin'], weight: ['400', '900'], })
+const inter = Poppins({ subsets: ['latin'], weight: ['300','400','500','900'], })
 
 Amplify.configure({ ...config, ssr: true })
 
@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ErrorBoundary error={pageProps.error.statusCode} reset={() => null} />
   }
   return (
-    <main>
+    <main className={inter.className}>
       <Component {...pageProps} />
     </main>
   )
