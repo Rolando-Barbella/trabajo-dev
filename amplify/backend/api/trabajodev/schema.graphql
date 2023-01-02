@@ -1,0 +1,38 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type Company @model {
+  id: ID!
+  name: String!
+  image: S3Object
+  description: String
+  userId: ID!
+  jobTitle: String
+  salary: String
+}
+
+type Job @model {
+  id: ID!
+  companyName: String!
+  title: String!
+  logo: S3Object!
+  description: String!
+  userId: ID!
+  salary: String!
+  hiringSteps: Int!
+  hiringStepDescription: String
+  typeOfCodingChallenge: String
+  typeOfWork: String!
+  timeZone: String!
+  role: String!
+  hasbeenPaid: Boolean!
+  skills: [String]
+}

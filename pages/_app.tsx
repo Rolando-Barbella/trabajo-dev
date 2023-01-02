@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ErrorBoundary error={pageProps.error.statusCode} reset={() => null} />
   }
   return (
-    <main className={inter.className}>
+    <main>
       <Component {...pageProps} />
     </main>
   )
