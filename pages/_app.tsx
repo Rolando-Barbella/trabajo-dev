@@ -4,6 +4,8 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Poppins } from '@next/font/google'
 import ErrorBoundary from '../src/components/error'
+import Header from '../src/components/Header'
+import Link from 'next/link'
 
 const inter = Poppins({ subsets: ['latin'], weight: ['300','400','500','900'], })
 
@@ -15,6 +17,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   return (
     <main className={inter.className}>
+      
+      <Header/>
       <Component {...pageProps} />
     </main>
   )
