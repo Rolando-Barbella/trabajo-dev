@@ -17,7 +17,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   return (
     <main className={inter.className}>
-      
       <Header/>
       <Component {...pageProps} />
     </main>

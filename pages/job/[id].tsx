@@ -2,7 +2,6 @@ import { withSSRContext } from "aws-amplify";
 import { getJob } from "../../src/graphql/queries";
 import Location from "@mui/icons-material/PlaceOutlined";
 
-import { Storage } from "aws-amplify";
 import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 import CardMedia from "@mui/material/CardMedia";

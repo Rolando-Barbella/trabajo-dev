@@ -10,6 +10,7 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
+import dynamic from 'next/dynamic'
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
 
 import { AlertColor } from "@mui/material";
@@ -21,12 +22,14 @@ import SimpleSnackbar from "../../src/components/SimpleSnackBar/SimpleSnackBar";
 import TagInput from "../../src/components/TagInput/TagInput";
 import TextField from "../../src/components/TextField";
 import { createJob, updateJob } from "../../src/graphql/mutations";
+const RichTextField = dynamic(() => import('../../src/components/RichTextField'), {
+  ssr: false
+})
 
 let blankJob = {
   companyName: "",
   title: "",
   logo: "",
-  description: "",
   salary: "",
   hiringSteps: 0,
   hiringStepDescription: "",
@@ -47,6 +50,7 @@ function CreateJob({ user }: CognitoUser | any) {
   let Router = useRouter();
   let cookies = parseCookies("");
   let [disableSubmit, setDiableSubmit] = React.useState(false);
+  const [description, setDescription] = React.useState('');
   const [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
     message: "",
@@ -65,9 +69,10 @@ function CreateJob({ user }: CognitoUser | any) {
   };
 
   let handleSubmitJob = React.useCallback(
-    async (job: Record<string, any>) => {
+    async (job: Record<string, any>, description: string) => {
       // upload the image to 3
       let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]);
+      debugger;
       // submit the GraphQL query
       const addJob = await API.graphql({
         query: createJob,
@@ -75,7 +80,7 @@ function CreateJob({ user }: CognitoUser | any) {
           input: {
             ...job,
             hasbeenPaid: false,
-            // hiringSteps: job.hiringSteps,
+            description: description,
             userId: user.username,
             skills: job.skills?.map((skill: { id: string; text: string }) => skill.text) || [],
             logo: {
@@ -153,7 +158,7 @@ function CreateJob({ user }: CognitoUser | any) {
           return isValid;
         },
       }),
-    description: yup.string().required("Job title is required").min(100, "minimun 100 characters"),
+    // description: yup.string().required("Job title is required").min(100, "minimun 100 characters"),
     salary: yup.string().required(),
     hiringSteps: yup.number().moreThan(0).required("Please add the number of phases the recruiment process takes"),
     hiringStepDescription: yup.string(),
@@ -166,13 +171,13 @@ function CreateJob({ user }: CognitoUser | any) {
 
   let formik = useFormik<yup.InferType<typeof validationSchema>>({
     initialValues: blankJob,
-    onSubmit: (job) => handleSubmitJob(job),
+    onSubmit: (job) => handleSubmitJob(job, description),
     validationSchema,
     validateOnMount: validationSchema.isValidSync(blankJob),
   });
 
   let typeOfCodingChallenge = ["Select", "Take away test", "Algorithm puzzle", "Live coding challange"];
-  let typeOfWork = ["Select", "Remote", "Hybrid", "Office base"];
+  let typeOfWork = ["Select", "Remote", "Hybrid"];
   let timeZone = [
     "Select",
     "Anywhere",
@@ -202,6 +207,7 @@ function CreateJob({ user }: CognitoUser | any) {
     "25K - 40K",
     "40K+"
   ]
+  console.log(description.length < 100)
   return (
     <>
       <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
@@ -261,19 +267,7 @@ function CreateJob({ user }: CognitoUser | any) {
               <Grid item xs={12}>
                 <Grid item xs={8}>
                   <Label text="Job description" required />
-                  <TextField
-                    id="description"
-                    name="description"
-                    value={formik.values.description}
-                    placeholder="Please expalin what is the job about"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.description && Boolean(formik.errors.description)}
-                    helperText={formik.touched.description && formik.errors.description}
-                    variant="outlined"
-                    multiline
-                    minRows={10}
-                  />
+                  <RichTextField setValue={setDescription} value={description} />
                 </Grid>
               </Grid>
 
@@ -362,7 +356,7 @@ function CreateJob({ user }: CognitoUser | any) {
               </Grid>
             </Grid>
             <br />
-            <Button disabled={disableSubmit} text="Submit" />
+            <Button disabled={disableSubmit || description.length < 100} text="Submit" />
           </Box>
         </form>
       </Container>
