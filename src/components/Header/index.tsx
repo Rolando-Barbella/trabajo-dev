@@ -31,7 +31,7 @@ function Header() {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg shadow-2xl shadow-fuchsia-700/10 pt-2 relative flex w-full justify-between border-b-2 border-grey-800" style={{paddingBottom: '1rem'}}>
+    <nav className="navbar navbar-expand-lg shadow-2xl pt-2 relative flex w-full justify-between border-b-1 border-grey-500" style={{paddingBottom: '1rem', boxShadow: "0 2px 10px 0 rgb(116 129 141 / 20%)"}}>
       <div className="w-full flex flex-wrap container">
         <div className="flex items-center flex-shrink-0 text-white mr-6 pr-4">
           <Link href="/" className="font-lightbold text-xl tracking-tight text-gray-600">Junior Web Devs</Link>

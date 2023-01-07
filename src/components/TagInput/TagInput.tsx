@@ -16,7 +16,7 @@ const SKILLS = [
   "AI",
   "Blockchain",
   "Solidity",
-  "Javscript",
+  "Javascript",
   "J-Query",
   "Google cloud",
   "Ruby",
@@ -49,6 +49,12 @@ const SKILLS = [
   "Graphql",
   "Apollo",
   "Talwind CSS",
+  "Typescript",
+  "Remix",
+  "Rust",
+  "Rest API",
+  "Scala",
+  "Docker"
 ];
 
 const KeyCodes = {

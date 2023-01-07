@@ -10,7 +10,8 @@ import Cookie from "js-cookie";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import SkeletonForm from '../../src/components/SkeletonForm';
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
 
 import { AlertColor } from "@mui/material";
@@ -32,7 +33,6 @@ let blankJob = {
   logo: "",
   salary: "",
   hiringSteps: 0,
-  hiringStepDescription: "",
   typeOfCodingChallenge: "",
   typeOfWork: "",
   timeZone: "",
@@ -49,9 +49,12 @@ export type SnackbarProps = {
 function CreateJob({ user }: CognitoUser | any) {
   let Router = useRouter();
   let cookies = parseCookies("");
+
   let [disableSubmit, setDiableSubmit] = React.useState(false);
-  const [description, setDescription] = React.useState('');
-  const [snackBar, setSnackBar] = React.useState<SnackbarProps>({
+  let [description, setDescription] = React.useState('');
+  let [hiringStepDescription, setHiringStepDescription] = React.useState('');
+
+  let [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
     message: "",
     severity: "info",
@@ -69,10 +72,10 @@ function CreateJob({ user }: CognitoUser | any) {
   };
 
   let handleSubmitJob = React.useCallback(
-    async (job: Record<string, any>, description: string) => {
+    async (job: Record<string, any>, description: string, hiringStepDescription: string) => {
       // upload the image to 3
+      setDiableSubmit(true);
       let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]);
-      debugger;
       // submit the GraphQL query
       const addJob = await API.graphql({
         query: createJob,
@@ -81,6 +84,7 @@ function CreateJob({ user }: CognitoUser | any) {
             ...job,
             hasbeenPaid: false,
             description: description,
+            hiringStepDescription: hiringStepDescription,
             userId: user.username,
             skills: job.skills?.map((skill: { id: string; text: string }) => skill.text) || [],
             logo: {
@@ -97,10 +101,10 @@ function CreateJob({ user }: CognitoUser | any) {
       const { data, error } = addJob;
       if (error) {
         console.error(error)
+        setDiableSubmit(false);
         return;
       }
       await Cookie.set("jobId", data.createJob.id);
-      setDiableSubmit(true);
       stipeCheckOut();
     },
     [user.username]
@@ -127,7 +131,6 @@ function CreateJob({ user }: CognitoUser | any) {
 
       //@ts-ignore
       const { _, error } = newJob;
-      console.log(error);
       if (error) {
         return setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
       }
@@ -158,10 +161,8 @@ function CreateJob({ user }: CognitoUser | any) {
           return isValid;
         },
       }),
-    // description: yup.string().required("Job title is required").min(100, "minimun 100 characters"),
     salary: yup.string().required(),
     hiringSteps: yup.number().moreThan(0).required("Please add the number of phases the recruiment process takes"),
-    hiringStepDescription: yup.string(),
     typeOfCodingChallenge: yup.string(),
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
@@ -171,7 +172,7 @@ function CreateJob({ user }: CognitoUser | any) {
 
   let formik = useFormik<yup.InferType<typeof validationSchema>>({
     initialValues: blankJob,
-    onSubmit: (job) => handleSubmitJob(job, description),
+    onSubmit: (job) => handleSubmitJob(job, description, hiringStepDescription),
     validationSchema,
     validateOnMount: validationSchema.isValidSync(blankJob),
   });
@@ -207,7 +208,16 @@ function CreateJob({ user }: CognitoUser | any) {
     "25K - 40K",
     "40K+"
   ]
-  console.log(description.length < 100)
+  let desableButton = disableSubmit || description.length < 100 || hiringStepDescription.length < 100;
+
+  if(disableSubmit) {
+    return (
+      <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
+        <SkeletonForm />
+      </Container>
+    )
+  }
+
   return (
     <>
       <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
@@ -299,19 +309,7 @@ function CreateJob({ user }: CognitoUser | any) {
               <Grid item xs={12}>
                 <Grid item xs={8}>
                   <Label text="Hiring steps description" />
-                  <TextField
-                    id="hiringStepDescription"
-                    name="hiringStepDescription"
-                    value={formik.values.hiringStepDescription}
-                    placeholder="Please explain the hiring process step by step"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.hiringStepDescription && Boolean(formik.errors.hiringStepDescription)}
-                    helperText={formik.touched.hiringStepDescription && formik.errors.hiringStepDescription}
-                    variant="outlined"
-                    multiline
-                    minRows={5}
-                  />
+                  <RichTextField setValue={setHiringStepDescription} value={hiringStepDescription} />
                 </Grid>
               </Grid>
               <Grid container item xs={12} spacing={3}>
@@ -356,7 +354,7 @@ function CreateJob({ user }: CognitoUser | any) {
               </Grid>
             </Grid>
             <br />
-            <Button disabled={disableSubmit || description.length < 100} text="Submit" />
+            <Button disabled={desableButton} text="Submit" />
           </Box>
         </form>
       </Container>
@@ -368,7 +366,6 @@ function parseCookies(req: any) {
   return cookie.parse(req ? req.headers.cookie || "" : document.cookie);
 }
 
-//@ts-ignorets
 export default withAuthenticator(CreateJob, {
   components: {
     SignUp: {

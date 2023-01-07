@@ -12,21 +12,24 @@ import React from "react";
 type JobCardProps = {
   logo: Job["logo"];
   title: Job["title"];
-  description: Job["description"];
   skills: Job["skills"];
   salary: Job["salary"];
   companyName: Job["companyName"];
   timeZone: Job["timeZone"];
   id: Job["id"];
+  typeOfWork: Job["typeOfWork"]
+  updatedAt: string
 };
 
-export default function JobCard({ logo, title, description, skills, salary, companyName, timeZone, id }: JobCardProps) {
+export default function JobCard({ logo, title, skills, salary, companyName, timeZone, id, updatedAt }: JobCardProps) {
   let [img, setImg] = React.useState("");
   let getLogo = React.useCallback(async () => setImg(await Storage.get(logo.key)), [logo.key]);
+  let date = new Date(updatedAt);
 
   React.useEffect(() => {
     getLogo();
   }, [getLogo]);
+
   return (
     <div style={{ boxShadow: "0 2px 10px 0 rgb(116 129 141 / 20%)", width: "95%" }}>
       <Link href={{
@@ -36,19 +39,22 @@ export default function JobCard({ logo, title, description, skills, salary, comp
       >
         <Card sx={{ display: "flex", boxShadow: 0 }}>
           <CardMedia component="img" sx={{ width: 151 }} image={img} alt={companyName} />
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto", padding: 1 }}>
-              <h2 className="pt-2 font-medium text-lg">{title}</h2>
-              <p className="font-light font-sm" style={{ fontSize: 14 }}>
-                {description.slice(0, 200)}...
+          <Box sx={{ display: "flex", flex: 1,flexDirection: "column" }}>
+            <CardContent sx={{ padding: 1 }}>
+              <h2 className="font-medium text-lg">{title}</h2>
+              <p className="font-light" style={{ fontSize: 14 }}>
+                {companyName}
               </p>
-              <Box sx={{ display: "flex" }} paddingTop={2}>
-                <div style={{ flex: 1 }}>
+              <p className="text-light text-gray-400" style={{ fontSize: 14,  color: 'rgb(156 163 175)' }}>
+                {date.toLocaleDateString('en-UK',{month:'short', year:'numeric'})}
+              </p>
+              <Box sx={{display: 'flex', flex: 1, justifyContent: 'space-between'}} paddingTop={2}>
+                <div>
                   {skills?.map((skill) => (
                     <Chip style={{ marginRight: 5 }} key={skill} label={skill} variant="outlined" />
                   ))}
                 </div>
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Box>
                   <Chip
                     key={timeZone}
                     style={{ marginRight: 5 }}

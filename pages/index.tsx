@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import { withSSRContext } from "aws-amplify";
-import type { NextPage } from "next";
 import Head from "next/head";
 import { listJobs } from "../src/graphql/queries";
 import JobCard from "../src/components/JobCard/JobCard";
@@ -10,14 +9,18 @@ import { Job } from "../src/API";
 export async function getServerSideProps() {
   const SSR = withSSRContext();
   const { data } = await SSR.API.graphql({ query: listJobs });
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
   return {
     props: {
-      jobs: data?.listJobs?.items || null,
+      jobs: data?.listJobs?.items,
     },
   };
 }
-//@ts-ignorets
-const Home: NextPage = ({ jobs }) => {
+const Home = ({ jobs }: {jobs: Array<Job>}) => {
   return (
     <>
       <Head>
@@ -42,7 +45,7 @@ const Home: NextPage = ({ jobs }) => {
           {jobs?.map((job: Job) => {
             return (
               <div key={job.id} className="pt-7">
-                <JobCard id={job.id} updatedAt={job.updatedAt} typeOfWork={job.typeOfWork} title={job.title} timeZone={job.timeZone} logo={job.logo} description={job.description} skills={job.skills} salary={job.salary} companyName={job.companyName} />
+                <JobCard id={job.id} updatedAt={job.updatedAt} typeOfWork={job.typeOfWork} title={job.title} timeZone={job.timeZone} logo={job.logo}  skills={job.skills} salary={job.salary} companyName={job.companyName} />
               </div>
             );
           })}
