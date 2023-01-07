@@ -7,14 +7,15 @@ import { API, Storage } from "aws-amplify";
 import cookie from "cookie";
 import { useFormik } from "formik";
 import Cookie from "js-cookie";
+import dynamic from 'next/dynamic';
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
-import dynamic from 'next/dynamic';
-import SkeletonForm from '../../src/components/SkeletonForm';
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
+import SkeletonForm from '../../src/components/SkeletonForm';
 
 import { AlertColor } from "@mui/material";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { checkout } from "../../checkout";
 import config from "../../src/aws-exports";
 import Label from "../../src/components/Label/Label";
@@ -23,6 +24,7 @@ import SimpleSnackbar from "../../src/components/SimpleSnackBar/SimpleSnackBar";
 import TagInput from "../../src/components/TagInput/TagInput";
 import TextField from "../../src/components/TextField";
 import { createJob, updateJob } from "../../src/graphql/mutations";
+import Link from "next/link";
 const RichTextField = dynamic(() => import('../../src/components/RichTextField'), {
   ssr: false
 })
@@ -73,8 +75,8 @@ function CreateJob({ user }: CognitoUser | any) {
 
   let handleSubmitJob = React.useCallback(
     async (job: Record<string, any>, description: string, hiringStepDescription: string) => {
-      // upload the image to 3
       setDiableSubmit(true);
+      // upload the image to 3
       let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]);
       // submit the GraphQL query
       const addJob = await API.graphql({
@@ -83,8 +85,8 @@ function CreateJob({ user }: CognitoUser | any) {
           input: {
             ...job,
             hasbeenPaid: false,
-            description: description,
-            hiringStepDescription: hiringStepDescription,
+            description,
+            hiringStepDescription,
             userId: user.username,
             skills: job.skills?.map((skill: { id: string; text: string }) => skill.text) || [],
             logo: {
@@ -94,17 +96,15 @@ function CreateJob({ user }: CognitoUser | any) {
               key: uploadedImage.key,
             },
           },
-        },
-      });
+        },//@ts-ignore
+      }).then((response: any) => response)
+        .catch((error: { error: { data: undefined, errors: Array<string> } }) => {
+          setDiableSubmit(false);
+          console.error(error)
+          return;
+        })
       await addJob;
-      //@ts-ignore
-      const { data, error } = addJob;
-      if (error) {
-        console.error(error)
-        setDiableSubmit(false);
-        return;
-      }
-      await Cookie.set("jobId", data.createJob.id);
+      await Cookie.set("jobId", addJob.data.createJob.id);
       stipeCheckOut();
     },
     [user.username]
@@ -117,7 +117,6 @@ function CreateJob({ user }: CognitoUser | any) {
       if (!clientSecret) {
         return;
       }
-      // let formateJob = JSON.parse(cookies.job);
       const newJob = await API.graphql({
         query: updateJob,
         variables: {
@@ -126,14 +125,13 @@ function CreateJob({ user }: CognitoUser | any) {
             hasbeenPaid: true,
           },
         },
+        //@ts-ignore
+      }).catch((error: { error: { data: undefined, errors: Array<string> } }) => {
+        setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
+        console.error(error)
+        return;
       });
       newJob;
-
-      //@ts-ignore
-      const { _, error } = newJob;
-      if (error) {
-        return setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
-      }
       setSnackBar({ open: true, message: "Job succesfully added", severity: "success" });
     };
     resolveUrl();
@@ -167,7 +165,7 @@ function CreateJob({ user }: CognitoUser | any) {
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
     role: yup.string().required("Please add type of role"),
-    skills: yup.array(),
+    skills: yup.array().required(),
   });
 
   let formik = useFormik<yup.InferType<typeof validationSchema>>({
@@ -208,7 +206,7 @@ function CreateJob({ user }: CognitoUser | any) {
     "25K - 40K",
     "40K+"
   ]
-  let desableButton = disableSubmit || description.length < 100 || hiringStepDescription.length < 100;
+  let desableButton = disableSubmit || description.length < 100;
 
   if(disableSubmit) {
     return (
@@ -220,14 +218,17 @@ function CreateJob({ user }: CognitoUser | any) {
 
   return (
     <>
-      <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
+      <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
         <SimpleSnackbar
           snackbar={snackBar}
           message={snackBar.message}
           severity={snackBar.severity}
           setOpen={setSnackBar}
         />
-        <h1 className="font-medium text-4xl">Add a job</h1>
+        <Breadcrumbs>
+          <Link href="/">Back to previous page</Link>
+        </Breadcrumbs>
+        <h1 className="font-medium text-4xl">Post a job</h1>
         <form onSubmit={formik.handleSubmit} className="pt-6">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
@@ -347,7 +348,7 @@ function CreateJob({ user }: CognitoUser | any) {
               </Grid>
               <Grid item xs={12}>
                 <Grid item xs={8}>
-                  <Label text="Main skills for the role" />
+                  <Label text="Main skills for the role" required />
                   {/* @ts-ignore} */}
                   <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
                 </Grid>
