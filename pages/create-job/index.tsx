@@ -218,7 +218,7 @@ function CreateJob({ user }: CognitoUser | any) {
 
   return (
     <>
-      <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
+      <Container maxWidth="md" sx={{ pt: 2, pb: 4 }}>
         <SimpleSnackbar
           snackbar={snackBar}
           message={snackBar.message}
