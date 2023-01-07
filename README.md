@@ -50,7 +50,7 @@ Login form [here](https://ui.docs.amplify.aws/react/connected-components/authent
 
 ### Schema
 
-Everytime you update the schema, changes should be push to services by runing `amplify push`
+Everytime you update the schema, changes should be push to services by runing `amplify push`, you might have to do `amplify pull` first
 
 ## Stripe
 
