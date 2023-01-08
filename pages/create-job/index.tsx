@@ -77,13 +77,7 @@ function CreateJob({ user }: CognitoUser | any) {
     async (job: Record<string, any>, description: string, hiringStepDescription: string) => {
       setDiableSubmit(true);
       // upload the image to 3
-      let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]).catch(
-        (error: { error: { data: undefined; errors: Array<string> } }) => {
-          setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
-          console.error(error);
-          return;
-        }
-      );
+      let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0])
       // submit the GraphQL query
       const addJob = await API.graphql({
         query: createJob,
@@ -102,8 +96,8 @@ function CreateJob({ user }: CognitoUser | any) {
               key: uploadedImage.key,
             },
           },
-        }, //@ts-ignore
-      })
+        }, 
+      })//@ts-ignore
         .then((response: any) => response)
         .catch((error: { error: { data: undefined; errors: Array<string> } }) => {
           setDiableSubmit(false);
