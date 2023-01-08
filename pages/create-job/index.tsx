@@ -311,7 +311,7 @@ function CreateJob({ user }: CognitoUser | any) {
               </Grid>
               <Grid container item xs={12} spacing={3}>
                 <Grid item xs={12}>
-                  <Label text="What type of conding challange should the candidate expect?" />
+                  <Label text="What type of coding challenge should the candidate expect?" />
                   <Select
                     options={typeOfCodingChallenge}
                     onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
