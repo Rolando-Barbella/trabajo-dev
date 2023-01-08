@@ -7,12 +7,12 @@ import { API, Storage } from "aws-amplify";
 import cookie from "cookie";
 import { useFormik } from "formik";
 import Cookie from "js-cookie";
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
-import SkeletonForm from '../../src/components/SkeletonForm';
+import SkeletonForm from "../../src/components/SkeletonForm";
 
 import { AlertColor } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -25,9 +25,9 @@ import TagInput from "../../src/components/TagInput/TagInput";
 import TextField from "../../src/components/TextField";
 import { createJob, updateJob } from "../../src/graphql/mutations";
 import Link from "next/link";
-const RichTextField = dynamic(() => import('../../src/components/RichTextField'), {
-  ssr: false
-})
+const RichTextField = dynamic(() => import("../../src/components/RichTextField"), {
+  ssr: false,
+});
 
 let blankJob = {
   companyName: "",
@@ -53,8 +53,8 @@ function CreateJob({ user }: CognitoUser | any) {
   let cookies = parseCookies("");
 
   let [disableSubmit, setDiableSubmit] = React.useState(false);
-  let [description, setDescription] = React.useState('');
-  let [hiringStepDescription, setHiringStepDescription] = React.useState('');
+  let [description, setDescription] = React.useState("");
+  let [hiringStepDescription, setHiringStepDescription] = React.useState("");
 
   let [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
@@ -77,7 +77,13 @@ function CreateJob({ user }: CognitoUser | any) {
     async (job: Record<string, any>, description: string, hiringStepDescription: string) => {
       setDiableSubmit(true);
       // upload the image to 3
-      let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]);
+      let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]).catch(
+        (error: { error: { data: undefined; errors: Array<string> } }) => {
+          setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
+          console.error(error);
+          return;
+        }
+      );
       // submit the GraphQL query
       const addJob = await API.graphql({
         query: createJob,
@@ -96,13 +102,14 @@ function CreateJob({ user }: CognitoUser | any) {
               key: uploadedImage.key,
             },
           },
-        },//@ts-ignore
-      }).then((response: any) => response)
-        .catch((error: { error: { data: undefined, errors: Array<string> } }) => {
+        }, //@ts-ignore
+      })
+        .then((response: any) => response)
+        .catch((error: { error: { data: undefined; errors: Array<string> } }) => {
           setDiableSubmit(false);
-          console.error(error)
+          console.error(error);
           return;
-        })
+        });
       await addJob;
       await Cookie.set("jobId", addJob.data.createJob.id);
       stipeCheckOut();
@@ -126,9 +133,9 @@ function CreateJob({ user }: CognitoUser | any) {
           },
         },
         //@ts-ignore
-      }).catch((error: { error: { data: undefined, errors: Array<string> } }) => {
+      }).catch((error: { error: { data: undefined; errors: Array<string> } }) => {
         setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
-        console.error(error)
+        console.error(error);
         return;
       });
       newJob;
@@ -200,20 +207,15 @@ function CreateJob({ user }: CognitoUser | any) {
     "Mobile dev",
     "Dev Ops",
   ];
-  let salary = [
-    "Select",
-    "0 - 25K",
-    "25K - 40K",
-    "40K+"
-  ]
+  let salary = ["Select", "0 - 25K", "25K - 40K", "40K+"];
   let desableButton = disableSubmit || description.length < 100;
 
-  if(disableSubmit) {
+  if (disableSubmit) {
     return (
       <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
         <SkeletonForm />
       </Container>
-    )
+    );
   }
 
   return (
@@ -226,7 +228,9 @@ function CreateJob({ user }: CognitoUser | any) {
           setOpen={setSnackBar}
         />
         <Breadcrumbs>
-          <Link href="/">Back to previous page</Link>
+          <Link href="/" onClick={() => Router.back()}>
+            Go back
+          </Link>
         </Breadcrumbs>
         <h1 className="font-medium text-4xl">Post a job</h1>
         <form onSubmit={formik.handleSubmit} className="pt-6">
@@ -288,9 +292,7 @@ function CreateJob({ user }: CognitoUser | any) {
                   <Select
                     options={salary}
                     onChange={(e) => formik.setFieldValue("salary", e.target.value)}
-                    error={
-                      formik.errors.salary && formik.errors.salary.length > 0 && formik.touched.salary
-                    }
+                    error={formik.errors.salary && formik.errors.salary.length > 0 && formik.touched.salary}
                   />
                 </Grid>
               </Grid>
