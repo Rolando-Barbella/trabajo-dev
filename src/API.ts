@@ -134,7 +134,7 @@ export type CreateJobInput = {
   timeZone: string,
   role: string,
   hasbeenPaid: boolean,
-  skills?: Array< string | null > | null,
+  skills: Array< string | null >,
 };
 
 export type ModelJobConditionInput = {
@@ -191,7 +191,7 @@ export type Job = {
   timeZone: string,
   role: string,
   hasbeenPaid: boolean,
-  skills?: Array< string | null > | null,
+  skills: Array< string | null >,
   createdAt: string,
   updatedAt: string,
 };
@@ -260,6 +260,83 @@ export type ModelJobConnection = {
   __typename: "ModelJobConnection",
   items:  Array<Job | null >,
   nextToken?: string | null,
+};
+
+export type ModelSubscriptionCompanyFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  userId?: ModelSubscriptionIDInput | null,
+  jobTitle?: ModelSubscriptionStringInput | null,
+  salary?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionCompanyFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCompanyFilterInput | null > | null,
+};
+
+export type ModelSubscriptionIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  in?: Array< string | null > | null,
+  notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionJobFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  companyName?: ModelSubscriptionStringInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  userId?: ModelSubscriptionIDInput | null,
+  salary?: ModelSubscriptionStringInput | null,
+  hiringSteps?: ModelSubscriptionIntInput | null,
+  hiringStepDescription?: ModelSubscriptionStringInput | null,
+  typeOfCodingChallenge?: ModelSubscriptionStringInput | null,
+  typeOfWork?: ModelSubscriptionStringInput | null,
+  timeZone?: ModelSubscriptionStringInput | null,
+  role?: ModelSubscriptionStringInput | null,
+  hasbeenPaid?: ModelSubscriptionBooleanInput | null,
+  skills?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionJobFilterInput | null > | null,
+  or?: Array< ModelSubscriptionJobFilterInput | null > | null,
+};
+
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
 };
 
 export type CreateCompanyMutationVariables = {
@@ -364,7 +441,7 @@ export type CreateJobMutation = {
     timeZone: string,
     role: string,
     hasbeenPaid: boolean,
-    skills?: Array< string | null > | null,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -397,7 +474,7 @@ export type UpdateJobMutation = {
     timeZone: string,
     role: string,
     hasbeenPaid: boolean,
-    skills?: Array< string | null > | null,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -430,7 +507,7 @@ export type DeleteJobMutation = {
     timeZone: string,
     role: string,
     hasbeenPaid: boolean,
-    skills?: Array< string | null > | null,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -460,14 +537,14 @@ export type GetCompanyQuery = {
   } | null,
 };
 
-export type ListCompanysQueryVariables = {
+export type ListCompaniesQueryVariables = {
   filter?: ModelCompanyFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListCompanysQuery = {
-  listCompanys?:  {
+export type ListCompaniesQuery = {
+  listCompanies?:  {
     __typename: "ModelCompanyConnection",
     items:  Array< {
       __typename: "Company",
@@ -516,7 +593,7 @@ export type GetJobQuery = {
     timeZone: string,
     role: string,
     hasbeenPaid: boolean,
-    skills?: Array< string | null > | null,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -552,12 +629,16 @@ export type ListJobsQuery = {
       timeZone: string,
       role: string,
       hasbeenPaid: boolean,
-      skills?: Array< string | null > | null,
+      skills: Array< string | null >,
       createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
+};
+
+export type OnCreateCompanySubscriptionVariables = {
+  filter?: ModelSubscriptionCompanyFilterInput | null,
 };
 
 export type OnCreateCompanySubscription = {
@@ -580,6 +661,10 @@ export type OnCreateCompanySubscription = {
   } | null,
 };
 
+export type OnUpdateCompanySubscriptionVariables = {
+  filter?: ModelSubscriptionCompanyFilterInput | null,
+};
+
 export type OnUpdateCompanySubscription = {
   onUpdateCompany?:  {
     __typename: "Company",
@@ -600,6 +685,10 @@ export type OnUpdateCompanySubscription = {
   } | null,
 };
 
+export type OnDeleteCompanySubscriptionVariables = {
+  filter?: ModelSubscriptionCompanyFilterInput | null,
+};
+
 export type OnDeleteCompanySubscription = {
   onDeleteCompany?:  {
     __typename: "Company",
@@ -618,6 +707,10 @@ export type OnDeleteCompanySubscription = {
     createdAt: string,
     updatedAt: string,
   } | null,
+};
+
+export type OnCreateJobSubscriptionVariables = {
+  filter?: ModelSubscriptionJobFilterInput | null,
 };
 
 export type OnCreateJobSubscription = {
@@ -642,10 +735,14 @@ export type OnCreateJobSubscription = {
     timeZone: string,
     role: string,
     hasbeenPaid: boolean,
-    skills?: Array< string | null > | null,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,
+};
+
+export type OnUpdateJobSubscriptionVariables = {
+  filter?: ModelSubscriptionJobFilterInput | null,
 };
 
 export type OnUpdateJobSubscription = {
@@ -670,10 +767,14 @@ export type OnUpdateJobSubscription = {
     timeZone: string,
     role: string,
     hasbeenPaid: boolean,
-    skills?: Array< string | null > | null,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,
+};
+
+export type OnDeleteJobSubscriptionVariables = {
+  filter?: ModelSubscriptionJobFilterInput | null,
 };
 
 export type OnDeleteJobSubscription = {
@@ -698,7 +799,7 @@ export type OnDeleteJobSubscription = {
     timeZone: string,
     role: string,
     hasbeenPaid: boolean,
-    skills?: Array< string | null > | null,
+    skills: Array< string | null >,
     createdAt: string,
     updatedAt: string,
   } | null,
