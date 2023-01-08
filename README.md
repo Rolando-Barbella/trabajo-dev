@@ -35,7 +35,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Amplify 
 
-To pull the dev env run `amplify pull --appId d16cn86zrbe5cq --envName dev`
+To pull the dev env run `amplify pull --appId d3ke5sg4u6i26g --envName dev`
 
 ### Trouble shooting
 
