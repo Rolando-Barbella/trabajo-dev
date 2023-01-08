@@ -9,15 +9,15 @@ import Link from "next/link";
 import { listCompanys } from "../src/graphql/queries";
 import styles from "../styles/Home.module.css";
 
-export async function getServerSideProps() {
-  const SSR = withSSRContext();
-  const { data } = await SSR.API.graphql({ query: listCompanys });
-  return {
-    props: {
-      companies: data?.listCompanys?.items || null,
-    },
-  };
-}
+// export async function getServerSideProps() {
+//   const SSR = withSSRContext();
+//   const { data } = await SSR.API.graphql({ query: listCompanys });
+//   return {
+//     props: {
+//       companies: data?.listCompanys?.items || null,
+//     },
+//   };
+// }
 //@ts-ignorets
 const Home: NextPage = ({ companies }) => {
   const Router = useRouter();
