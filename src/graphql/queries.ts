@@ -14,20 +14,18 @@ export const getCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }
   }
 `;
-export const listCompanys = /* GraphQL */ `
-  query ListCompanys(
+export const listCompanies = /* GraphQL */ `
+  query ListCompanies(
     $filter: ModelCompanyFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listCompanys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listCompanies(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
@@ -38,8 +36,6 @@ export const listCompanys = /* GraphQL */ `
         }
         description
         userId
-        jobTitle
-        salary
         createdAt
         updatedAt
       }
@@ -74,13 +70,14 @@ export const getJob = /* GraphQL */ `
     }
   }
 `;
+// {hasbeenPaid: {eq: true}}
 export const listJobs = /* GraphQL */ `
   query ListJobs(
     $filter: ModelJobFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listJobs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listJobs(filter: {hasbeenPaid: {eq: true}}, limit: $limit, nextToken: $nextToken) {
       items {
         id
         companyName

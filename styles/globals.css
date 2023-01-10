@@ -140,6 +140,11 @@ input[type=file]::file-selector-button:hover {
   color:  #3a3a3a !important;
 }
 
+[data-indicator-position=top] > .amplify-tabs-item {
+  border-color: white;
+  border-width: 0;
+}
+
 .amplify-tabs-item {
   color: #212121 !important;
   font-weight: normal;

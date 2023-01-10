@@ -41,7 +41,6 @@ const SKILLS = [
   "Rust",
   "Go",
   "SQL",
-  "Docker",
   "MongoDB",
   "Node Js",
   "ETH",

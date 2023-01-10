@@ -15,8 +15,6 @@ type Company @model {
   image: S3Object
   description: String
   userId: ID!
-  jobTitle: String
-  salary: String
 }
 
 type Job @model {

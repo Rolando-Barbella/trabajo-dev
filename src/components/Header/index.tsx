@@ -1,9 +1,42 @@
-import Link from "next/link";
-import React from "react";
+import * as React from "react";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import Link from "next/link";
 
-function Header() {
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+const styles = {
+  postJobBtn: {
+    background: "#ff461f",
+    width: 105,
+    height: 30,
+    textAlign: "center",
+    borderRadius: 50,
+    color: "white",
+    alingSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+  },
+};
+
+function ResponsiveAppBar() {
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
   const Router = useRouter();
   let [currentUser, setCurrentUser] = React.useState("");
 
@@ -26,38 +59,163 @@ function Header() {
     Router.reload();
   };
 
-  if(Router.pathname === '/create-job') {
-    return <div/>
+  if (Router.pathname === "/create-job") {
+    return <div />;
   }
 
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg shadow-2xl pt-2 relative flex w-full justify-between border-b-1 border-grey-500" style={{paddingBottom: '1rem', boxShadow: "0 2px 10px 0 rgb(116 129 141 / 20%)"}}>
-      <div className="w-full flex flex-wrap container">
-        <div className="flex items-center flex-shrink-0 text-white mr-6 pr-4">
-          <Link href="/" className="font-lightbold text-xl tracking-tight text-gray-600">Junior Web Devs</Link>
-        </div>
-        <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-          <ul className="navbar-nav  mr-auto lg:flex lg:flex-row justify-between py-2">
-            <Link href="/create-job" className="pr-4  text-gray-700 hover:text-gray-800 focus:text-gray-800">
-              Post a job
+    <AppBar position="static" color="transparent" sx={{ boxShadow: "0 2px 10px 0 rgb(116 129 141 / 20%)" }}>
+      <Container maxWidth="md">
+        <Toolbar disableGutters>
+          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 3,
+              display: { xs: "none", md: "flex" },
+              fontWeight: 300,
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            JUNIOR DEV JOBS
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              {Boolean(currentUser) && (
+                <MenuItem key={1} onClick={handleCloseNavMenu}>
+                  <Link href="/profile">
+                    <Typography textAlign="center">Profile</Typography>
+                  </Link>
+                </MenuItem>
+              )}
+
+              <MenuItem key={2} onClick={handleCloseNavMenu} style={{ background: "#ff461f" }}>
+                <Link href="/create-job">
+                  <Typography textAlign="center" color={"white"}>
+                    Post a Job
+                  </Typography>
+                </Link>
+              </MenuItem>
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontWeight: 300,
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            JR DEV JOBS
+          </Typography>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+              fontSize: "0.92rem",
+              alingSelf: "center",
+              alignItems: "center",
+            }}
+            gap={3}
+          >
+            {Boolean(currentUser) && (
+              <Link key={1} onClick={handleCloseNavMenu} href="/profile">
+                PROFILE
+              </Link>
+            )}
+            <Link key={1} style={styles.postJobBtn} onClick={handleCloseNavMenu} href="/create-job">
+              POST A JOB
             </Link>
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
             {Boolean(currentUser) && (
-              <Link href="/profile" className="pr-4  text-gray-700 hover:text-gray-700 focus:text-gray-700">
-                Profile
-              </Link>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem key={1} onClick={handleCloseUserMenu}>
+                  <Typography onClick={signOut} textAlign="center">
+                    Logout
+                  </Typography>
+                </MenuItem>
+              </Menu>
             )}
-          </ul>
-          <div>
-            {Boolean(currentUser) && (
-              <Link href="/profile" onClick={signOut} className="text-gray-700 hover:text-gray-800 focus:text-gray-800">
-                Log out
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-    </nav>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
-
-export default Header;
+export default ResponsiveAppBar;
