@@ -94,6 +94,8 @@ function ResponsiveAppBar() {
               fontWeight: 300,
               color: "inherit",
               textDecoration: "none",
+              fontSize: "0.92rem",
+
             }}
           >
             JUNIOR DEV JOBS
@@ -184,7 +186,7 @@ function ResponsiveAppBar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size='small'>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
