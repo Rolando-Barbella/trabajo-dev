@@ -7,13 +7,14 @@ import Warning from '@mui/icons-material/Warning';
 export interface ZellarTextFieldProps {
   BaseTextFieldProps: TextFieldProps;
   className?: string;
+  type?: string;
 }
 
-export default function TextField({ helperText, className, style, error, ...rest }: TextFieldProps): JSX.Element {
+export default function TextField({ helperText, className, style, error, type = "text", ...rest }: TextFieldProps): JSX.Element {
   return (
     <div className={className} style={style}>
       <BaseTextField
-        type="text"
+        type={type}
         fullWidth
         error={error}
         {...rest}

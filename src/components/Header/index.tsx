@@ -10,13 +10,11 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { CSSProperties } from "react";
 
 const styles = {
   postJobBtn: {
@@ -139,7 +137,7 @@ function ResponsiveAppBar() {
               )}
 
               <MenuItem key={2} onClick={handleCloseNavMenu} style={{ background: "#ff461f" }}>
-                <Link href="/create-job">
+                <Link href={Boolean(currentUser) ? "/create-job" : "/sign-in"}>
                   <Typography textAlign="center" color={"white"}>
                     Post a Job
                   </Typography>
@@ -175,22 +173,22 @@ function ResponsiveAppBar() {
             gap={3}
           >
             {Boolean(currentUser) && (
-              <Link key={1} onClick={handleCloseNavMenu} href="/profile">
+              <Link key={3} onClick={handleCloseNavMenu} href="/profile">
                 PROFILE
               </Link>
             )}
-            <Link key={1} style={styles.postJobBtn} onClick={handleCloseNavMenu} href="/create-job">
+            <Link key={4} style={styles.postJobBtn as CSSProperties} onClick={handleCloseNavMenu} href={Boolean(currentUser) ? "/create-job" : "/sign-in"}>
               POST A JOB
             </Link>
           </Box>
 
+        {Boolean(currentUser) && (
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size='small'>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-            {Boolean(currentUser) && (
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -209,12 +207,12 @@ function ResponsiveAppBar() {
               >
                 <MenuItem key={1} onClick={handleCloseUserMenu}>
                   <Typography onClick={signOut} textAlign="center">
-                    Logout
+                    Logout 
                   </Typography>
                 </MenuItem>
               </Menu>
-            )}
           </Box>
+        )}
         </Toolbar>
       </Container>
     </AppBar>

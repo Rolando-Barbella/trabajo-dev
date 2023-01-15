@@ -1,5 +1,6 @@
-import React from "react";
-import Image from 'next/image'
+import React, { CSSProperties } from "react";
+import Image from 'next/image';
+import { Auth } from "aws-amplify";
 import { withSSRContext } from "aws-amplify";
 import Head from "next/head";
 import { listJobs } from "../src/graphql/queries";
@@ -48,6 +49,23 @@ const styles = {
   }
 }
 const Home = ({ jobs }: {jobs: Array<Job>}) => {
+  let [currentUser, setCurrentUser] = React.useState("");
+
+  React.useEffect(() => {
+    if(jobs?.length) {
+      return
+    }
+    let getUser = async () => {
+      try {
+        let user = await Auth.currentAuthenticatedUser();
+        setCurrentUser(user);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    getUser();
+  }, [jobs?.length]);
+
   return (
     <Box sx={styles.container}>
       <Head>
@@ -68,11 +86,11 @@ const Home = ({ jobs }: {jobs: Array<Job>}) => {
         <>
           {
             !jobs?.length ? (
-              <Box style={styles.noJobs}>
-                <div style={styles.noJobsMessage}>
+              <Box style={styles.noJobs as CSSProperties}>
+                <div style={styles.noJobsMessage as CSSProperties}>
                   <Image alt="sad face" src="/sad-face.png" width={400} height={400}/>
                   <h1 className="font-light text-2xl pb-4">Nothing here, help us get jobs for junior devs! </h1>
-                  <Link href="/create-job">
+                  <Link href={Boolean(currentUser) ? "/create-job" : "/sign-in"}>
                     <Button text="Post a job" width={120} />
                   </Link>
                 </div>

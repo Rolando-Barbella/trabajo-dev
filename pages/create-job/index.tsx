@@ -56,6 +56,10 @@ function CreateJob({ user }: CognitoUser | any) {
   let [description, setDescription] = React.useState("");
   let [hiringStepDescription, setHiringStepDescription] = React.useState("");
 
+  React.useEffect(() => {
+    console.log(user)
+  },[])
+
   let [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
     message: "",
