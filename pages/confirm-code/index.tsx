@@ -47,7 +47,7 @@ function ConfirmCode() {
   let handleSubmitCode = async (user: User) => {
     setLoadingSubmit(true)
     try {
-      await Auth.confirmSignUp(user.username, user.authenticationCode);
+      await Auth.confirmSignUp(user.username, user.authenticationCode.trim());
       Router.push("/create-job", "/create-job", { shallow: false });
     } catch (error) {
       console.log('error', error);
@@ -85,7 +85,7 @@ function ConfirmCode() {
           setOpen={setSnackBar}
         />
         <Breadcrumbs>
-          <Link href="/">Go back</Link>
+          <Link href="/" onClick={() => Router.back()}>Go back</Link>
         </Breadcrumbs>
         <h1 className="font-medium text-3xl">Sign up</h1>
         <form onSubmit={formik.handleSubmit} className="pt-6">

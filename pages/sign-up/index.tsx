@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
-import SkeletonForm from "../../src/components/SkeletonForm";
+import SignUpSkeleton from "./SignUp-Skeleton";
 
 import { AlertColor } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
@@ -42,6 +42,7 @@ type User = {
 function SignUp() {
   let Router = useRouter();
   let [description, setDescription] = React.useState("");
+  let [loadingSubmit, setLoadingSubmit] = React.useState(false);
 
   let [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
@@ -50,7 +51,7 @@ function SignUp() {
   });
 
   let handleSubmitUser = async (user:User, description: string) => {
-
+    setLoadingSubmit(true)
     try {
       await Auth.signUp({
         username: user.email,
@@ -63,9 +64,10 @@ function SignUp() {
           enabled: true,
         },
       });
-      alert('GOOD')
-      // Router.push("/confirm-code", "/confirm-code", { shallow: false });
+      Router.push("/confirm-code", "/confirm-code", { shallow: false });
+      setLoadingSubmit(false)
     } catch (error) {
+      setLoadingSubmit(false)
       console.error("error", error);
     }
   };
@@ -83,15 +85,13 @@ function SignUp() {
     validateOnMount: validationSchema.isValidSync(blankUser),
   });
 
-  // let desableButton = disableSubmit || description.length < 100;
-
-  // if (disableSubmit) {
-  //   return (
-  //     <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
-  //       <SkeletonForm />
-  //     </Container>
-  //   );
-  // }
+  if (loadingSubmit) {
+    return (
+      <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
+        <SignUpSkeleton />
+      </Container>
+    );
+  }
 
   return (
     <>
@@ -116,7 +116,7 @@ function SignUp() {
                     id="email"
                     name="email"
                     value={formik.values.email}
-                    placeholder="Company Name"
+                    placeholder="Email"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={formik.touched.email && Boolean(formik.errors.email)}
@@ -133,7 +133,7 @@ function SignUp() {
                     name="password"
                     type="password"
                     value={formik.values.password}
-                    placeholder="Company Name"
+                    placeholder="Password"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={formik.touched.password && Boolean(formik.errors.password)}
@@ -158,11 +158,12 @@ function SignUp() {
                   />
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid item xs={8}>
-                <Label text="Job description" required />
-                <RichTextField setValue={setDescription} value={description} />
+              <br />
+              <Grid item xs={12}>
+                <Grid item xs={8}>
+                  <Label text="Company description" required />
+                  <RichTextField placeholder="Tell us about your company" setValue={setDescription} value={description} />
+                </Grid>
               </Grid>
             </Grid>
             <br />

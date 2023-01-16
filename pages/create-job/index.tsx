@@ -1,4 +1,3 @@
-import { withAuthenticator } from "@aws-amplify/ui-react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -47,8 +46,11 @@ export type SnackbarProps = {
   message: string;
   severity: AlertColor | undefined;
 };
+function parseCookies(req: any) {
+  return cookie.parse(req ? req.headers.cookie || "" : document.cookie);
+}
 
-function CreateJob({ user }: CognitoUser | any) {
+function CreateJob({ currentUser }: CognitoUser | any) {
   let Router = useRouter();
   let cookies = parseCookies("");
 
@@ -57,8 +59,8 @@ function CreateJob({ user }: CognitoUser | any) {
   let [hiringStepDescription, setHiringStepDescription] = React.useState("");
 
   React.useEffect(() => {
-    console.log(user)
-  },[])
+    console.log(currentUser)
+  },[currentUser])
 
   let [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
@@ -91,7 +93,7 @@ function CreateJob({ user }: CognitoUser | any) {
             hasbeenPaid: false,
             description,
             hiringStepDescription,
-            userId: user.username,
+            userId: currentUser.username,
             skills: job.skills?.map((skill: { id: string; text: string }) => skill.text) || [],
             logo: {
               // use the image's region and bucket (from aws-exports) as well as the key from the uploaded image
@@ -112,7 +114,7 @@ function CreateJob({ user }: CognitoUser | any) {
       await Cookie.set("jobId", addJob.data.createJob.id);
       stipeCheckOut();
     },
-    [user.username]
+    [currentUser.username]
   );
 
   React.useEffect(() => {
@@ -230,7 +232,7 @@ function CreateJob({ user }: CognitoUser | any) {
             Go back
           </Link>
         </Breadcrumbs>
-        <h1 className="font-medium text-4xl">Post a job</h1>
+        <h1 className="font-medium text-4xl">Post a job {currentUser.username}</h1>
         <form onSubmit={formik.handleSubmit} className="pt-6">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
@@ -363,27 +365,4 @@ function CreateJob({ user }: CognitoUser | any) {
   );
 }
 
-function parseCookies(req: any) {
-  return cookie.parse(req ? req.headers.cookie || "" : document.cookie);
-}
-
-export default withAuthenticator(CreateJob, {
-  components: {
-    SignUp: {
-      Footer() {
-        return (
-          <div className="pb-3 font-normal leading-normal mt-0 mb-4 text-gray-600 text-center">
-            <p>*We do not share any of your data</p>
-          </div>
-        );
-      },
-    },
-  },
-  formFields: {
-    signIn: {
-      username: {
-        placeholder: "Enter your email",
-      },
-    },
-  },
-});
+export default CreateJob;
