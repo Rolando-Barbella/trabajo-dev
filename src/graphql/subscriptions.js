@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateCompany = /* GraphQL */ `
-  subscription OnCreateCompany {
-    onCreateCompany {
+  subscription OnCreateCompany($filter: ModelSubscriptionCompanyFilterInput) {
+    onCreateCompany(filter: $filter) {
       id
       name
       image {
@@ -13,16 +13,14 @@ export const onCreateCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }
   }
 `;
 export const onUpdateCompany = /* GraphQL */ `
-  subscription OnUpdateCompany {
-    onUpdateCompany {
+  subscription OnUpdateCompany($filter: ModelSubscriptionCompanyFilterInput) {
+    onUpdateCompany(filter: $filter) {
       id
       name
       image {
@@ -32,16 +30,14 @@ export const onUpdateCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }
   }
 `;
 export const onDeleteCompany = /* GraphQL */ `
-  subscription OnDeleteCompany {
-    onDeleteCompany {
+  subscription OnDeleteCompany($filter: ModelSubscriptionCompanyFilterInput) {
+    onDeleteCompany(filter: $filter) {
       id
       name
       image {
@@ -51,16 +47,14 @@ export const onDeleteCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }
   }
 `;
 export const onCreateJob = /* GraphQL */ `
-  subscription OnCreateJob {
-    onCreateJob {
+  subscription OnCreateJob($filter: ModelSubscriptionJobFilterInput) {
+    onCreateJob(filter: $filter) {
       id
       companyName
       title
@@ -86,8 +80,8 @@ export const onCreateJob = /* GraphQL */ `
   }
 `;
 export const onUpdateJob = /* GraphQL */ `
-  subscription OnUpdateJob {
-    onUpdateJob {
+  subscription OnUpdateJob($filter: ModelSubscriptionJobFilterInput) {
+    onUpdateJob(filter: $filter) {
       id
       companyName
       title
@@ -113,8 +107,8 @@ export const onUpdateJob = /* GraphQL */ `
   }
 `;
 export const onDeleteJob = /* GraphQL */ `
-  subscription OnDeleteJob {
-    onDeleteJob {
+  subscription OnDeleteJob($filter: ModelSubscriptionJobFilterInput) {
+    onDeleteJob(filter: $filter) {
       id
       companyName
       title

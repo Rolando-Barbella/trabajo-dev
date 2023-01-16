@@ -16,8 +16,6 @@ export const createCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }
@@ -38,8 +36,6 @@ export const updateCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }
@@ -60,8 +56,6 @@ export const deleteCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }

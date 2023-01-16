@@ -70,14 +70,13 @@ export const getJob = /* GraphQL */ `
     }
   }
 `;
-// {hasbeenPaid: {eq: true}}
 export const listJobs = /* GraphQL */ `
   query ListJobs(
     $filter: ModelJobFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listJobs(filter: {hasbeenPaid: {eq: true}}, limit: $limit, nextToken: $nextToken) {
+    listJobs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         companyName

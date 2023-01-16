@@ -13,20 +13,18 @@ export const getCompany = /* GraphQL */ `
       }
       description
       userId
-      jobTitle
-      salary
       createdAt
       updatedAt
     }
   }
 `;
-export const listCompanys = /* GraphQL */ `
-  query ListCompanys(
+export const listCompanies = /* GraphQL */ `
+  query ListCompanies(
     $filter: ModelCompanyFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listCompanys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listCompanies(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
@@ -37,8 +35,6 @@ export const listCompanys = /* GraphQL */ `
         }
         description
         userId
-        jobTitle
-        salary
         createdAt
         updatedAt
       }
