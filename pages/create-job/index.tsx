@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { Auth } from "aws-amplify";
 import Grid from "@mui/material/Grid";
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { API, Storage } from "aws-amplify";
@@ -24,12 +25,13 @@ import TagInput from "../../src/components/TagInput/TagInput";
 import TextField from "../../src/components/TextField";
 import { createJob, updateJob } from "../../src/graphql/mutations";
 import Link from "next/link";
+
 const RichTextField = dynamic(() => import("../../src/components/RichTextField"), {
   ssr: false,
+  loading: () => <div>...</div>
 });
 
 let blankJob = {
-  companyName: "",
   title: "",
   logo: "",
   salary: "",
@@ -46,11 +48,13 @@ export type SnackbarProps = {
   message: string;
   severity: AlertColor | undefined;
 };
-function parseCookies(req: any) {
-  return cookie.parse(req ? req.headers.cookie || "" : document.cookie);
-}
 
-function CreateJob({ currentUser }: CognitoUser | any) {
+function CreateJob() {
+  function parseCookies(req: any) {
+    if (typeof window !== 'undefined') {
+      return cookie.parse(req ? req.headers.cookie || "" : document.cookie );
+    }
+  }
   let Router = useRouter();
   let cookies = parseCookies("");
 
@@ -58,9 +62,20 @@ function CreateJob({ currentUser }: CognitoUser | any) {
   let [description, setDescription] = React.useState("");
   let [hiringStepDescription, setHiringStepDescription] = React.useState("");
 
+  let [currentUser, setCurrentUser] = React.useState<CognitoUser | any>({});
+
   React.useEffect(() => {
-    console.log(currentUser)
-  },[currentUser])
+    let getUser = async () => {
+      try {
+        let user = await Auth.currentAuthenticatedUser();
+        setCurrentUser(user);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    getUser();
+  }, []);
+
 
   let [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
@@ -91,6 +106,7 @@ function CreateJob({ currentUser }: CognitoUser | any) {
           input: {
             ...job,
             hasbeenPaid: false,
+            conpanyName: currentUser?.attributes['custom:companyName'],
             description,
             hiringStepDescription,
             userId: currentUser.username,
@@ -128,7 +144,7 @@ function CreateJob({ currentUser }: CognitoUser | any) {
         query: updateJob,
         variables: {
           input: {
-            id: cookies.jobId,
+            id: cookies?.jobId,
             hasbeenPaid: true,
           },
         },
@@ -148,7 +164,6 @@ function CreateJob({ currentUser }: CognitoUser | any) {
 
   let validationSchema = yup.object({
     title: yup.string().required("Job title is required").min(5, "Job title too short"),
-    companyName: yup.string().required("Company name is required").min(1, "Company name too short"),
     logo: yup
       .mixed()
       .test({
@@ -227,31 +242,10 @@ function CreateJob({ currentUser }: CognitoUser | any) {
           severity={snackBar.severity}
           setOpen={setSnackBar}
         />
-        <Breadcrumbs>
-          <Link href="/" onClick={() => Router.back()}>
-            Go back
-          </Link>
-        </Breadcrumbs>
-        <h1 className="font-medium text-4xl">Post a job {currentUser.username}</h1>
+        <h2 className="font-medium text-3xl">{ currentUser?.attributes && currentUser?.attributes['custom:companyName']}</h2>
         <form onSubmit={formik.handleSubmit} className="pt-6">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Grid item xs={6}>
-                  <Label text="Company name" required />
-                  <TextField
-                    id="companyName"
-                    name="companyName"
-                    value={formik.values.companyName}
-                    placeholder="Company Name"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.companyName && Boolean(formik.errors.companyName)}
-                    helperText={formik.touched.companyName && formik.errors.companyName}
-                    variant="outlined"
-                  />
-                </Grid>
-              </Grid>
               <Grid item xs={12}>
                 <Grid item xs={5}>
                   <Label text="Company logo" required />

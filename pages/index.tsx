@@ -100,7 +100,17 @@ const Home = ({ jobs }: {jobs: Array<Job>}) => {
           {jobs?.map((job: Job) => {
             return (
               <div key={job.id} className="pt-7">
-                <JobCard id={job.id} updatedAt={job.updatedAt} typeOfWork={job.typeOfWork} title={job.title} timeZone={job.timeZone} logo={job.logo}  skills={job.skills} salary={job.salary} companyName={job.companyName} />
+                <JobCard 
+                  id={job.id} 
+                  updatedAt={job.updatedAt} 
+                  typeOfWork={job.typeOfWork} 
+                  title={job.title} 
+                  timeZone={job.timeZone} 
+                  logo={job.logo}  
+                  skills={job.skills} 
+                  salary={job.salary} 
+                  companyName={job.companyName} 
+                />
               </div>
             );
           })}

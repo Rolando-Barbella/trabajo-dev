@@ -1,5 +1,5 @@
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
 
 export default function ConfirmCodeSkeleton() {
@@ -10,7 +10,7 @@ export default function ConfirmCodeSkeleton() {
         <Skeleton variant="rectangular" width={500} height={50} />
         <Skeleton variant="rectangular" width={500} height={50} />
         <br />
-        <Skeleton variant="rectangular" width={100} height={50}  />
+        <Skeleton variant="rectangular" width={100} height={50} />
       </Stack>
     </Container>
   );

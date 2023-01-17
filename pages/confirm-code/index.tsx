@@ -77,7 +77,7 @@ function ConfirmCode() {
 
   return (
     <>
-      <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
+      <Container maxWidth="md" sx={{ pt: 2, pb: 12 }}>
         <SimpleSnackbar
           snackbar={snackBar}
           message={snackBar.message}
@@ -87,7 +87,7 @@ function ConfirmCode() {
         <Breadcrumbs>
           <Link href="/" onClick={() => Router.back()}>Go back</Link>
         </Breadcrumbs>
-        <h1 className="font-medium text-3xl">Sign up</h1>
+        <h1 className="font-medium text-3xl">Confirm your account</h1>
         <form onSubmit={formik.handleSubmit} className="pt-6">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
