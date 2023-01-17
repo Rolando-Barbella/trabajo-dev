@@ -57,10 +57,6 @@ function ResponsiveAppBar() {
     Router.reload();
   };
 
-  if (Router.pathname === "/create-job") {
-    return <div />;
-  }
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -78,7 +74,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static" color="transparent" sx={{ boxShadow: "0 2px 10px 0 rgb(116 129 141 / 20%)" }}>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -93,7 +89,6 @@ function ResponsiveAppBar() {
               color: "inherit",
               textDecoration: "none",
               fontSize: "0.92rem",
-
             }}
           >
             JUNIOR DEV JOBS

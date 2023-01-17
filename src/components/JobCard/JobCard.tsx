@@ -50,7 +50,7 @@ export default function JobCard({ logo, title, skills, salary, companyName, time
               </p>
               <Box sx={{display: 'flex', flex: 1, justifyContent: 'space-between'}} paddingTop={2}>
                 <div>
-                  {skills?.map((skill) => (
+                  {skills?.slice(0, 4).map((skill) => (
                     <Chip style={{ marginRight: 5 }} key={skill} label={skill} variant="outlined" />
                   ))}
                 </div>

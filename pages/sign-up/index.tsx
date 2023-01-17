@@ -103,7 +103,7 @@ function SignUp() {
           setOpen={setSnackBar}
         />
         <Breadcrumbs>
-          <Link href="/">Go back</Link>
+          <Link href="/" onClick={() => Router.back()}>Go back</Link>
         </Breadcrumbs>
         <h1 className="font-medium text-3xl">Sign up</h1>
         <form onSubmit={formik.handleSubmit} className="pt-6">
@@ -166,7 +166,9 @@ function SignUp() {
                 </Grid>
               </Grid>
             </Grid>
-            <br />
+            <Grid paddingTop={1} paddingBottom={1}>
+              Already have an account? <Link href="/sign-in" style={{color: "#5091cb"}}>Sign in</Link>
+            </Grid>
             <Button text="Submit" disabled={description.length < 100} />
           </Box>
         </form>
