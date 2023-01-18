@@ -15,7 +15,6 @@ import { CustomButton as Button } from "../../src/components/CustomButton/Custom
 import SkeletonForm from "../../src/components/SkeletonForm";
 
 import { AlertColor } from "@mui/material";
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import { checkout } from "../../checkout";
 import config from "../../src/aws-exports";
 import Label from "../../src/components/Label/Label";
@@ -24,7 +23,6 @@ import SimpleSnackbar from "../../src/components/SimpleSnackBar/SimpleSnackBar";
 import TagInput from "../../src/components/TagInput/TagInput";
 import TextField from "../../src/components/TextField";
 import { createJob, updateJob } from "../../src/graphql/mutations";
-import Link from "next/link";
 
 const RichTextField = dynamic(() => import("../../src/components/RichTextField"), {
   ssr: false,
@@ -130,7 +128,7 @@ function CreateJob() {
       await Cookie.set("jobId", addJob.data.createJob.id);
       stipeCheckOut();
     },
-    [currentUser.username]
+    [currentUser]
   );
 
   React.useEffect(() => {
