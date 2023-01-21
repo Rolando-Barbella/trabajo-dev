@@ -74,7 +74,6 @@ export const onCreateJob = /* GraphQL */ `
       role
       hasbeenPaid
       skills
-      applyLink
       createdAt
       updatedAt
     }
@@ -102,7 +101,6 @@ export const onUpdateJob = /* GraphQL */ `
       role
       hasbeenPaid
       skills
-      applyLink
       createdAt
       updatedAt
     }
@@ -130,7 +128,6 @@ export const onDeleteJob = /* GraphQL */ `
       role
       hasbeenPaid
       skills
-      applyLink
       createdAt
       updatedAt
     }

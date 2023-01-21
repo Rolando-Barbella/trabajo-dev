@@ -127,7 +127,6 @@ export type CreateJobInput = {
   role: string,
   hasbeenPaid: boolean,
   skills: Array< string | null >,
-  applyLink: string,
 };
 
 export type ModelJobConditionInput = {
@@ -144,7 +143,6 @@ export type ModelJobConditionInput = {
   role?: ModelStringInput | null,
   hasbeenPaid?: ModelBooleanInput | null,
   skills?: ModelStringInput | null,
-  applyLink?: ModelStringInput | null,
   and?: Array< ModelJobConditionInput | null > | null,
   or?: Array< ModelJobConditionInput | null > | null,
   not?: ModelJobConditionInput | null,
@@ -186,7 +184,6 @@ export type Job = {
   role: string,
   hasbeenPaid: boolean,
   skills: Array< string | null >,
-  applyLink: string,
   createdAt: string,
   updatedAt: string,
 };
@@ -207,7 +204,6 @@ export type UpdateJobInput = {
   role?: string | null,
   hasbeenPaid?: boolean | null,
   skills?: Array< string | null > | null,
-  applyLink?: string | null,
 };
 
 export type DeleteJobInput = {
@@ -245,7 +241,6 @@ export type ModelJobFilterInput = {
   role?: ModelStringInput | null,
   hasbeenPaid?: ModelBooleanInput | null,
   skills?: ModelStringInput | null,
-  applyLink?: ModelStringInput | null,
   and?: Array< ModelJobFilterInput | null > | null,
   or?: Array< ModelJobFilterInput | null > | null,
   not?: ModelJobFilterInput | null,
@@ -311,7 +306,6 @@ export type ModelSubscriptionJobFilterInput = {
   role?: ModelSubscriptionStringInput | null,
   hasbeenPaid?: ModelSubscriptionBooleanInput | null,
   skills?: ModelSubscriptionStringInput | null,
-  applyLink?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionJobFilterInput | null > | null,
   or?: Array< ModelSubscriptionJobFilterInput | null > | null,
 };
@@ -430,7 +424,6 @@ export type CreateJobMutation = {
     role: string,
     hasbeenPaid: boolean,
     skills: Array< string | null >,
-    applyLink: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -464,7 +457,6 @@ export type UpdateJobMutation = {
     role: string,
     hasbeenPaid: boolean,
     skills: Array< string | null >,
-    applyLink: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -498,7 +490,6 @@ export type DeleteJobMutation = {
     role: string,
     hasbeenPaid: boolean,
     skills: Array< string | null >,
-    applyLink: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -581,7 +572,6 @@ export type GetJobQuery = {
     role: string,
     hasbeenPaid: boolean,
     skills: Array< string | null >,
-    applyLink: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -618,7 +608,6 @@ export type ListJobsQuery = {
       role: string,
       hasbeenPaid: boolean,
       skills: Array< string | null >,
-      applyLink: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -719,7 +708,6 @@ export type OnCreateJobSubscription = {
     role: string,
     hasbeenPaid: boolean,
     skills: Array< string | null >,
-    applyLink: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -752,7 +740,6 @@ export type OnUpdateJobSubscription = {
     role: string,
     hasbeenPaid: boolean,
     skills: Array< string | null >,
-    applyLink: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -785,7 +772,6 @@ export type OnDeleteJobSubscription = {
     role: string,
     hasbeenPaid: boolean,
     skills: Array< string | null >,
-    applyLink: string,
     createdAt: string,
     updatedAt: string,
   } | null,

@@ -39,7 +39,7 @@ let blankJob = {
   timeZone: "",
   role: "",
   skills: [],
-  applyLink: "",
+  // applyLink: "",
 };
 
 export type SnackbarProps = {
@@ -350,7 +350,7 @@ function CreateJob() {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                   <Label text="Apply link" required />
                   <TextField
                     id="applyLink"
@@ -363,7 +363,7 @@ function CreateJob() {
                     helperText={formik.touched.applyLink && formik.errors.applyLink}
                     variant="outlined"
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
             </Grid>
             <br />
