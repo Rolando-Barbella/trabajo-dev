@@ -2,6 +2,7 @@ import { withSSRContext } from "aws-amplify";
 import { getJob } from "../../src/graphql/queries";
 import Container from "@mui/material/Container";
 import Location from "@mui/icons-material/PlaceOutlined";
+import Money from "@mui/icons-material/AddCard";
 import Chip from "@mui/material/Chip";
 
 import { useRouter } from "next/router";
@@ -43,8 +44,11 @@ function Job({ job }: { job: Job }) {
             <p className="mr-2">{job.typeOfWork} -</p>
             <p>{job.timeZone}</p>
           </div>
-          <p className="pt-2 text-sm">
-            <span className="font-medium">Salary:</span> {job.salary}
+          <p className="flex pt-2 text-sm">
+            <div className="pr-0.5">
+              <Money fontSize="small" />
+            </div>
+            <span>Salary:</span> {job.salary}
           </p>
         </div>
       </div>

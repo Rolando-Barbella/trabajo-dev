@@ -39,6 +39,7 @@ let blankJob = {
   timeZone: "",
   role: "",
   skills: [],
+  applyLink: "",
 };
 
 export type SnackbarProps = {
@@ -104,7 +105,7 @@ function CreateJob() {
           input: {
             ...job,
             hasbeenPaid: false,
-            conpanyName: currentUser?.attributes['custom:companyName'],
+            companyName: currentUser?.attributes['custom:companyName'],
             description,
             hiringStepDescription,
             userId: currentUser.username,
@@ -185,6 +186,7 @@ function CreateJob() {
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
     role: yup.string().required("Please add type of role"),
+    applyLink: yup.string().url().required('Please enter valid'),
     skills: yup.array().required(),
   });
 
@@ -220,7 +222,7 @@ function CreateJob() {
     "Mobile dev",
     "Dev Ops",
   ];
-  let salary = ["Select", "0 - 25K", "25K - 40K", "40K+"];
+  let salary = ["Select", "10K - 25K", "25K - 40K", "40K+"];
   let desableButton = disableSubmit || description.length < 100;
 
   if (disableSubmit) {
@@ -345,6 +347,22 @@ function CreateJob() {
                   <Label text="Main skills for the role" required />
                   {/* @ts-ignore} */}
                   <TagInput tags={formik.values.skills} setTags={(e) => formik.setFieldValue("skills", e)} />
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Grid item xs={6}>
+                  <Label text="Apply link" required />
+                  <TextField
+                    id="applyLink"
+                    name="applyLink"
+                    value={formik.values.applyLink}
+                    placeholder="exp:https:mycompany/apply/role123"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.applyLink && Boolean(formik.errors.applyLink)}
+                    helperText={formik.touched.applyLink && formik.errors.applyLink}
+                    variant="outlined"
+                  />
                 </Grid>
               </Grid>
             </Grid>

@@ -15,6 +15,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
 import { CSSProperties } from "react";
+import { CognitoUser } from "amazon-cognito-identity-js";
 
 const styles = {
   postJobBtn: {
@@ -36,7 +37,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const Router = useRouter();
-  let [currentUser, setCurrentUser] = React.useState("");
+  let [currentUser, setCurrentUser] = React.useState<CognitoUser | any>("");
 
   React.useEffect(() => {
     let getUser = async () => {
@@ -181,7 +182,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size='small'>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={currentUser?.attributes && currentUser?.attributes['custom:companyName']} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
               <Menu
