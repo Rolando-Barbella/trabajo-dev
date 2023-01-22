@@ -186,7 +186,7 @@ function CreateJob() {
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
     role: yup.string().required("Please add type of role"),
-    applyLink: yup.string().url().required('Please enter valid'),
+    // applyLink: yup.string().url().required('Please enter valid'),
     skills: yup.array().required(),
   });
 

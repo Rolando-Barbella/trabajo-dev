@@ -35,7 +35,6 @@ const SKILLS = [
   "Scala",
   "Svelte Js",
   "Next Js",
-  "Ruby",
   "Vite",
   "Vue Js",
   "Rust",
@@ -50,7 +49,6 @@ const SKILLS = [
   "Talwind CSS",
   "Typescript",
   "Remix",
-  "Rust",
   "Rest API",
   "Scala",
   "Docker"

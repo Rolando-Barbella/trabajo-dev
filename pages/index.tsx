@@ -50,6 +50,7 @@ const styles = {
 }
 const Home = ({ jobs }: {jobs: Array<Job>}) => {
   let [currentUser, setCurrentUser] = React.useState("");
+  console.log(jobs)
 
   React.useEffect(() => {
     if(jobs?.length) {

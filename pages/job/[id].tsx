@@ -2,7 +2,6 @@ import { withSSRContext } from "aws-amplify";
 import { getJob } from "../../src/graphql/queries";
 import Container from "@mui/material/Container";
 import Location from "@mui/icons-material/PlaceOutlined";
-import Money from "@mui/icons-material/AddCard";
 import Chip from "@mui/material/Chip";
 
 import { useRouter } from "next/router";
@@ -27,6 +26,8 @@ export async function getServerSideProps(context: { query: { id: string } }) {
 }
 function Job({ job }: { job: Job }) {
   const Router = useRouter();
+  let date = new Date(job.updatedAt);
+
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 15 }}>
       <div className="flex container">
@@ -39,31 +40,35 @@ function Job({ job }: { job: Job }) {
         <div className="pl-4">
           <h2 className="font-medium text-xl">{job.title}</h2>
           <p className="text-sm">{job.companyName}</p>
-          <div className="flex text-sm pt-1">
-            <Location fontSize="small" />
-            <p className="mr-2">{job.typeOfWork} -</p>
-            <p>{job.timeZone}</p>
-          </div>
-          <p className="flex pt-2 text-sm">
-            <div className="pr-0.5">
-              <Money fontSize="small" />
-            </div>
-            <span>Salary:</span> {job.salary}
+          <p className="text-light text-gray-400" style={{ fontSize: 14, color: "rgb(156 163 175)" }}>
+            {date.toLocaleDateString("en-UK", { month: "short", year: "numeric" })}
           </p>
         </div>
       </div>
       <div className="container">
-        <div className="pt-4">
+          <div className="flex text-sm pt-3 pb-2">
+            <Location fontSize="small" />
+            <p className="mr-2">{job.typeOfWork} -</p>
+            <p>{job.timeZone}</p>
+          </div>
+        <div className="pt-0">
+          <p className="text-md font-semibold">Salary</p>
+          <span style={{ marginRight: 5 }}>{job.salary}</span>
+        </div>
+        <div className="pt-2">
           <p className="text-md font-semibold">Job description</p>
           <div dangerouslySetInnerHTML={{ __html: job.description }} />
         </div>
         <p className="text-lg font-semibold pt-4">Hiring process </p>
-        <div className="pt-4 flex">
-          <p className="text-md font-semibold mr-2">Number of hiring steps: </p>
+        <div className="pt-2 flex">
+          <p className="text-md mr-2 font-medium">Number of hiring steps: </p>
           <span>{job.hiringSteps}</span>
         </div>
-        <div className="text-md pt-2" dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "No description was added" }} />
-        <div className="pt-4 flex">
+        <div
+          className="text-md pt-2"
+          dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "No description was added" }}
+        />
+        <div className="pt-2 flex">
           <p className="text-md font-semibold mr-2">Type of coding challange: </p>
           <span>{job.typeOfCodingChallenge || ""}</span>
         </div>
@@ -74,8 +79,8 @@ function Job({ job }: { job: Job }) {
           ))}
         </div>
         <br />
-        <Link href={'https://twitter.com/mysurfislife'} target="_blank">
-          <Button text="Apply" width={200} height={50}/>
+        <Link href={"https://twitter.com/mysurfislife"} target="_blank">
+          <Button text="Apply" width={200} height={50} />
         </Link>
       </div>
     </Container>
