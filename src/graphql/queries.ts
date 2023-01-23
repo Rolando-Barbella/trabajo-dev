@@ -65,6 +65,8 @@ export const getJob = /* GraphQL */ `
       role
       hasbeenPaid
       skills
+      applyLink
+      companyDescription
       createdAt
       updatedAt
     }
@@ -97,6 +99,8 @@ export const listJobs = /* GraphQL */ `
         role
         hasbeenPaid
         skills
+        applyLink
+        companyDescription
         createdAt
         updatedAt
       }

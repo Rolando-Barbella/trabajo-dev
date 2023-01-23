@@ -13,7 +13,7 @@ projects:
         region: us-east-1
         apiId: hhl5si2e4jeh7epjksxrv7bevi
   trabajodev:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/trabajodev/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:
