@@ -24,14 +24,16 @@ const Profile = () => {
     let getUser = async () => {
       try {
         let user = await Auth.currentAuthenticatedUser();
-        if (!user) {Router.push("/", "/", { shallow: false });}
+        if (!user) {
+          Router.push("/", "/", { shallow: false });
+        }
         setCurrentUser(user);
       } catch (e) {
         console.error(e);
       }
     };
     getUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleJobs = React.useCallback(async () => {
@@ -64,7 +66,7 @@ const Profile = () => {
       </Container>
     );
   }
-
+  console.log(userJobs?.listJobs);
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 20 }}>
       <Head>
@@ -74,17 +76,20 @@ const Profile = () => {
         <h1 className="font-medium text-2xl">About {currentUser?.attributes["custom:companyName"]}</h1>
         <div className="pt-2" dangerouslySetInnerHTML={{ __html: currentUser?.attributes["custom:description"] }} />
         <div className="pt-2">
-          <h2 className="font-medium text-2xl">List of jobs</h2>
-          {!userJobs?.listJobs && (
-            <div className="pt-10 text-center">
-              <h1 className="font-medium text-2xl">You do not have any jobs listed</h1>
-              <div className="pt-2">
-                <p className="pb-2">Help aspiring dev find their first job!</p>
-                <Link href="/sign-in">
-                  <Button text="Post a job" width={120} />
-                </Link>
+          {Boolean(userJobs?.listJobs.items?.length) && <h2 className="font-medium text-2xl">List of jobs</h2>}
+          {!Boolean(userJobs?.listJobs.items?.length) && (
+            <>
+              <hr />
+              <div className="pt-10 text-center">
+                <h1 className="font-medium text-2xl">You do not have any jobs listed</h1>
+                <div className="pt-2">
+                  <p className="pb-2">Help aspiring dev find their first job!</p>
+                  <Link href="/sign-in">
+                    <Button text="Post a job" width={120} />
+                  </Link>
+                </div>
               </div>
-            </div>
+            </>
           )}
           {userJobs?.listJobs?.items?.map((job: Job) => {
             return (
@@ -108,5 +113,4 @@ const Profile = () => {
     </Container>
   );
 };
-//@ts-ignorets
 export default Profile;

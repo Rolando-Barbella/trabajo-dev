@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="text.secondary">
+    <Typography variant="body2" color="white">
       © {new Date().getFullYear()} Junior dev jobs. All rights reserved.
     </Typography>
   );
@@ -22,8 +22,8 @@ export default function StickyFooter() {
           mt: 'auto',
           backgroundColor: (theme) =>
             theme.palette.mode === 'light'
-              ? theme.palette.grey[200]
-              : theme.palette.grey[800],
+              ? theme.palette.grey[900]
+              : theme.palette.grey[900],
         }}
       >
         <Container maxWidth="md">
