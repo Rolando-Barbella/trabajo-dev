@@ -43,15 +43,15 @@ function Job({ job }: { job: Job }) {
           <p className="text-light text-gray-400" style={{ fontSize: 14, color: "rgb(156 163 175)" }}>
             {date.toLocaleDateString("en-UK", { month: "short", year: "numeric" })}
           </p>
-        </div>
-      </div>
-      <div className="container">
-          <div className="flex text-sm pt-3 pb-2">
+          <div className="flex text-sm pt-1 pb-2">
             <Location fontSize="small" />
             <p className="mr-2">{job.typeOfWork} -</p>
             <p>{job.timeZone}</p>
           </div>
-        <div className="pt-0">
+        </div>
+      </div>
+      <div className="container">
+        <div className="pt-6">
           <p className="text-md font-semibold">Salary</p>
           <span style={{ marginRight: 5 }}>{job.salary}</span>
         </div>
@@ -60,15 +60,15 @@ function Job({ job }: { job: Job }) {
           <div dangerouslySetInnerHTML={{ __html: job.description }} />
         </div>
         <p className="text-lg font-semibold pt-4">Hiring process </p>
-        <div className="pt-2 flex">
-          <p className="text-md mr-2 font-medium">Number of hiring steps: </p>
+        <div className="flex">
+          <p className="text-md mr-2">Number of hiring steps: </p>
           <span>{job.hiringSteps}</span>
         </div>
         <div
           className="text-md pt-2"
           dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "No description was added" }}
         />
-        <div className="pt-2 flex">
+        <div className="pt-4 flex">
           <p className="text-md font-semibold mr-2">Type of coding challange: </p>
           <span>{job.typeOfCodingChallenge || ""}</span>
         </div>

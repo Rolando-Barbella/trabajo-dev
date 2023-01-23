@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import * as yup from "yup";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
-import SignUpSkeleton from "./SignUp-Skeleton";
+import SignUpSkeleton from "./SignUpSkeleton";
 
 import { AlertColor } from "@mui/material";
 import Breadcrumbs from "@mui/material/Breadcrumbs";

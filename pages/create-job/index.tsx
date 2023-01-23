@@ -39,7 +39,7 @@ let blankJob = {
   timeZone: "",
   role: "",
   skills: [],
-  // applyLink: "",
+  applyLink: "",
 };
 
 export type SnackbarProps = {
@@ -106,6 +106,7 @@ function CreateJob() {
             ...job,
             hasbeenPaid: false,
             companyName: currentUser?.attributes['custom:companyName'],
+            companyDescription: currentUser?.attributes['custom:companyDescription'],
             description,
             hiringStepDescription,
             userId: currentUser.username,
@@ -186,7 +187,7 @@ function CreateJob() {
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
     role: yup.string().required("Please add type of role"),
-    // applyLink: yup.string().url().required('Please enter valid'),
+    applyLink: yup.string().url().required('Please enter valid url'),
     skills: yup.array().required(),
   });
 
@@ -350,7 +351,7 @@ function CreateJob() {
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                {/* <Grid item xs={6}>
+                <Grid item xs={6}>
                   <Label text="Apply link" required />
                   <TextField
                     id="applyLink"
@@ -363,7 +364,7 @@ function CreateJob() {
                     helperText={formik.touched.applyLink && formik.errors.applyLink}
                     variant="outlined"
                   />
-                </Grid> */}
+                </Grid>
               </Grid>
             </Grid>
             <br />

@@ -33,4 +33,6 @@ type Job @model {
   role: String!
   hasbeenPaid: Boolean!
   skills: [String]!
+  applyLink: String!
+  companyDescription: String!
 }

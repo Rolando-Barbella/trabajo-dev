@@ -10,7 +10,6 @@ import { Job } from "../src/API";
 import { CustomButton as Button } from "../src/components/CustomButton/CustomButton";
 import Link from "next/link";
 
-
 export async function getServerSideProps() {
   const SSR = withSSRContext();
   const { data } = await SSR.API.graphql({ query: listJobs });
@@ -50,7 +49,6 @@ const styles = {
 }
 const Home = ({ jobs }: {jobs: Array<Job>}) => {
   let [currentUser, setCurrentUser] = React.useState("");
-  console.log(jobs)
 
   React.useEffect(() => {
     if(jobs?.length) {
@@ -70,7 +68,7 @@ const Home = ({ jobs }: {jobs: Array<Job>}) => {
   return (
     <Box sx={styles.container}>
       <Head>
-        <title>Software development jobs for junior</title>
+        <title>Software development jobs for juniors</title>
       </Head>
       <div className="container">
         <h1>
