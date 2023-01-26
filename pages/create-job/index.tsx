@@ -219,9 +219,11 @@ function CreateJob() {
     "Back end dev",
     "Full stack dev",
     "Cloud Enginer",
-    "QA",
     "Mobile dev",
     "Dev Ops",
+    "Cloud engineer",
+    "Blockchain dev",
+    "QA",
   ];
   let salary = ["Select", "10K - 25K", "25K - 40K", "40K+"];
   let desableButton = disableSubmit || description.length < 100;

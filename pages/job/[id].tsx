@@ -59,11 +59,11 @@ function Job({ job }: { job: Job }) {
         </div>
         <div className="pt-2">
           <p className="text-md font-semibold">About {job.companyName}</p>
-          <div dangerouslySetInnerHTML={{ __html: job.companyDescription }} />
+          <div dangerouslySetInnerHTML={{ __html: job.companyDescription.trim() }} />
         </div>
         <div className="pt-2">
           <p className="text-md font-semibold">Job description</p>
-          <div dangerouslySetInnerHTML={{ __html: job.description }} />
+          <div dangerouslySetInnerHTML={{ __html: job.description.trim() }} />
         </div>
         <p className="text-lg font-semibold pt-4">Hiring process </p>
         <div className="flex">
@@ -75,7 +75,7 @@ function Job({ job }: { job: Job }) {
           <span>{job.typeOfCodingChallenge || ""}</span>
         </div>
         <div
-          className="text-md"
+          className="text-md pt-2"
           dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "No description was added" }}
         />
         <div className="pt-2">
