@@ -313,7 +313,7 @@ function CreateJob() {
                 </Grid>
               </Grid>
               <Grid container item xs={12} spacing={3}>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
                   <Label text="What type of coding challenge should the candidate expect?" />
                   <Select
                     options={typeOfCodingChallenge}
