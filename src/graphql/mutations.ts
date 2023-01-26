@@ -88,6 +88,7 @@ export const createJob = /* GraphQL */ `
       hasbeenPaid
       skills
       applyLink
+      companyDescription
       createdAt
       updatedAt
     }
@@ -119,6 +120,7 @@ export const updateJob = /* GraphQL */ `
       hasbeenPaid
       skills
       applyLink
+      companyDescription
       createdAt
       updatedAt
     }
@@ -150,6 +152,7 @@ export const deleteJob = /* GraphQL */ `
       hasbeenPaid
       skills
       applyLink
+      companyDescription
       createdAt
       updatedAt
     }

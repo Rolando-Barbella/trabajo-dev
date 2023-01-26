@@ -128,6 +128,7 @@ export type CreateJobInput = {
   hasbeenPaid: boolean,
   skills: Array< string | null >,
   applyLink: string,
+  companyDescription: string,
 };
 
 export type ModelJobConditionInput = {
@@ -145,6 +146,7 @@ export type ModelJobConditionInput = {
   hasbeenPaid?: ModelBooleanInput | null,
   skills?: ModelStringInput | null,
   applyLink?: ModelStringInput | null,
+  companyDescription?: ModelStringInput | null,
   and?: Array< ModelJobConditionInput | null > | null,
   or?: Array< ModelJobConditionInput | null > | null,
   not?: ModelJobConditionInput | null,
@@ -187,6 +189,7 @@ export type Job = {
   hasbeenPaid: boolean,
   skills: Array< string | null >,
   applyLink: string,
+  companyDescription: string,
   createdAt: string,
   updatedAt: string,
 };
@@ -208,6 +211,7 @@ export type UpdateJobInput = {
   hasbeenPaid?: boolean | null,
   skills?: Array< string | null > | null,
   applyLink?: string | null,
+  companyDescription?: string | null,
 };
 
 export type DeleteJobInput = {
@@ -246,6 +250,7 @@ export type ModelJobFilterInput = {
   hasbeenPaid?: ModelBooleanInput | null,
   skills?: ModelStringInput | null,
   applyLink?: ModelStringInput | null,
+  companyDescription?: ModelStringInput | null,
   and?: Array< ModelJobFilterInput | null > | null,
   or?: Array< ModelJobFilterInput | null > | null,
   not?: ModelJobFilterInput | null,
@@ -312,6 +317,7 @@ export type ModelSubscriptionJobFilterInput = {
   hasbeenPaid?: ModelSubscriptionBooleanInput | null,
   skills?: ModelSubscriptionStringInput | null,
   applyLink?: ModelSubscriptionStringInput | null,
+  companyDescription?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionJobFilterInput | null > | null,
   or?: Array< ModelSubscriptionJobFilterInput | null > | null,
 };
@@ -431,6 +437,7 @@ export type CreateJobMutation = {
     hasbeenPaid: boolean,
     skills: Array< string | null >,
     applyLink: string,
+    companyDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -465,6 +472,7 @@ export type UpdateJobMutation = {
     hasbeenPaid: boolean,
     skills: Array< string | null >,
     applyLink: string,
+    companyDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -499,6 +507,7 @@ export type DeleteJobMutation = {
     hasbeenPaid: boolean,
     skills: Array< string | null >,
     applyLink: string,
+    companyDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -582,6 +591,7 @@ export type GetJobQuery = {
     hasbeenPaid: boolean,
     skills: Array< string | null >,
     applyLink: string,
+    companyDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -619,6 +629,7 @@ export type ListJobsQuery = {
       hasbeenPaid: boolean,
       skills: Array< string | null >,
       applyLink: string,
+      companyDescription: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -720,6 +731,7 @@ export type OnCreateJobSubscription = {
     hasbeenPaid: boolean,
     skills: Array< string | null >,
     applyLink: string,
+    companyDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -753,6 +765,7 @@ export type OnUpdateJobSubscription = {
     hasbeenPaid: boolean,
     skills: Array< string | null >,
     applyLink: string,
+    companyDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -786,6 +799,7 @@ export type OnDeleteJobSubscription = {
     hasbeenPaid: boolean,
     skills: Array< string | null >,
     applyLink: string,
+    companyDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,

@@ -57,6 +57,7 @@ export const onCreateJob = /* GraphQL */ `
     onCreateJob(filter: $filter) {
       id
       companyName
+      companyDescription
       title
       logo {
         bucket
@@ -84,6 +85,7 @@ export const onUpdateJob = /* GraphQL */ `
     onUpdateJob(filter: $filter) {
       id
       companyName
+      companyDescription
       title
       logo {
         bucket
@@ -111,6 +113,7 @@ export const onDeleteJob = /* GraphQL */ `
     onDeleteJob(filter: $filter) {
       id
       companyName
+      companyDescription
       title
       logo {
         bucket

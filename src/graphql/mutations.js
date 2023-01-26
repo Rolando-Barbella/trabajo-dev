@@ -69,6 +69,7 @@ export const createJob = /* GraphQL */ `
     createJob(input: $input, condition: $condition) {
       id
       companyName
+      companyDescription
       title
       logo {
         bucket
@@ -99,6 +100,7 @@ export const updateJob = /* GraphQL */ `
     updateJob(input: $input, condition: $condition) {
       id
       companyName
+      companyDescription
       title
       logo {
         bucket
@@ -129,6 +131,7 @@ export const deleteJob = /* GraphQL */ `
     deleteJob(input: $input, condition: $condition) {
       id
       companyName
+      companyDescription
       title
       logo {
         bucket
