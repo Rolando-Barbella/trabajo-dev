@@ -13,7 +13,7 @@ function RichTextField({value, setValue, placeholder=""} : RichTextFieldProps) {
   let error = (value.length >1 && value.length < 100)
   return (
     <div style={{border: error ? '1px solid red' : undefined}}>
-      <ReactQuill placeholder={placeholder} theme="snow" value={value} onChange={setValue} style={{fontColor: 'black'}} />
+      <ReactQuill placeholder={placeholder} theme="snow" value={value} onChange={setValue} style={{color: 'black'}} />
     </div>
   )
 }
