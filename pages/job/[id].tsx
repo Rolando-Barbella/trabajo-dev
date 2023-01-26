@@ -27,6 +27,8 @@ export async function getServerSideProps(context: { query: { id: string } }) {
 function Job({ job }: { job: Job }) {
   const Router = useRouter();
   let date = new Date(job.updatedAt);
+      
+      console.log(Object.keys(job))
 
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 15 }}>
@@ -56,6 +58,10 @@ function Job({ job }: { job: Job }) {
           <span style={{ marginRight: 5 }}>{job.salary}</span>
         </div>
         <div className="pt-2">
+          <p className="text-md font-semibold">About {job.companyName}</p>
+          <div dangerouslySetInnerHTML={{ __html: job.companyDescription }} />
+        </div>
+        <div className="pt-2">
           <p className="text-md font-semibold">Job description</p>
           <div dangerouslySetInnerHTML={{ __html: job.description }} />
         </div>
@@ -64,15 +70,15 @@ function Job({ job }: { job: Job }) {
           <p className="text-md mr-2">Number of hiring steps: </p>
           <span>{job.hiringSteps}</span>
         </div>
-        <div
-          className="text-md pt-2"
-          dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "No description was added" }}
-        />
-        <div className="pt-4 flex">
-          <p className="text-md font-semibold mr-2">Type of coding challange: </p>
+        <div className="pt-1 flex">
+          <p className="text-md mr-2">Type of coding challange: </p>
           <span>{job.typeOfCodingChallenge || ""}</span>
         </div>
-        <div className="pt-4">
+        <div
+          className="text-md"
+          dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "No description was added" }}
+        />
+        <div className="pt-2">
           <p className="text-md font-semibold mr-2 pb-4">Main skills need it for the job</p>
           {job.skills?.map((skill) => (
             <Chip style={{ marginRight: 5 }} key={skill} label={skill} variant="outlined" />

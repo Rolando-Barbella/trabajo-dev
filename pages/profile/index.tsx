@@ -84,7 +84,7 @@ const Profile = () => {
                 <h1 className="font-medium text-2xl">You do not have any jobs listed</h1>
                 <div className="pt-2">
                   <p className="pb-2">Help aspiring dev find their first job!</p>
-                  <Link href="/sign-in">
+                  <Link href="/create-job">
                     <Button text="Post a job" width={120} />
                   </Link>
                 </div>

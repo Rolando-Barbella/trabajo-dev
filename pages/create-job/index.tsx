@@ -106,7 +106,7 @@ function CreateJob() {
             ...job,
             hasbeenPaid: false,
             companyName: currentUser?.attributes['custom:companyName'],
-            companyDescription: currentUser?.attributes['custom:companyDescription'],
+            companyDescription: currentUser?.attributes['custom:description'],
             description,
             hiringStepDescription,
             userId: currentUser.username,
