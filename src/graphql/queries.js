@@ -48,6 +48,7 @@ export const getJob = /* GraphQL */ `
       id
       companyName
       companyDescription
+      applyLink
       title
       logo {
         bucket
@@ -81,6 +82,7 @@ export const listJobs = /* GraphQL */ `
         id
         companyName
         companyDescription
+        applyLink
         title
         logo {
           bucket

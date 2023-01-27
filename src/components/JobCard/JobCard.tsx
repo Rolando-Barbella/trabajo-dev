@@ -34,7 +34,7 @@ export default function JobCard({ logo, title, skills, salary, companyName, time
     <div style={{ boxShadow: "0 2px 10px 0 rgb(116 129 141 / 20%)", width: "95%" }}>
       <Link href={{
         pathname: `job/${id}`,
-        query: {id, logo: img}
+        query: {logo: img}
       }}
       >
         <Card sx={{ display: "flex", boxShadow: 0 }}>

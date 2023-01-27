@@ -912,6 +912,21 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "applyLink",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "title",
           "description" : null,
           "args" : [ ],
@@ -1201,6 +1216,15 @@
           "defaultValue" : null
         }, {
           "name" : "companyDescription",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        },{
+          "name" : "applyLink",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -2003,6 +2027,19 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "applyLink",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
           "name" : "title",
           "description" : null,
           "type" : {
@@ -2194,6 +2231,15 @@
             "ofType" : null
           },
           "defaultValue" : null
+        },{
+          "name" : "applyLink",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
         }, {
           "name" : "title",
           "description" : null,
@@ -2370,6 +2416,15 @@
           "defaultValue" : null
         }, {
           "name" : "companyDescription",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "applyLink",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -3007,6 +3062,15 @@
           "defaultValue" : null
         }, {
           "name" : "companyDescription",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "applyLink",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",

@@ -58,6 +58,7 @@ export const onCreateJob = /* GraphQL */ `
       id
       companyName
       companyDescription
+      applyLink
       title
       logo {
         bucket
@@ -86,6 +87,7 @@ export const onUpdateJob = /* GraphQL */ `
       id
       companyName
       companyDescription
+      applyLink
       title
       logo {
         bucket
@@ -114,6 +116,7 @@ export const onDeleteJob = /* GraphQL */ `
       id
       companyName
       companyDescription
+      applyLink
       title
       logo {
         bucket

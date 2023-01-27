@@ -70,6 +70,7 @@ export const createJob = /* GraphQL */ `
       id
       companyName
       companyDescription
+      applyLink
       title
       logo {
         bucket
@@ -101,6 +102,7 @@ export const updateJob = /* GraphQL */ `
       id
       companyName
       companyDescription
+      applyLink
       title
       logo {
         bucket
@@ -132,6 +134,7 @@ export const deleteJob = /* GraphQL */ `
       id
       companyName
       companyDescription
+      applyLink
       title
       logo {
         bucket
