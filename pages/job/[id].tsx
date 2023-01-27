@@ -28,7 +28,6 @@ export async function getServerSideProps(context: { query: { id: string } }) {
 function Job({ job }: { job: Job }) {
   const Router = useRouter();
   let date = new Date(job.updatedAt);
-  debugger
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 15 }}>
       <Head>
