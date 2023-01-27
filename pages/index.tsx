@@ -10,6 +10,7 @@ import { Job } from "../src/API";
 import { CustomButton as Button } from "../src/components/CustomButton/CustomButton";
 import Link from "next/link";
 
+<<<<<<< HEAD
 export async function getServerSideProps() {
   const SSR = withSSRContext();
   const { data } = await SSR.API.graphql({ query: listJobs });
@@ -48,6 +49,20 @@ const styles = {
   },
 };
 const Home = ({ jobs }: { jobs: Array<Job> }) => {
+=======
+// export async function getServerSideProps() {
+//   const SSR = withSSRContext();
+//   const { data } = await SSR.API.graphql({ query: listCompanys });
+//   return {
+//     props: {
+//       companies: data?.listCompanys?.items || null,
+//     },
+//   };
+// }
+//@ts-ignorets
+const Home: NextPage = ({ companies }) => {
+  const Router = useRouter();
+>>>>>>> 31a2476 (Fix broken api)
   let [currentUser, setCurrentUser] = React.useState("");
 
   React.useEffect(() => {
