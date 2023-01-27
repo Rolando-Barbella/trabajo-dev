@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Auth } from "aws-amplify";
+import Head from "next/head";
 import Grid from "@mui/material/Grid";
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { API, Storage } from "aws-amplify";
@@ -238,6 +239,9 @@ function CreateJob() {
 
   return (
     <>
+      <Head>
+        <title>Post a new job - junior developer jobs </title>
+      </Head>
       <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
         <SimpleSnackbar
           snackbar={snackBar}
