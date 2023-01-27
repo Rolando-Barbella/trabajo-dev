@@ -66,7 +66,6 @@ const Profile = () => {
       </Container>
     );
   }
-  console.log(userJobs?.listJobs);
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 20 }}>
       <Head>

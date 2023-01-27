@@ -9,6 +9,7 @@ import CardMedia from "@mui/material/CardMedia";
 import { Job } from "../../src/API";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
 import Link from "next/link";
+import Head from "next/head";
 
 export async function getServerSideProps(context: { query: { id: string } }) {
   let SSR = withSSRContext();
@@ -32,6 +33,9 @@ function Job({ job }: { job: Job }) {
 
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 15 }}>
+      <Head>
+        <title>{job.companyName} junior dev job</title>
+      </Head>
       <div className="flex container">
         <CardMedia
           component="img"
@@ -85,7 +89,7 @@ function Job({ job }: { job: Job }) {
           ))}
         </div>
         <br />
-        <Link href={"https://twitter.com/mysurfislife"} target="_blank">
+        <Link href={job.applyLink} target="_blank">
           <Button text="Apply" width={200} height={50} />
         </Link>
       </div>
