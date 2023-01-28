@@ -38,7 +38,7 @@ export default function JobCard({ logo, title, skills, salary, companyName, time
       }}
       >
         <Card sx={{ display: "flex", boxShadow: 0 }}>
-          <Image loader={() => img} src={img} alt={companyName} width={155} height={30}/>
+          <Image loader={() => img || ''} src={img || ""} alt={companyName} width={150} height={50} style={{borderRadius: 100, padding: 15}}/>
           <Box sx={{ display: "flex", flex: 1,flexDirection: "column" }}>
             <CardContent sx={{ padding: 1 }}>
               <h2 className="font-medium text-lg">{title}</h2>
