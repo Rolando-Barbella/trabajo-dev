@@ -10,20 +10,7 @@ import { Job } from "../src/API";
 // import { CustomButton as Button } from "../src/components/CustomButton/CustomButton";
 // import Link from "next/link";
 
-export async function getServerSideProps() {
-  // const SSR = withSSRContext();
-  // const { data } = await SSR.API.graphql({ query: listJobs });
-  // if (!data) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
-  // return {
-  //   props: {
-  //     jobs: data?.listJobs?.items.filter((job: Job) => Boolean(job.hasbeenPaid)) || null,
-  //   },
-  // };
-}
+
 
 const styles = {
   container: {
