@@ -1,11 +1,11 @@
 import CardContent from "@mui/material/CardContent";
 import Link from "next/link";
+import Image from "next/image";
 import Location from "@mui/icons-material/PlaceOutlined";
 import { Storage } from "aws-amplify";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
 import { Job } from "../../API";
 import React from "react";
 
@@ -38,7 +38,7 @@ export default function JobCard({ logo, title, skills, salary, companyName, time
       }}
       >
         <Card sx={{ display: "flex", boxShadow: 0 }}>
-          <CardMedia component="img" sx={{ width: 151 }} image={img} alt={companyName} />
+          <Image loader={() => img} src={img} alt={companyName} width={155} height={30}/>
           <Box sx={{ display: "flex", flex: 1,flexDirection: "column" }}>
             <CardContent sx={{ padding: 1 }}>
               <h2 className="font-medium text-lg">{title}</h2>

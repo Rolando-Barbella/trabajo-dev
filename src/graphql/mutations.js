@@ -134,8 +134,8 @@ export const deleteJob = /* GraphQL */ `
       id
       companyName
       companyDescription
-      title
       applyLink
+      title
       logo {
         bucket
         region
