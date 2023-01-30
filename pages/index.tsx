@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, SetStateAction } from "react";
 import Image from "next/image";
 import { Auth } from "aws-amplify";
 import { withSSRContext } from "aws-amplify";
@@ -47,7 +47,7 @@ const styles = {
     alignSelf: "center",
   },
 };
-const Home = ({ jobs }: { jobs: Array<Job> }) => {
+const Home = ({ jobs }: { jobs: Job[] }) => {
   let [currentUser, setCurrentUser] = React.useState("");
 
   React.useEffect(() => {
@@ -56,7 +56,7 @@ const Home = ({ jobs }: { jobs: Array<Job> }) => {
     }
     let getUser = async () => {
       try {
-        let user = await Auth.currentAuthenticatedUser();
+        let user: SetStateAction<string> = await Auth.currentAuthenticatedUser();
         setCurrentUser(user);
       } catch (e) {
         console.error(e);

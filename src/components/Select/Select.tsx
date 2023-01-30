@@ -1,7 +1,7 @@
 type SelectProps = {
   value?: string | number | undefined;
   defaultValue?: string | number | undefined;
-  options: Array<any>;
+  options: Array<string>;
   onChange: (e: { target: { value: string } }) => void;
   extraStyles?: Record<string, unknown>;
   required?: boolean;

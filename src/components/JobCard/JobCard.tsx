@@ -24,7 +24,7 @@ type JobCardProps = {
 export default function JobCard({ logo, title, skills, salary, companyName, timeZone, id, updatedAt }: JobCardProps) {
   let [img, setImg] = React.useState("");
   let getLogo = React.useCallback(async () => setImg(await Storage.get(logo.key)), [logo.key]);
-  let date = new Date(updatedAt);
+  let date: Date = new Date(updatedAt);
 
   React.useEffect(() => {
     getLogo();
