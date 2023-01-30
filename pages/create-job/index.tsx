@@ -302,7 +302,7 @@ function CreateJob() {
                 <Label text="Number of hiring steps" required />
                 <Grid item xs={0.8}>
                   <Select
-                    options={[0, 1, 2, 3, 4]}
+                    options={['0', '1', '2', '3', '4']}
                     onChange={(e) => formik.setFieldValue("hiringSteps", Number(e.target.value))}
                     error={
                       formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps
