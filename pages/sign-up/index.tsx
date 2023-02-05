@@ -162,7 +162,7 @@ function SignUp() {
               <Grid item xs={12}>
                 <Grid item xs={8}>
                   <Label text="Company description" required />
-                  <RichTextField placeholder="Tell us about your company" setValue={setDescription} value={description} />
+                  <RichTextField placeholder="Tell us about your company, minimum 100 characters" setValue={setDescription} value={description} />
                 </Grid>
               </Grid>
             </Grid>

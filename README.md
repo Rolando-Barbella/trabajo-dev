@@ -56,4 +56,8 @@ Everytime you update the schema, changes should be push to services by runing `a
 
 Fake card `4242 4242 4242 4242`
 
+## Testing
+
+Create accounts with : https://10minemail.com/en/
+
 

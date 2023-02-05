@@ -88,6 +88,7 @@ function ConfirmCode() {
           <Link href="/" onClick={() => Router.back()}>Go back</Link>
         </Breadcrumbs>
         <h1 className="font-medium text-3xl">Confirm your account</h1>
+        <p className="font-light text-1xl pt-1">*Please check your email to get the confirmation code</p>
         <form onSubmit={formik.handleSubmit} className="pt-6">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
