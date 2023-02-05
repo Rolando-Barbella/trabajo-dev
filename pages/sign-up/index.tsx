@@ -74,7 +74,7 @@ function SignUp() {
 
   let validationSchema = yup.object({
     email: yup.string().required("Email is required").email("Email not valid"),
-    password: yup.string().required("Password is required").min(6, "Minimun 6 characters"),
+    password: yup.string().required("Password is required").min(8, "Minimun 8 characters"),
     companyName: yup.string().required("Company name is required").min(1, "Company name too short"),
   });
 

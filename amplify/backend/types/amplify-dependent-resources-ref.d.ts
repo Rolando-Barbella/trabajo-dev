@@ -1,4 +1,11 @@
 export type AmplifyDependentResourcesAttributes = {
+    "api": {
+        "trabajodev": {
+            "GraphQLAPIKeyOutput": "string",
+            "GraphQLAPIIdOutput": "string",
+            "GraphQLAPIEndpointOutput": "string"
+        }
+    },
     "auth": {
         "trabajodev234c8fc4": {
             "IdentityPoolId": "string",
@@ -8,13 +15,6 @@ export type AmplifyDependentResourcesAttributes = {
             "UserPoolName": "string",
             "AppClientIDWeb": "string",
             "AppClientID": "string"
-        }
-    },
-    "api": {
-        "trabajodev": {
-            "GraphQLAPIKeyOutput": "string",
-            "GraphQLAPIIdOutput": "string",
-            "GraphQLAPIEndpointOutput": "string"
         }
     },
     "storage": {
