@@ -10,7 +10,7 @@ import { Job } from "../src/API";
 import { CustomButton as Button } from "../src/components/CustomButton/CustomButton";
 import Link from "next/link";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const SSR = withSSRContext();
   const { data } = await SSR.API.graphql({ query: listJobs });
   if (!data) {
