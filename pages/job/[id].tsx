@@ -23,6 +23,7 @@ export async function getStaticProps(context: { query: { id: string } }) {
     props: {
       job: data?.getJob,
     },
+    revalidate: 10,
   };
 }
 function Job({ job }: { job: Job }) {

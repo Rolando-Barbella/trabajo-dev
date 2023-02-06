@@ -22,6 +22,7 @@ export async function getStaticProps() {
     props: {
       jobs: data?.listJobs?.items.filter((job: Job) => Boolean(job.hasbeenPaid)) || null,
     },
+    revalidate: 10,
   };
 }
 
