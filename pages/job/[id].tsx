@@ -23,7 +23,6 @@ export async function getServerSideProps(context: { query: { id: string } }) {
     props: {
       job: data?.getJob,
     },
-    revalidate: 10,
   };
 }
 function Job({ job }: { job: Job }) {
