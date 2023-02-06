@@ -11,8 +11,6 @@ import { CustomButton as Button } from "../../src/components/CustomButton/Custom
 import Link from "next/link";
 import Head from "next/head";
 
-//yo
-
 export async function getServerSideProps(context: { query: { id: string } }) {
   let SSR = withSSRContext();
   let { data } = await SSR.API.graphql({ query: getJob, variables: { id: context.query.id } });
@@ -58,7 +56,7 @@ function Job({ job }: { job: Job }) {
       <div className="container">
         <div className="pt-6">
           <p className="text-md font-semibold">Salary</p>
-          <span style={{ marginRight: 5 }}>{job.salary}</span>
+          <span style={{ marginRight: 5 }}>{job.salary}22</span>
         </div>
         <div className="pt-2">
           <p className="text-md font-semibold">About {job.companyName}</p>
