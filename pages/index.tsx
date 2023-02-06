@@ -6,25 +6,26 @@ import Head from "next/head";
 import { listJobs } from "../src/graphql/queries";
 import Box from "@mui/material/Box";
 import JobCard from "../src/components/JobCard/JobCard";
-import { Job } from "../src/API";
+import { Job, ListJobsQuery } from "../src/API";
 import { CustomButton as Button } from "../src/components/CustomButton/CustomButton";
 import Link from "next/link";
+import { API } from 'aws-amplify';
 
-export async function getStaticProps() {
-  const SSR = withSSRContext();
-  const { data } = await SSR.API.graphql({ query: listJobs });
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
-  return {
-    props: {
-      jobs: data?.listJobs?.items.filter((job: Job) => Boolean(job.hasbeenPaid)) || null,
-    },
-    revalidate: 10,
-  };
-}
+// export async function getStaticProps() {
+//   const SSR = withSSRContext();
+//   const { data } = await SSR.API.graphql({ query: listJobs });
+//   if (!data) {
+//     return {
+//       notFound: true,
+//     };
+//   }
+//   return {
+//     props: {
+//       jobs: data?.listJobs?.items.filter((job: Job) => Boolean(job.hasbeenPaid)) || null,
+//     },
+//     revalidate: 10,
+//   };
+// }
 
 const styles = {
   container: {
@@ -48,11 +49,25 @@ const styles = {
     alignSelf: "center",
   },
 };
-const Home = ({ jobs }: { jobs: Job[] }) => {
+// { jobs }: { jobs: Job[] }
+const Home = () => {
   let [currentUser, setCurrentUser] = React.useState("");
+  let [jobs, setJobs] = React.useState<Job[]>([]);
 
   React.useEffect(() => {
-    if (jobs?.length) {
+    fetchListMainDetailss()
+  },[])
+
+  async function fetchListMainDetailss() {
+    const jobList = await API.graphql({
+      query: listJobs
+    }) as {data: ListJobsQuery};
+    const { data  } = jobList;
+    setJobs(data?.listJobs?.items.filter((job) => Boolean(job?.hasbeenPaid)) as Job[]);
+  }
+
+  React.useEffect(() => {
+    if (jobs.length) {
       return;
     }
     let getUser = async () => {
@@ -72,7 +87,7 @@ const Home = ({ jobs }: { jobs: Job[] }) => {
         <title>Software developer jobs for juniors, help people get their first job </title>
       </Head>
       <div className="container">
-        {!jobs?.length ? (
+        {!Object.values(jobs).length ? (
           <Box style={styles.noJobs as CSSProperties}>
             <div style={styles.noJobsMessage as CSSProperties}>
               <Image alt="sad face" src="/sad-face.png" width={400} height={400} />
@@ -83,7 +98,7 @@ const Home = ({ jobs }: { jobs: Job[] }) => {
             </div>
           </Box>
         ) : null}
-        {jobs?.map((job: Job) => {
+        {jobs?.map((job) => {
           return (
             <div key={job.id} className="pt-7">
               <JobCard

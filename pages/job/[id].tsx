@@ -56,7 +56,7 @@ function Job({ job }: { job: Job }) {
       <div className="container">
         <div className="pt-6">
           <p className="text-md font-semibold">Salary</p>
-          <span style={{ marginRight: 5 }}>{job.salary}22</span>
+          <span style={{ marginRight: 5 }}>{job.salary}</span>
         </div>
         <div className="pt-2">
           <p className="text-md font-semibold">About {job.companyName}</p>
