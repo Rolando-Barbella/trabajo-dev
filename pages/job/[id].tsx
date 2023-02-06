@@ -11,6 +11,8 @@ import { CustomButton as Button } from "../../src/components/CustomButton/Custom
 import Link from "next/link";
 import Head from "next/head";
 
+//yo
+
 export async function getServerSideProps(context: { query: { id: string } }) {
   let SSR = withSSRContext();
   let { data } = await SSR.API.graphql({ query: getJob, variables: { id: context.query.id } });
