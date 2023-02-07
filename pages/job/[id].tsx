@@ -55,15 +55,15 @@ function Job({ job }: { job: Job }) {
       </div>
       <div className="container">
         <div className="pt-6">
-          <p className="text-md font-semibold">Salary</p>
+          <p className="text-lg font-semibold">Salary</p>
           <span style={{ marginRight: 5 }}>{job.salary}</span>
         </div>
         <div className="pt-2">
-          <p className="text-md font-semibold">About {job.companyName}</p>
+          <p className="text-lg font-semibold">About {job.companyName}</p>
           <div dangerouslySetInnerHTML={{ __html: job.companyDescription.trim() }} />
         </div>
         <div className="pt-2">
-          <p className="text-md font-semibold">Job description</p>
+          <p className="text-lg font-semibold">Job description</p>
           <div dangerouslySetInnerHTML={{ __html: job.description.trim() }} />
         </div>
         <p className="text-lg font-semibold pt-4">Hiring process </p>
@@ -77,10 +77,10 @@ function Job({ job }: { job: Job }) {
         </div>
         <div
           className="text-md pt-2"
-          dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "No description was added" }}
+          dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "" }}
         />
-        <div className="pt-2">
-          <p className="text-md font-semibold mr-2 pb-4">Main skills need it for the job</p>
+        <div className="pt-3">
+          <p className="text-lg font-semibold mr-2 pb-4 pt-2">Main skills need it for the job</p>
           {job.skills?.map((skill) => (
             <Chip style={{ marginRight: 5 }} key={skill} label={skill} variant="outlined" />
           ))}
