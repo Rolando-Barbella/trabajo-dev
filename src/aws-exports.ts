@@ -3,6 +3,10 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
+    "aws_appsync_graphqlEndpoint": "https://vgvds3l4e5d4rcik2r44s4s4sa.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_region": "us-east-1",
+    "aws_appsync_authenticationType": "API_KEY",
+    "aws_appsync_apiKey": "da2-3szfezvxlrd7pfkdjt7mjiqkpu",
     "aws_cognito_identity_pool_id": "us-east-1:577aee67-2740-4452-8d83-a08fdadbc442",
     "aws_cognito_region": "us-east-1",
     "aws_user_pools_id": "us-east-1_cf8fFAOE6",
@@ -26,14 +30,8 @@ const awsmobile = {
     "aws_cognito_verification_mechanisms": [
         "EMAIL"
     ],
-    "aws_appsync_graphqlEndpoint": "https://vgvds3l4e5d4rcik2r44s4s4sa.appsync-api.us-east-1.amazonaws.com/graphql",
-    "aws_appsync_region": "us-east-1",
-    "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-fakeApiId123456",
-    "aws_appsync_dangerously_connect_to_http_endpoint_for_testing": true,
-    "aws_user_files_s3_bucket": "juniordevboard-dev",
-    "aws_user_files_s3_bucket_region": "us-east-1",
-    "aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing": true
+    "aws_user_files_s3_bucket": "juniordevboard220217-dev",
+    "aws_user_files_s3_bucket_region": "us-east-1"
 };
 
 
