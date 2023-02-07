@@ -1,7 +1,6 @@
 import React, { CSSProperties, SetStateAction } from "react";
 import Image from "next/image";
 import { Auth } from "aws-amplify";
-import { withSSRContext } from "aws-amplify";
 import Head from "next/head";
 import { listJobs } from "../src/graphql/queries";
 import Box from "@mui/material/Box";
@@ -10,22 +9,7 @@ import { Job, ListJobsQuery } from "../src/API";
 import { CustomButton as Button } from "../src/components/CustomButton/CustomButton";
 import Link from "next/link";
 import { API } from 'aws-amplify';
-
-// export async function getStaticProps() {
-//   const SSR = withSSRContext();
-//   const { data } = await SSR.API.graphql({ query: listJobs });
-//   if (!data) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-//   return {
-//     props: {
-//       jobs: data?.listJobs?.items.filter((job: Job) => Boolean(job.hasbeenPaid)) || null,
-//     },
-//     revalidate: 10,
-//   };
-// }
+import IndexSkeleton from './indexSceleton'
 
 const styles = {
   container: {
@@ -49,19 +33,21 @@ const styles = {
     alignSelf: "center",
   },
 };
-// { jobs }: { jobs: Job[] }
 const Home = () => {
   let [currentUser, setCurrentUser] = React.useState("");
   let [jobs, setJobs] = React.useState<Job[]>([]);
+  let [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     fetchListMainDetailss()
   },[])
 
   async function fetchListMainDetailss() {
+    setLoading(true);
     const jobList = await API.graphql({
       query: listJobs
     }) as {data: ListJobsQuery};
+    setLoading(false);
     const { data  } = jobList;
     setJobs(data?.listJobs?.items.filter((job) => Boolean(job?.hasbeenPaid)) as Job[]);
   }
@@ -87,7 +73,10 @@ const Home = () => {
         <title>Software developer jobs for juniors, help people get their first job </title>
       </Head>
       <div className="container">
-        {!Object.values(jobs).length ? (
+        {
+          loading && <IndexSkeleton />
+        }
+        {!jobs.length && !loading ? (
           <Box style={styles.noJobs as CSSProperties}>
             <div style={styles.noJobsMessage as CSSProperties}>
               <Image alt="sad face" src="/sad-face.png" width={400} height={400} />

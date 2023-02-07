@@ -56,7 +56,7 @@ function SignIn() {
 
   let validationSchema = yup.object({
     username: yup.string().required("Email is required").email("Email not valid"),
-    password: yup.string().required("Code required").min(6, "Minimun 6 characters"),
+    password: yup.string().required("Password required").min(6, "Minimun 6 characters"),
   });
 
   let formik = useFormik<yup.InferType<typeof validationSchema>>({
@@ -76,7 +76,7 @@ function SignIn() {
 
   return (
     <>
-      <Container maxWidth="md" sx={{ pt: 2, pb: 10 }}>
+      <Container maxWidth="md" sx={{ pt: 2, pb: 12 }}>
         <SimpleSnackbar
           snackbar={snackBar}
           message={snackBar.message}
