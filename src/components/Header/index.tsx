@@ -89,7 +89,7 @@ function ResponsiveAppBar() {
               fontWeight: 300,
               color: "inherit",
               textDecoration: "none",
-              fontSize: "1.2rem",
+              fontSize: "1.1rem",
             }}
           >
             JUNIOR DEV JOBS
@@ -139,6 +139,12 @@ function ResponsiveAppBar() {
                   </Typography>
                 </Link>
               </MenuItem>
+
+              <MenuItem key={1} onClick={handleCloseNavMenu}>
+                <Link href="/profile">
+                  <Typography textAlign="center">Profile</Typography>
+                </Link>
+              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -169,22 +175,33 @@ function ResponsiveAppBar() {
             gap={3}
           >
             {Boolean(currentUser) && (
-              <Link key={3} onClick={handleCloseNavMenu} href="/profile">
+              <Link key={3} href="/profile">
                 PROFILE
               </Link>
             )}
-            <Link key={4} style={styles.postJobBtn as CSSProperties} onClick={handleCloseNavMenu} href={Boolean(currentUser) ? "/create-job" : "/sign-in"}>
+            <Link
+              key={4}
+              style={styles.postJobBtn as CSSProperties}
+              onClick={handleCloseNavMenu}
+              href={Boolean(currentUser) ? "/create-job" : "/sign-in"}
+            >
               POST A JOB
+            </Link>
+            <Link key={5}  href="/contact">
+               CONTACT
             </Link>
           </Box>
 
-        {Boolean(currentUser) && (
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size='small'>
-                <Avatar alt={currentUser?.attributes && currentUser?.attributes['custom:companyName']} src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+          {Boolean(currentUser) && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} size="small">
+                  <Avatar
+                    alt={currentUser?.attributes && currentUser?.attributes["custom:companyName"]}
+                    src="/static/images/avatar/2.jpg"
+                  />
+                </IconButton>
+              </Tooltip>
               <Menu
                 sx={{ mt: "45px" }}
                 id="menu-appbar"
@@ -203,12 +220,12 @@ function ResponsiveAppBar() {
               >
                 <MenuItem key={1} onClick={handleCloseUserMenu}>
                   <Typography onClick={signOut} textAlign="center">
-                    Logout 
+                    Logout
                   </Typography>
                 </MenuItem>
               </Menu>
-          </Box>
-        )}
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

@@ -36,14 +36,13 @@ const styles = {
 const Home = () => {
   let [currentUser, setCurrentUser] = React.useState("");
   let [jobs, setJobs] = React.useState<Job[]>([]);
-  let [loading, setLoading] = React.useState(false);
+  let [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     fetchListMainDetailss()
   },[])
 
   async function fetchListMainDetailss() {
-    setLoading(true);
     const jobList = await API.graphql({
       query: listJobs
     }) as {data: ListJobsQuery};
@@ -79,8 +78,8 @@ const Home = () => {
         {!jobs.length && !loading ? (
           <Box style={styles.noJobs as CSSProperties}>
             <div style={styles.noJobsMessage as CSSProperties}>
-              <Image alt="sad face" src="/sad-face.png" width={400} height={400} />
-              <h1 className="font-light text-2xl pb-4">Nothing here, help us get jobs for junior devs! </h1>
+              <Image alt="sad face" src="/sad-face.png" width={300} height={250} />
+              <h1 className="font-light text-2xl pb-4">Nothing here, help us get jobs for Junior devs! </h1>
               <Link href={Boolean(currentUser) ? "/create-job" : "/sign-in"}>
                 <Button text="Post a job" width={120} />
               </Link>

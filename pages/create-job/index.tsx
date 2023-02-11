@@ -87,7 +87,7 @@ function CreateJob() {
     checkout({
       lineItems: [
         {
-          price: "price_1LukT9A2mGW4hJ0CB61WFQ22",
+          price: "price_1LkrT4A2mGW4hJ0CEDy4QtZG",
           quantity: 1,
         },
       ],
@@ -100,7 +100,6 @@ function CreateJob() {
       // upload the image to 3
       let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0])
       // submit the GraphQL query
-      debugger
       const addJob = await API.graphql({
         query: createJob,
         variables: {

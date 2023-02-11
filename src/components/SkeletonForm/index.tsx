@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 export default function SkeletonForm() {
   return (
     <Stack spacing={1} paddingTop={2}>
-      <h1 className="font-medium text-4xl">Post a job</h1>
       {/* For other variants, adjust the size with `width` and `height` */}
       <Skeleton variant="rectangular" width={500} height={50} />
       <Skeleton variant="rectangular" width={500} height={85} />

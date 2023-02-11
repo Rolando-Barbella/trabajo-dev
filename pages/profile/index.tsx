@@ -66,17 +66,18 @@ const Profile = () => {
       </Container>
     );
   }
+  let filterJobs = userJobs?.listJobs?.items?.filter((job) => Boolean(job?.hasbeenPaid))
   return (
-    <Container maxWidth="lg" sx={{ pt: 2, pb: 20 }}>
+    <Container maxWidth="lg" sx={{ pt: 2, pb: 22 }}>
       <Head>
         <title>Companies Hiring</title>
       </Head>
       <div className="container">
         <h1 className="font-medium text-2xl">About {currentUser?.attributes["custom:companyName"]}</h1>
-        <div className="pt-2" dangerouslySetInnerHTML={{ __html: currentUser?.attributes["custom:description"] }} />
+        <div className="pt-2 pb-2" dangerouslySetInnerHTML={{ __html: currentUser?.attributes["custom:description"] }} />
         <div className="pt-2">
-          {Boolean(userJobs?.listJobs.items?.length) && <h2 className="font-medium text-2xl">List of jobs</h2>}
-          {!Boolean(userJobs?.listJobs.items?.length) && (
+          {Boolean(filterJobs?.length) && <h2 className="font-medium text-2xl">List of jobs</h2>}
+          {!Boolean(filterJobs?.length) && (
             <>
               <hr />
               <div className="pt-10 text-center">
@@ -90,23 +91,23 @@ const Profile = () => {
               </div>
             </>
           )}
-          {userJobs?.listJobs?.items?.map((job: Job) => {
-            return (
-              <div key={job.id} className="pt-4">
-                <JobCard
-                  id={job.id}
-                  updatedAt={job.updatedAt}
-                  typeOfWork={job.typeOfWork}
-                  title={job.title}
-                  timeZone={job.timeZone}
-                  logo={job.logo}
-                  skills={job.skills}
-                  salary={job.salary}
-                  companyName={job.companyName}
-                />
-              </div>
-            );
-          })}
+          {filterJobs?.map((job: Job) => {
+              return (
+                <div key={job.id} className="pt-4">
+                  <JobCard
+                    id={job.id}
+                    updatedAt={job.updatedAt}
+                    typeOfWork={job.typeOfWork}
+                    title={job.title}
+                    timeZone={job.timeZone}
+                    logo={job.logo}
+                    skills={job.skills}
+                    salary={job.salary}
+                    companyName={job.companyName}
+                  />
+                </div>
+              );
+            })}
         </div>
       </div>
     </Container>
