@@ -82,7 +82,7 @@ const Home = () => {
         {!jobs.length && !loading ? (
           <Box style={styles.noJobs as CSSProperties}>
             <div style={styles.noJobsMessage as CSSProperties}>
-              <Image priority={true} alt="sad face" src="/sad-face.png" width={300} height={250} />
+              <Image priority={true} loading="eager" alt="sad face" src="/sad-face.png" width={300} height={250} />
               <h1 className="font-light text-2xl pb-4">Nothing here, help us get jobs for Junior devs! </h1>
               <Link href={Boolean(currentUser) ? "/create-job" : "/sign-in"}>
                 <Button text="Post a job" width={120} />
