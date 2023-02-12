@@ -39,7 +39,11 @@ const Home = () => {
   let [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetchListMainDetailss()
+    fetchListMainDetailss().then((response: any) => response).catch((error: { error: { data: undefined; errors: Array<string> } }) => {
+      setLoading(false);
+      console.error(error);
+      return;
+    });
   },[])
 
   async function fetchListMainDetailss() {

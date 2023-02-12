@@ -89,7 +89,7 @@ function ResponsiveAppBar() {
               fontWeight: 300,
               color: "inherit",
               textDecoration: "none",
-              fontSize: "1.1rem",
+              fontSize: "1rem",
             }}
           >
             JUNIOR DEV JOBS
