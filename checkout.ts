@@ -7,7 +7,7 @@ export async function checkout({lineItems}) {
    
     const getStripe = () => {
       if (!stripPromise) {
-        stripPromise = loadStripe(process.env.NEXT_PUBLIC_API_KEY || 'pk_live_AJyJNo8T0ZMvFJAuggYh2VKA')
+        stripPromise = loadStripe('pk_live_AJyJNo8T0ZMvFJAuggYh2VKA' || '')
       } 
       return stripPromise;
     }
