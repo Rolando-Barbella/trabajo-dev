@@ -85,6 +85,7 @@ function CreateJob() {
 
   let stipeCheckOut = () => {
     let env =  process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_PRODUCT_ID
+    console.log({env})
     checkout({
       lineItems: [
         {
