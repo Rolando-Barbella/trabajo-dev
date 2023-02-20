@@ -84,6 +84,7 @@ function CreateJob() {
   });
 
   let stipeCheckOut = () => {
+    console.log({price: process.env.NEXT_PUBLIC_PRODUCT_ID})
     checkout({
       lineItems: [
         {
