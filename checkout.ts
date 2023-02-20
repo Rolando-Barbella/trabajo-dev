@@ -7,7 +7,7 @@ export async function checkout({lineItems}) {
    
     const getStripe = () => {
       if (!stripPromise) {
-        stripPromise = loadStripe('pk_live_AJyJNo8T0ZMvFJAuggYh2VKA' || '')
+        stripPromise = loadStripe(process.env.NEXT_PUBLIC_API_KEY || '')
       } 
       return stripPromise;
     }
@@ -20,6 +20,6 @@ export async function checkout({lineItems}) {
         cancelUrl: `${window.location.origin}/create-job`,
       });
     } catch(err) {
-      console.error('Something went wrong');
+      console.error('Something went wrong', err);
     }
 }

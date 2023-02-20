@@ -140,7 +140,7 @@ function ResponsiveAppBar() {
                 </Link>
               </MenuItem>
 
-              <MenuItem key={1} onClick={handleCloseNavMenu}>
+              <MenuItem key={3} onClick={handleCloseNavMenu}>
                 <Link href="/profile">
                   <Typography textAlign="center">Profile</Typography>
                 </Link>

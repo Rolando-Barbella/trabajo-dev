@@ -87,7 +87,7 @@ function CreateJob() {
     checkout({
       lineItems: [
         {
-          price: "price_1LukT9A2mGW4hJ0CB61WFQ22",
+          price: process.env.NEXT_PUBLIC_PRODUCT_ID,
           quantity: 1,
         },
       ],
