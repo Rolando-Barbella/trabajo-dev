@@ -84,11 +84,11 @@ function CreateJob() {
   });
 
   let stipeCheckOut = () => {
-    console.log({price: process.env.NEXT_PUBLIC_PRODUCT_ID})
+    let env =  process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_PRODUCT_ID
     checkout({
       lineItems: [
         {
-          price: process.env.NEXT_PUBLIC_PRODUCT_ID,
+          price: env,
           quantity: 1,
         },
       ],

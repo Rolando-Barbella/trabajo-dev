@@ -7,8 +7,8 @@ export async function checkout({lineItems}) {
    
     const getStripe = () => {
       if (!stripPromise) {
-        stripPromise = loadStripe(process.env.NEXT_PUBLIC_API_KEY || '')
-        console.log(process.env.NEXT_PUBLIC_API_KEY)
+        let env =  process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_API_KEY
+        stripPromise = loadStripe(env || '')
       } 
       return stripPromise;
     }
