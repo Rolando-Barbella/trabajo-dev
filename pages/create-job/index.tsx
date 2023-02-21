@@ -245,7 +245,8 @@ function CreateJob() {
         <title>Post a new job - junior developer jobs </title>
       </Head>
       <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
-        <p>123 {process.env.NEXT_PUBLIC_PRODUCT_ID_PROD} {process.env.NEXT_PUBLIC_PRODUCT_ID}</p>
+        <p>{process.env.NODE_ENV === 'production' ? 'PRODUCTION' : 'DEV'}</p>
+        <p>123 {process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_PRODUCT_ID}</p>
         <SimpleSnackbar
           snackbar={snackBar}
           message={snackBar.message}
