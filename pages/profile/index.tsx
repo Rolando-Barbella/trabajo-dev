@@ -61,7 +61,7 @@ const Profile = () => {
 
   if (loading || !currentUser?.attributes) {
     return (
-      <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
+      <Container maxWidth="md" sx={{ pt: 3, pb: 15 }}>
         <ProfileSkeleton />
       </Container>
     );
