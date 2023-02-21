@@ -68,7 +68,7 @@ const Profile = () => {
   }
   let filterJobs = userJobs?.listJobs?.items?.filter((job) => Boolean(job?.hasbeenPaid))
   return (
-    <Container maxWidth="lg" sx={{ pt: 2, pb: 22 }}>
+    <Container maxWidth="lg" sx={{ pt: 2, pb: 35 }}>
       <Head>
         <title>Companies Hiring</title>
       </Head>
