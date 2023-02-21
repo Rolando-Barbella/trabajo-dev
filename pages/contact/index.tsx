@@ -3,8 +3,8 @@ import Container from "@mui/material/Container";
 
 function Contact() {
   return (
-    <Container maxWidth="md" sx={{ pt: 2, pb: 60 }}>
-      <div className="text-center grid place-items-center pt-10 text-lg text-light">
+    <Container maxWidth="md" sx={{ pt: 2, pb: 55 }}>
+      <div className="text-center grid place-items-center pt-10 text-xl text-light">
         <div>
           <p>We are a small team ( nah, is just one person ) helping junior dev get the right oportunities.</p>
           <div className="pt-2">
