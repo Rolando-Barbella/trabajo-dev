@@ -5,6 +5,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  env: {
+    GREETING: process.env.NEXT_PUBLIC_PRODUCT_ID_PROD,
+  }
 }
 
 module.exports = nextConfig
