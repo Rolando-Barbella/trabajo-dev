@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 
 export default function ConfirmCodeSkeleton() {
   return (
-    <Container maxWidth="md" sx={{ pt: 2, pb: 12 }}>
+    <Container maxWidth="md" sx={{ pt: 2, pb: 22 }}>
       <Stack spacing={1} paddingTop={2}>
         <h1 className="font-medium text-3xl">Sign up</h1>
         <Skeleton variant="rectangular" width={500} height={50} />
