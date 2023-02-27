@@ -14,6 +14,7 @@ import React from "react";
 import * as yup from "yup";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
 import SkeletonForm from "../../src/components/SkeletonForm";
+import FormControl from '@mui/material/FormControl';
 
 import { AlertColor } from "@mui/material";
 import { checkout } from "../../checkout";
@@ -34,7 +35,7 @@ let blankJob = {
   title: "",
   logo: "",
   salary: "",
-  hiringSteps: 0,
+  hiringSteps: 1,
   typeOfCodingChallenge: "",
   typeOfWork: "",
   timeZone: "",
@@ -189,7 +190,7 @@ function CreateJob() {
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
     role: yup.string().required("Please add type of role"),
-    applyLink: yup.string().url().required('Please enter valid url'),
+    applyLink: yup.string().url().required('Please enter a valid url'),
     skills: yup.array().required(),
   });
 
@@ -200,10 +201,9 @@ function CreateJob() {
     validateOnMount: validationSchema.isValidSync(blankJob),
   });
 
-  let typeOfCodingChallenge = ["Select", "Take away test", "Algorithm puzzle", "Live coding challange"];
-  let typeOfWork = ["Select", "Remote", "Hybrid"];
+  let typeOfCodingChallenge = ["Take away test", "Algorithm puzzle", "Live coding challange"];
+  let typeOfWork = ["Remote", "Hybrid"];
   let timeZone = [
-    "Select",
     "Anywhere",
     "Europe",
     "LATAM",
@@ -216,7 +216,6 @@ function CreateJob() {
     "USA - Hawaii",
   ];
   let role = [
-    "Select",
     "Front end dev",
     "Back end dev",
     "Full stack dev",
@@ -227,7 +226,7 @@ function CreateJob() {
     "Blockchain dev",
     "QA",
   ];
-  let salary = ["Select", "10K - 25K", "25K - 40K", "40K+"];
+  let salary = ["10K - 25K", "25K - 40K", "40K+"];
   let desableButton = disableSubmit || description.length < 100;
 
   if (disableSubmit) {
@@ -292,6 +291,7 @@ function CreateJob() {
                 <Grid item xs={1.5}>
                   <Select
                     options={salary}
+                    value={formik.values.salary}
                     onChange={(e) => formik.setFieldValue("salary", e.target.value)}
                     error={formik.errors.salary && formik.errors.salary.length > 0 && formik.touched.salary}
                   />
@@ -302,7 +302,9 @@ function CreateJob() {
                 <Label text="Number of hiring steps" required />
                 <Grid item xs={0.8}>
                   <Select
-                    options={['0', '1', '2', '3', '4']}
+                    options={['1', '2', '3', '4']}
+                    value={String(formik.values.hiringSteps)}
+                    minWidth={60}
                     onChange={(e) => formik.setFieldValue("hiringSteps", Number(e.target.value))}
                     error={
                       formik.errors.hiringSteps && formik.errors.hiringSteps.length > 0 && formik.touched.hiringSteps
@@ -321,6 +323,8 @@ function CreateJob() {
                   <Label text="What type of coding challenge should the candidate expect?" />
                   <Select
                     options={typeOfCodingChallenge}
+                    minWidth={160}
+                    value={formik.values.typeOfCodingChallenge}
                     onChange={(e) => formik.setFieldValue("typeOfCodingChallenge", e.target.value)}
                   />
                 </Grid>
@@ -328,6 +332,8 @@ function CreateJob() {
                   <Label text="Type of work" required />
                   <Select
                     options={typeOfWork}
+                    minWidth={160}
+                    value={formik.values.typeOfWork}
                     onChange={(e) => formik.setFieldValue("typeOfWork", e.target.value)}
                     error={formik.errors.typeOfWork && formik.errors.typeOfWork.length > 0 && formik.touched.typeOfWork}
                   />
@@ -336,6 +342,8 @@ function CreateJob() {
                   <Label text="Time zone" required />
                   <Select
                     options={timeZone}
+                    minWidth={160}
+                    value={formik.values.timeZone}
                     onChange={(e) => formik.setFieldValue("timeZone", e.target.value)}
                     error={formik.errors.timeZone && formik.errors.timeZone.length > 0 && formik.touched.timeZone}
                   />
@@ -344,6 +352,8 @@ function CreateJob() {
                   <Label text="Type of role" required />
                   <Select
                     options={role}
+                    value={formik.values.role}
+                    minWidth={160}
                     onChange={(e) => formik.setFieldValue("role", e.target.value)}
                     error={formik.errors.role && formik.errors.role.length > 0 && formik.touched.role}
                   />

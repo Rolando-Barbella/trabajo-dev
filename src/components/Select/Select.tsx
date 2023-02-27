@@ -1,32 +1,40 @@
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
 type SelectProps = {
-  value?: string | number | undefined;
+  value?: string;
   defaultValue?: string | number | undefined;
   options: Array<string>;
   onChange: (e: { target: { value: string } }) => void;
   extraStyles?: Record<string, unknown>;
   required?: boolean;
   error?: string | boolean | undefined;
+  minWidth?: number
 };
 
-export default function Select({ options, onChange, error }: SelectProps): JSX.Element {
+export default function UISelect({ options, onChange, error, value, minWidth = 100 }: SelectProps): JSX.Element {
   const disabled = !options.length;
   return (
-    <>
-      <select
+      <Select
+        autoWidth
         id="countries"
         disabled={disabled}
         onChange={onChange}
-        style={{ border: `1px solid ${error ? 'red': '#e5e7eb'}`}}
-        className={`bg-gray-50 transition ease-in-out border border-gray-300  text-gray-900 text-sm rounded-sm  focus:ring-blue-500   focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-350 dark:placeholder-gray-400 dark:text-gray dark:focus:ring-blue-500 dark:focus:border-blue-500`}
+        displayEmpty
+        value={value}
+        inputProps={{ 'aria-label': 'Without label' }}
+        style={{ border: `1px solid ${error ? "red" : "#e5e7eb"}`, minWidth }}
       >
-        {options.map((option, i) => {
-          return (
-            <option key={option}>
-              {option}
-            </option>
-          );
-        })}
-      </select>
-    </>
+          <MenuItem value="">
+            <em>Select</em>
+          </MenuItem>
+          {options.map((option, i) => {
+            return (
+              <MenuItem key={i} value={option}>
+                {option}
+              </MenuItem>
+            );
+          })}
+        </Select>
   );
 }
