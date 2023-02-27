@@ -237,7 +237,6 @@ function CreateJob() {
       </Container>
     );
   }
-  console.log(process.env.YO, process.env.NEXT_PUBLIC_PRODUCT_ID_PROD)
   return (
     <>
       <Head>
