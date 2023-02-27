@@ -85,7 +85,6 @@ function CreateJob() {
 
   let stipeCheckOut = () => {
     let env =  process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_PRODUCT_ID
-    console.log({env})
     checkout({
       lineItems: [
         {
@@ -245,9 +244,6 @@ function CreateJob() {
         <title>Post a new job - junior developer jobs </title>
       </Head>
       <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
-        <p>{process.env.NODE_ENV === 'production' ? 'PRODUCTION' : 'DEV'}</p>
-        <p>TO{process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_PRODUCT_ID_PROD}</p>
-        <p>{process.env.NEXT_PUBLIC_PRODUCT_ID_PROD}</p>
         <SimpleSnackbar
           snackbar={snackBar}
           message={snackBar.message}
