@@ -246,7 +246,8 @@ function CreateJob() {
       </Head>
       <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
         <p>{process.env.NODE_ENV === 'production' ? 'PRODUCTION' : 'DEV'}</p>
-        <p>TO{process.env.NODE_ENV === 'production' ? process.env.YO : process.env.YO}</p>
+        <p>TO{process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_PRODUCT_ID_PROD}</p>
+        <p>{process.env.NEXT_PUBLIC_PRODUCT_ID_PROD}</p>
         <SimpleSnackbar
           snackbar={snackBar}
           message={snackBar.message}
