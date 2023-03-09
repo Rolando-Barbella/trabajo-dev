@@ -17,7 +17,7 @@ const Profile = () => {
   let [userJobs, setuUserJobs] = React.useState<{ listJobs: { items: [Job] | undefined } }>({
     listJobs: { items: undefined },
   });
-  let [loading, setLoading] = React.useState(false);
+  let [loading, setLoading] = React.useState(true);
   let [currentUser, setCurrentUser] = React.useState<CognitoUser | any>({});
 
   React.useEffect(() => {
@@ -66,7 +66,7 @@ const Profile = () => {
       </Container>
     );
   }
-  let filterJobs = userJobs?.listJobs?.items?.filter((job) => Boolean(job?.hasbeenPaid))
+  let filterJobs = userJobs?.listJobs?.items
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 35 }}>
       <Head>
@@ -77,7 +77,7 @@ const Profile = () => {
         <div className="pt-2 pb-2" dangerouslySetInnerHTML={{ __html: currentUser?.attributes["custom:description"] }} />
         <div className="pt-2">
           {Boolean(filterJobs?.length) && <h2 className="font-medium text-2xl">List of jobs</h2>}
-          {!Boolean(filterJobs?.length) && (
+          {!Boolean(filterJobs?.length) && !loading ? (
             <>
               <hr />
               <div className="pt-10 text-center">
@@ -90,8 +90,7 @@ const Profile = () => {
                 </div>
               </div>
             </>
-          )}
-          {filterJobs?.map((job: Job) => {
+          ) : filterJobs?.map((job: Job) => {
               return (
                 <div key={job.id} className="pt-4">
                   <JobCard

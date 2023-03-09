@@ -52,7 +52,7 @@ const Home = () => {
     }) as {data: ListJobsQuery};
     setLoading(false);
     const { data  } = jobList;
-    setJobs(data?.listJobs?.items.filter((job) => Boolean(job?.hasbeenPaid)) as Job[]);
+    setJobs(data?.listJobs?.items as Job[]);
   }
 
   React.useEffect(() => {

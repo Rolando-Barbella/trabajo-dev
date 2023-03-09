@@ -36,11 +36,11 @@ function Job({ job }: { job: Job }) {
       <div className="flex container">
         <CardMedia
           component="img"
-          sx={{ width: 150, borderRadius: 2, maxHeight: 120 }}
+          sx={{ width: 150, borderRadius: 1, maxHeight: 150 }}
           image={Router?.query?.logo as string}
           alt={job.companyName}
         />
-        <div className="pl-4">
+        <div className="pl-4 pt-2">
           <h2 className="font-medium text-xl">{job.title}</h2>
           <p className="text-sm">{job.companyName}</p>
           <p className="text-light text-gray-400" style={{ fontSize: 14, color: "rgb(156 163 175)" }}>
@@ -77,9 +77,9 @@ function Job({ job }: { job: Job }) {
         </div>
         <div
           className="text-md pt-2"
-          dangerouslySetInnerHTML={{ __html: job.hiringStepDescription || "" }}
+          dangerouslySetInnerHTML={{ __html: job.hiringStepDescription?.trim() || "" }}
         />
-        <div className="pt-3">
+        <div className="pt-1">
           <p className="text-lg font-semibold mr-2 pb-4 pt-2">Main skills need it for the job</p>
           {job.skills?.map((skill) => (
             <Chip style={{ marginRight: 5 }} key={skill} label={skill} variant="outlined" />
