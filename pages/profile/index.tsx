@@ -74,13 +74,13 @@ const Profile = () => {
       </Head>
       <div className="container">
         <h1 className="font-medium text-2xl">About {currentUser?.attributes["custom:companyName"]}</h1>
-        <div className="pt-2 pb-2" dangerouslySetInnerHTML={{ __html: currentUser?.attributes["custom:description"] }} />
+        <div className="pt-2 pb-2 leading-7" dangerouslySetInnerHTML={{ __html: currentUser?.attributes["custom:description"] }} />
         <div className="pt-2">
           {Boolean(filterJobs?.length) && <h2 className="font-medium text-2xl">List of jobs</h2>}
           {!Boolean(filterJobs?.length) && !loading ? (
             <>
-              <hr />
-              <div className="pt-10 text-center">
+              {/* <hr /> */}
+              <div className="pt-16 text-center">
                 <h1 className="font-medium text-2xl">You do not have any jobs listed</h1>
                 <div className="pt-2">
                   <p className="pb-2">Help aspiring dev find their first job!</p>

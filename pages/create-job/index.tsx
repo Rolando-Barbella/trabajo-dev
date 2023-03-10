@@ -102,12 +102,13 @@ function CreateJob() {
       // upload the image to 3
       let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0])
       // submit the GraphQL query
+      debugger;
       const addJob = await API.graphql({
         query: createJob,
         variables: {
           input: {
             ...job,
-            hasbeenPaid: false,
+            hasbeenPaid: true,
             companyName: currentUser?.attributes['custom:companyName'],
             companyDescription: currentUser?.attributes['custom:description'],
             description,
@@ -129,9 +130,11 @@ function CreateJob() {
           console.error(error);
           return;
         });
+      debugger;
       await addJob;
+      setDiableSubmit(false);
       await Cookie.set("jobId", addJob.data.createJob.id);
-      stipeCheckOut();
+      // stipeCheckOut();
     },
     [currentUser]
   );

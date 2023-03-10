@@ -1,5 +1,4 @@
 import React, { CSSProperties, SetStateAction } from "react";
-import Image from "next/image";
 import { Auth } from "aws-amplify";
 import Head from "next/head";
 import { listJobs } from "../src/graphql/queries";
@@ -82,8 +81,9 @@ const Home = () => {
         {!jobs.length && !loading ? (
           <Box style={styles.noJobs as CSSProperties}>
             <div style={styles.noJobsMessage as CSSProperties}>
-              <Image alt="sad face" src="/sad-face.png" width={300} height={250} />
-              <h1 className="font-light text-2xl pb-4">Nothing here, help us get jobs for Junior devs! </h1>
+              <h1 className="font-light text-3xl pb-4">(:</h1>
+              <h1 className="font-light text-2xl pb-4">Nothing here, help us get jobs for Junior devs! 🙏 </h1>
+              <h1 className="font-light text-2xl pb-4">It is free at the moment!</h1>
               <Link href={Boolean(currentUser) ? "/create-job" : "/sign-in"}>
                 <Button text="Post a job" width={120} />
               </Link>

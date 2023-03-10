@@ -40,7 +40,7 @@ function Job({ job }: { job: Job }) {
           image={Router?.query?.logo as string}
           alt={job.companyName}
         />
-        <div className="pl-4 pt-2">
+        <div className="pl-4 pt-1">
           <h2 className="font-medium text-xl">{job.title}</h2>
           <p className="text-sm">{job.companyName}</p>
           <p className="text-light text-gray-400" style={{ fontSize: 14, color: "rgb(156 163 175)" }}>
@@ -60,11 +60,11 @@ function Job({ job }: { job: Job }) {
         </div>
         <div className="pt-2">
           <p className="text-lg font-semibold">About {job.companyName}</p>
-          <div dangerouslySetInnerHTML={{ __html: job.companyDescription.trim() }} />
+          <div className="leading-7" dangerouslySetInnerHTML={{ __html: job.companyDescription.trim() }} />
         </div>
         <div className="pt-2">
-          <p className="text-lg font-semibold">Job description</p>
-          <div dangerouslySetInnerHTML={{ __html: job.description.trim() }} />
+          <p className="text-lg font-semibold leading-7">Job description</p>
+          <div className="leading-7" dangerouslySetInnerHTML={{ __html: job.description.trim() }} />
         </div>
         <p className="text-lg font-semibold pt-4">Hiring process </p>
         <div className="flex">
@@ -76,7 +76,7 @@ function Job({ job }: { job: Job }) {
           <span>{job.typeOfCodingChallenge || ""}</span>
         </div>
         <div
-          className="text-md pt-2"
+          className="text-md pt-2 leading-7"
           dangerouslySetInnerHTML={{ __html: job.hiringStepDescription?.trim() || "" }}
         />
         <div className="pt-1">

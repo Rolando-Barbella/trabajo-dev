@@ -179,6 +179,9 @@ function ResponsiveAppBar() {
                 PROFILE
               </Link>
             )}
+            <Link key={5}  href="/contact">
+               CONTACT
+            </Link>
             <Link
               key={4}
               style={styles.postJobBtn as CSSProperties}
@@ -186,9 +189,6 @@ function ResponsiveAppBar() {
               href={Boolean(currentUser) ? "/create-job" : "/sign-in"}
             >
               POST A JOB
-            </Link>
-            <Link key={5}  href="/contact">
-               CONTACT
             </Link>
           </Box>
 
