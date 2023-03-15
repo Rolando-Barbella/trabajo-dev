@@ -70,7 +70,7 @@ const Profile = () => {
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 35 }}>
       <Head>
-        <title>Companies Hiring</title>
+        <title>Companies Hiring - Junior Dev Jobs</title>
       </Head>
       <div className="container">
         <h1 className="font-medium text-2xl">About {currentUser?.attributes["custom:companyName"]}</h1>

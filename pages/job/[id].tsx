@@ -31,7 +31,7 @@ function Job({ job }: { job: Job }) {
   return (
     <Container maxWidth="lg" sx={{ pt: 2, pb: 15 }}>
       <Head>
-        <title>{job.companyName} junior dev job</title>
+        <title>{job.companyName} junior dev job - Junior Dev Jobs Board </title>
       </Head>
       <div className="flex container">
         <CardMedia

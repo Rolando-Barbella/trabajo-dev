@@ -7,8 +7,8 @@ import JobCard from "../src/components/JobCard/JobCard";
 import { Job, ListJobsQuery } from "../src/API";
 import { CustomButton as Button } from "../src/components/CustomButton/CustomButton";
 import Link from "next/link";
-import { API } from 'aws-amplify';
-import IndexSkeleton from './indexSceleton'
+import { API } from "aws-amplify";
+import IndexSkeleton from "./indexSceleton";
 
 const styles = {
   container: {
@@ -38,19 +38,21 @@ const Home = () => {
   let [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetchListMainDetailss().then((response: any) => response).catch((error: { error: { data: undefined; errors: Array<string> } }) => {
-      setLoading(false);
-      console.error(error);
-      return;
-    });
-  },[])
+    fetchListMainDetailss()
+      .then((response: any) => response)
+      .catch((error: { error: { data: undefined; errors: Array<string> } }) => {
+        setLoading(false);
+        console.error(error);
+        return;
+      });
+  }, []);
 
   async function fetchListMainDetailss() {
-    const jobList = await API.graphql({
-      query: listJobs
-    }) as {data: ListJobsQuery};
+    const jobList = (await API.graphql({
+      query: listJobs,
+    })) as { data: ListJobsQuery };
     setLoading(false);
-    const { data  } = jobList;
+    const { data } = jobList;
     setJobs(data?.listJobs?.items as Job[]);
   }
 
@@ -72,12 +74,14 @@ const Home = () => {
   return (
     <Box sx={styles.container}>
       <Head>
-        <title>Software developer jobs for juniors, help people get their first job </title>
+        <title>Software developer jobs for juniors looking for their first job - Junior Dev Jobs Board </title>
+        <meta
+          name="description"
+          content="Companies looking to hire junior developer post here"
+        />
       </Head>
       <div className="container">
-        {
-          loading && <IndexSkeleton />
-        }
+        {loading && <IndexSkeleton />}
         {!jobs.length && !loading ? (
           <Box style={styles.noJobs as CSSProperties}>
             <div style={styles.noJobsMessage as CSSProperties}>
