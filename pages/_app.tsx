@@ -1,4 +1,5 @@
 import Amplify from 'aws-amplify'
+import { Analytics } from '@vercel/analytics/react'
 import config from '../src/aws-exports'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <main>
       <Header/>
       <Component {...pageProps} />
+      <Analytics />
       <StickyFooter />
     </main>
   )

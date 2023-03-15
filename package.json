@@ -13,6 +13,7 @@
     "@next/font": "^13.0.5",
     "@stripe/react-stripe-js": "^1.11.0",
     "@stripe/stripe-js": "^1.37.0",
+    "@vercel/analytics": "^0.1.11",
     "aws-amplify": "^4.3.35",
     "formik": "^2.2.6",
     "js-cookie": "^3.0.1",
