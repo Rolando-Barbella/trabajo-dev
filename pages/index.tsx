@@ -77,7 +77,7 @@ const Home = () => {
         <title>Software developer jobs for juniors looking for their first job - Junior Dev Jobs Board </title>
         <meta
           name="description"
-          content="Companies looking to hire junior developer post here"
+          content="List of jobs for junior developers"
         />
       </Head>
       <div className="container">

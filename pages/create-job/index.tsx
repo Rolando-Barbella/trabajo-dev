@@ -14,7 +14,6 @@ import React from "react";
 import * as yup from "yup";
 import { CustomButton as Button } from "../../src/components/CustomButton/CustomButton";
 import SkeletonForm from "../../src/components/SkeletonForm";
-import FormControl from '@mui/material/FormControl';
 
 import { AlertColor } from "@mui/material";
 import { checkout } from "../../checkout";
@@ -28,7 +27,7 @@ import { createJob, updateJob } from "../../src/graphql/mutations";
 
 const RichTextField = dynamic(() => import("../../src/components/RichTextField"), {
   ssr: false,
-  loading: () => <div>...</div>
+  loading: () => <div>...</div>,
 });
 
 let blankJob = {
@@ -52,8 +51,8 @@ export type SnackbarProps = {
 
 function CreateJob() {
   function parseCookies(req: any) {
-    if (typeof window !== 'undefined') {
-      return cookie.parse(req ? req.headers.cookie || "" : document.cookie );
+    if (typeof window !== "undefined") {
+      return cookie.parse(req ? req.headers.cookie || "" : document.cookie);
     }
   }
   let Router = useRouter();
@@ -77,7 +76,6 @@ function CreateJob() {
     getUser();
   }, []);
 
-
   let [snackBar, setSnackBar] = React.useState<SnackbarProps>({
     open: false,
     message: "",
@@ -85,7 +83,10 @@ function CreateJob() {
   });
 
   let stipeCheckOut = () => {
-    let env =  process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD : process.env.NEXT_PUBLIC_PRODUCT_ID
+    let env =
+      process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_PRODUCT_ID_PROD
+        : process.env.NEXT_PUBLIC_PRODUCT_ID;
     checkout({
       lineItems: [
         {
@@ -100,17 +101,16 @@ function CreateJob() {
     async (job: Record<string, any>, description: string, hiringStepDescription: string) => {
       setDiableSubmit(true);
       // upload the image to 3
-      let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0])
+      let uploadedImage = await Storage.put(job.logo.files[0].name, job.logo.files[0]);
       // submit the GraphQL query
-      debugger;
       const addJob = await API.graphql({
         query: createJob,
         variables: {
           input: {
             ...job,
             hasbeenPaid: true,
-            companyName: currentUser?.attributes['custom:companyName'],
-            companyDescription: currentUser?.attributes['custom:description'],
+            companyName: currentUser?.attributes["custom:companyName"],
+            companyDescription: currentUser?.attributes["custom:description"],
             description,
             hiringStepDescription,
             userId: currentUser.username,
@@ -122,15 +122,14 @@ function CreateJob() {
               key: uploadedImage.key,
             },
           },
-        }, 
-      })//@ts-ignore
+        },
+      }) //@ts-ignore
         .then((response: any) => response)
         .catch((error: { error: { data: undefined; errors: Array<string> } }) => {
           setDiableSubmit(false);
           console.error(error);
           return;
         });
-      debugger;
       await addJob;
       setDiableSubmit(false);
       await Cookie.set("jobId", addJob.data.createJob.id);
@@ -154,12 +153,14 @@ function CreateJob() {
             hasbeenPaid: true,
           },
         },
+      })
         //@ts-ignore
-      }).catch((error: { error: { data: undefined; errors: Array<string> } }) => {
-        setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
-        console.error(error);
-        return;
-      });
+        .then((response: any) => response)
+        .catch((error: { error: { data: undefined; errors: Array<string> } }) => {
+          setSnackBar({ open: true, message: "Something wrong happend", severity: "error" });
+          console.error(error);
+          return;
+        });
       newJob;
       setSnackBar({ open: true, message: "Job succesfully added", severity: "success" });
     };
@@ -193,7 +194,7 @@ function CreateJob() {
     typeOfWork: yup.string().required("Please add type of work"),
     timeZone: yup.string().required("Please add which timezone is need it for this role"),
     role: yup.string().required("Please add type of role"),
-    applyLink: yup.string().url().required('Please enter a valid url'),
+    applyLink: yup.string().url().required("Please enter a valid url"),
     skills: yup.array().required(),
   });
 
@@ -223,9 +224,11 @@ function CreateJob() {
     "Back end dev",
     "Full stack dev",
     "Cloud Enginer",
-    "Mobile dev",
+    "Mobile dev - Native",
+    "Mobile dev - Hybrid",
     "Dev Ops",
-    "Cloud engineer",
+    "Data science",
+    "Machine learning",
     "Blockchain dev",
     "QA",
   ];
@@ -243,6 +246,7 @@ function CreateJob() {
     <>
       <Head>
         <title>Post a new job - junior developer jobs </title>
+        <meta name="description" content="Companies looking to hire junior developer post here" />
       </Head>
       <Container maxWidth="md" sx={{ pt: 2, pb: 5 }}>
         <SimpleSnackbar
@@ -251,7 +255,9 @@ function CreateJob() {
           severity={snackBar.severity}
           setOpen={setSnackBar}
         />
-        <h2 className="font-medium text-3xl">{ currentUser?.attributes && currentUser?.attributes['custom:companyName']}</h2>
+        <h2 className="font-medium text-3xl">
+          {currentUser?.attributes && currentUser?.attributes["custom:companyName"]}
+        </h2>
         <form onSubmit={formik.handleSubmit} className="pt-6">
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={3}>
@@ -305,7 +311,7 @@ function CreateJob() {
                 <Label text="Number of hiring steps" required />
                 <Grid item xs={0.8}>
                   <Select
-                    options={['1', '2', '3', '4']}
+                    options={["1", "2", "3", "4"]}
                     value={String(formik.values.hiringSteps)}
                     minWidth={60}
                     onChange={(e) => formik.setFieldValue("hiringSteps", Number(e.target.value))}
